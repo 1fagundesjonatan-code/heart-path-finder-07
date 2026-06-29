@@ -321,16 +321,54 @@ function Quiz({
 
 function Results({
   ranking,
+  answers,
   onRestart,
 }: {
   ranking: { type: number; score: number; raw: number }[];
+  answers: Record<number, number>;
   onRestart: () => void;
 }) {
   const top = ranking[0];
   const second = ranking[1];
+  const third = ranking[2];
   const t = types[top.type];
 
   const bars = useMemo(() => [...ranking].sort((a, b) => a.type - b.type), [ranking]);
+
+  const radarData = useMemo(() => {
+    const dims = [
+      { key: "C", label: "Comportamento" },
+      { key: "M", label: "Motivação" },
+      { key: "E", label: "Estresse" },
+    ];
+    const focus = [top, second, third].filter(Boolean) as typeof ranking;
+    return dims.map((d) => {
+      const row: Record<string, number | string> = { dimension: d.label };
+      for (const f of focus) {
+        let sum = 0;
+        let count = 0;
+        for (const q of questions) {
+          if (q.type === f.type && q.dimension === d.key) {
+            const v = answers[q.id];
+            if (typeof v === "number") {
+              sum += v;
+              count += 1;
+            }
+          }
+        }
+        row[`T${f.type}`] = count ? Math.round((sum / (count * 5)) * 100) : 0;
+      }
+      return row;
+    });
+  }, [top, second, third, answers, ranking]);
+
+  const radarSeries = [top, second, third].filter(Boolean) as typeof ranking;
+  const radarColors = [
+    "hsl(var(--primary))",
+    "hsl(var(--foreground))",
+    "hsl(var(--muted-foreground))",
+  ];
+
 
   return (
     <section className="mx-auto max-w-4xl px-6 py-16 md:py-24">
