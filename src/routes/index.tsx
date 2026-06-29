@@ -427,6 +427,49 @@ function Results({
         </div>
       </div>
 
+      {/* radar chart by dimension */}
+      <div className="mt-8 rounded-3xl border border-border bg-card p-6 md:p-10">
+        <div className="mb-6 flex items-baseline justify-between">
+          <div className="font-serif text-2xl">Perfil por dimensão</div>
+          <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+            Top 3 tipos
+          </div>
+        </div>
+        <div className="h-[360px] w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <RadarChart data={radarData} outerRadius="72%">
+              <PolarGrid stroke="var(--border)" />
+              <PolarAngleAxis
+                dataKey="dimension"
+                tick={{ fill: "var(--foreground)", fontSize: 12 }}
+              />
+              <PolarRadiusAxis
+                angle={90}
+                domain={[0, 100]}
+                tick={{ fill: "var(--muted-foreground)", fontSize: 10 }}
+                stroke="var(--border)"
+              />
+              {radarSeries.map((s, i) => (
+                <Radar
+                  key={s.type}
+                  name={types[s.type].name}
+                  dataKey={`T${s.type}`}
+                  stroke={radarColors[i]}
+                  fill={radarColors[i]}
+                  fillOpacity={i === 0 ? 0.35 : 0.15}
+                  strokeWidth={i === 0 ? 2 : 1.5}
+                />
+              ))}
+              <Legend
+                wrapperStyle={{ fontSize: 12, paddingTop: 8 }}
+                iconType="circle"
+              />
+            </RadarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+
       {/* detailed sections */}
       <div className="mt-10 grid gap-6 md:grid-cols-2">
         <Block title="Visão geral" body={t.overview} />
