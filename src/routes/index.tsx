@@ -1,6 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { questions, scaleLabels, types, type Question } from "@/data/enneagram";
+import {
+  Radar,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -113,6 +123,7 @@ function Index() {
       {phase === "results" && (
         <Results
           ranking={computeScores(answers)}
+          answers={answers}
           onRestart={() => {
             setPhase("intro");
             setAnswers({});
@@ -120,6 +131,7 @@ function Index() {
           }}
         />
       )}
+
       <Footer />
     </main>
   );
@@ -309,16 +321,55 @@ function Quiz({
 
 function Results({
   ranking,
+  answers,
   onRestart,
 }: {
   ranking: { type: number; score: number; raw: number }[];
+  answers: Record<number, number>;
   onRestart: () => void;
 }) {
   const top = ranking[0];
   const second = ranking[1];
+  const third = ranking[2];
   const t = types[top.type];
 
   const bars = useMemo(() => [...ranking].sort((a, b) => a.type - b.type), [ranking]);
+
+  const radarData = useMemo(() => {
+    const dims = [
+      { key: "C", label: "Comportamento" },
+      { key: "M", label: "Motivação" },
+      { key: "E", label: "Estresse" },
+    ];
+    const focus = [top, second, third].filter(Boolean) as typeof ranking;
+    return dims.map((d) => {
+      const row: Record<string, number | string> = { dimension: d.label };
+      for (const f of focus) {
+        let sum = 0;
+        let count = 0;
+        for (const q of questions) {
+          if (q.type === f.type && q.dimension === d.key) {
+            const v = answers[q.id];
+            if (typeof v === "number") {
+              sum += v;
+              count += 1;
+            }
+          }
+        }
+        row[`T${f.type}`] = count ? Math.round((sum / (count * 5)) * 100) : 0;
+      }
+      return row;
+    });
+  }, [top, second, third, answers, ranking]);
+
+  const radarSeries = [top, second, third].filter(Boolean) as typeof ranking;
+  const radarColors = [
+    "var(--primary)",
+    "var(--foreground)",
+    "var(--muted-foreground)",
+  ];
+
+
 
   return (
     <section className="mx-auto max-w-4xl px-6 py-16 md:py-24">
@@ -376,6 +427,49 @@ function Results({
         </div>
       </div>
 
+      {/* radar chart by dimension */}
+      <div className="mt-8 rounded-3xl border border-border bg-card p-6 md:p-10">
+        <div className="mb-6 flex items-baseline justify-between">
+          <div className="font-serif text-2xl">Perfil por dimensão</div>
+          <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+            Top 3 tipos
+          </div>
+        </div>
+        <div className="h-[360px] w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <RadarChart data={radarData} outerRadius="72%">
+              <PolarGrid stroke="var(--border)" />
+              <PolarAngleAxis
+                dataKey="dimension"
+                tick={{ fill: "var(--foreground)", fontSize: 12 }}
+              />
+              <PolarRadiusAxis
+                angle={90}
+                domain={[0, 100]}
+                tick={{ fill: "var(--muted-foreground)", fontSize: 10 }}
+                stroke="var(--border)"
+              />
+              {radarSeries.map((s, i) => (
+                <Radar
+                  key={s.type}
+                  name={types[s.type].name}
+                  dataKey={`T${s.type}`}
+                  stroke={radarColors[i]}
+                  fill={radarColors[i]}
+                  fillOpacity={i === 0 ? 0.35 : 0.15}
+                  strokeWidth={i === 0 ? 2 : 1.5}
+                />
+              ))}
+              <Legend
+                wrapperStyle={{ fontSize: 12, paddingTop: 8 }}
+                iconType="circle"
+              />
+            </RadarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+
       {/* detailed sections */}
       <div className="mt-10 grid gap-6 md:grid-cols-2">
         <Block title="Visão geral" body={t.overview} />
@@ -403,7 +497,34 @@ function Results({
         </div>
       )}
 
+      {/* subtype note */}
+      <div className="mt-10 rounded-2xl border border-border bg-secondary/40 p-6 md:p-8">
+        <div className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+          Sobre o subtipo
+        </div>
+        <p className="mt-3 text-[15px] leading-relaxed text-foreground/85">
+          O Eneagrama vai além dos 9 tipos — cada tipo se expressa de forma
+          diferente conforme o seu subtipo dominante:{" "}
+          <strong className="font-medium">Conservação</strong> (foco em
+          segurança e recursos pessoais),{" "}
+          <strong className="font-medium">Social</strong> (foco em
+          pertencimento e grupos) ou{" "}
+          <strong className="font-medium">Sexual/Sincronia</strong> (foco em
+          conexão intensa e renovação). O subtipo pode mudar significativamente
+          como o seu tipo se manifesta — inclusive fazer você se reconhecer em
+          outro tipo à primeira vista.
+        </p>
+        <p className="mt-3 text-[15px] leading-relaxed text-foreground/70">
+          Aprofunde esse mapa na{" "}
+          <span className="italic">
+            Formação em Tipologias Humanas — The Self Institute
+          </span>
+          .
+        </p>
+      </div>
+
       <div className="mt-14 flex flex-wrap gap-3">
+
         <button
           onClick={onRestart}
           className="rounded-full border border-foreground/30 px-6 py-3 text-sm uppercase tracking-[0.16em] transition hover:bg-foreground hover:text-background"
