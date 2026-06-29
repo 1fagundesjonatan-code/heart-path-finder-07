@@ -364,10 +364,11 @@ function Results({
 
   const radarSeries = [top, second, third].filter(Boolean) as typeof ranking;
   const radarColors = [
-    "hsl(var(--primary))",
-    "hsl(var(--foreground))",
-    "hsl(var(--muted-foreground))",
+    "var(--primary)",
+    "var(--foreground)",
+    "var(--muted-foreground)",
   ];
+
 
 
   return (
