@@ -497,7 +497,34 @@ function Results({
         </div>
       )}
 
+      {/* subtype note */}
+      <div className="mt-10 rounded-2xl border border-border bg-secondary/40 p-6 md:p-8">
+        <div className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+          Sobre o subtipo
+        </div>
+        <p className="mt-3 text-[15px] leading-relaxed text-foreground/85">
+          O Eneagrama vai além dos 9 tipos — cada tipo se expressa de forma
+          diferente conforme o seu subtipo dominante:{" "}
+          <strong className="font-medium">Conservação</strong> (foco em
+          segurança e recursos pessoais),{" "}
+          <strong className="font-medium">Social</strong> (foco em
+          pertencimento e grupos) ou{" "}
+          <strong className="font-medium">Sexual/Sincronia</strong> (foco em
+          conexão intensa e renovação). O subtipo pode mudar significativamente
+          como o seu tipo se manifesta — inclusive fazer você se reconhecer em
+          outro tipo à primeira vista.
+        </p>
+        <p className="mt-3 text-[15px] leading-relaxed text-foreground/70">
+          Aprofunde esse mapa na{" "}
+          <span className="italic">
+            Formação em Tipologias Humanas — The Self Institute
+          </span>
+          .
+        </p>
+      </div>
+
       <div className="mt-14 flex flex-wrap gap-3">
+
         <button
           onClick={onRestart}
           className="rounded-full border border-foreground/30 px-6 py-3 text-sm uppercase tracking-[0.16em] transition hover:bg-foreground hover:text-background"
