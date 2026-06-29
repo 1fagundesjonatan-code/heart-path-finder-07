@@ -123,6 +123,7 @@ function Index() {
       {phase === "results" && (
         <Results
           ranking={computeScores(answers)}
+          answers={answers}
           onRestart={() => {
             setPhase("intro");
             setAnswers({});
@@ -130,6 +131,7 @@ function Index() {
           }}
         />
       )}
+
       <Footer />
     </main>
   );
