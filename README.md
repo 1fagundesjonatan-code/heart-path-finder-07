@@ -4,7 +4,7 @@
 
   "meta": {
 
-    "title": "Teste de Eneagrama — The Self Institute",
+    "title": "Teste de Eneagrama — The Self Map",
 
     "totalQuestions": 162,
 
