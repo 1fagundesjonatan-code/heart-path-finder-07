@@ -1,6 +1,6 @@
 # Banco de dados — The Self Map
 
-PostgreSQL 15+ (Supabase). Fase 1: fundação, CRM, aquisição, eventos, consentimento (LGPD), avaliações, planos (apenas configuração) e funções de métricas do dashboard.
+PostgreSQL 15+ (Supabase). Fase 1: fundação, CRM, aquisição, eventos, consentimento (LGPD), avaliações, planos (apenas configuração) e funções de métricas do dashboard. Quatro papéis: `admin`, `collaborator`, `partner`, `client`.
 
 ## Como aplicar
 
@@ -14,6 +14,7 @@ As migrations estão em `supabase/migrations/` e devem rodar **nesta ordem** (o 
 | 4   | `20261124000400_plans_audit`                 | `plans`, `audit_log` + triggers de auditoria                               |
 | 5   | `20261124000500_admin_metrics_functions`     | `admin_dashboard_metrics`, `admin_funnel`, `admin_new_users_series`        |
 | 6   | `20261124000600_seed_catalogs`               | seed de canais de aquisição e tipos de evento                              |
+| 7   | `20261124000700_four_role_model`             | `operator` vira `collaborator`, remove `marketing`/`finance`, recria policies e métricas, grants mínimos de `service_role` |
 
 **Com Supabase CLI** (recomendado):
 
@@ -51,9 +52,35 @@ where email = 'seu-email@exemplo.com'   -- troque pelo e-mail real
 on conflict (user_id, role) do nothing;
 ```
 
-Daí em diante o admin concede/revoga papéis pelo painel (`user_roles` aceita insert/delete só de admin). Nunca há caminho para o usuário se auto-promover: não existe policy de escrita em `user_roles` para não-admin, e o papel não vive em `profiles`.
+Daí em diante o admin concede/revoga papéis pelo painel (`user_roles` aceita insert/delete só de admin; collaborator não mexe em papéis). Nunca há caminho para o usuário se auto-promover: não existe policy de escrita em `user_roles` para não-admin, e o papel não vive em `profiles`.
 
 O último admin não pode ser removido: o trigger `user_roles_protect_last_admin` levanta `last_admin` (P0001), inclusive ao apagar a conta dele. Para trocar de admin, promova o novo antes de remover o antigo. `granted_by` é sempre preenchido pelo banco com o chamador (nulo no SQL Editor).
+
+## Papéis
+
+| Papel          | Rótulo        | Escopo                                                                                     |
+| -------------- | ------------- | ------------------------------------------------------------------------------------------ |
+| `admin`        | Administrador | Dono. Acesso total. Único que concede/revoga papéis, escreve em `plans` e `event_types`, apaga contatos, campanhas, canais, landings e tags, e lê `audit_log` |
+| `collaborator` | Colaborador   | Equipe interna. `is_staff()`: todo o painel `/admin` exceto Configurações (usuários e papéis). Lê e escreve CRM, aquisição e gasto de marketing; lê planos, eventos e métricas |
+| `partner`      | Profissional  | Terapeuta/psicólogo. Não é staff. Acesso a clientes só por compartilhamento (Fase 5) |
+| `client`       | Cliente       | Usuário final. Só os próprios dados                                                        |
+
+`is_staff()` = admin ou collaborator. Um usuário pode acumular papéis (ex.: collaborator que também é client).
+
+### Grants da `service_role`
+
+O projeto Supabase concede a `service_role` só `TRUNCATE`/`REFERENCES`/`TRIGGER` em tabela nova (sem DML), e a migration 0700 reduz a isto:
+
+| Objeto                                | Privilégio                  | Por quê                                                                   |
+| ------------------------------------- | --------------------------- | ------------------------------------------------------------------------- |
+| `capture_lead()`, `track_event()`     | EXECUTE                     | Captura pública pela server function. São `security definer`, sem grant de tabela |
+| `events`, `consents`                  | SELECT, INSERT              | Ledger append-only                                                        |
+| `audit_log`                           | SELECT                      | Leitura pelo servidor                                                     |
+| `assessments`                         | SELECT, INSERT, UPDATE      | Servidor cria, conclui e vincula o teste ao usuário                       |
+| `assessment_results`                  | SELECT, INSERT              | Servidor grava o resultado ao concluir                                    |
+| `user_roles` e demais tabelas         | nenhum                      | Papel só muda por admin autenticado (`granted_by`, auditoria) ou como `postgres` no SQL Editor |
+
+Listar usuários (`auth.admin.listUsers`) usa a API do Auth e não depende de grant de tabela. Tabelas novas nascem sem acesso para `anon`, `authenticated` e `service_role` (default privileges zerados): cada migration concede explicitamente o que precisa.
 
 ## Modelo (resumo)
 
@@ -77,9 +104,9 @@ event_types 1─N events        plans (isolada)        audit_log (isolada)
 - **Não existe evento por resposta do teste.** São 162 respostas por teste; um evento por resposta multiplicaria a escrita por ~160 sem valor analítico. As respostas vão em `assessments.answers` ao concluir. Para medir abandono use `test_progress` com `properties: {"percent": 25 | 50 | 75}`.
 - **Estágio do CRM só avança por evento.** Eventos com `funnel_stage` no catálogo (`event_types`) promovem o estágio do contato (nunca regridem). Estágios `lead_qualified`, `active_customer`, `recurring_customer`, `churned`, `reactivated` são manuais (painel) ou virão com billing. Toda mudança gera linha em `crm_stage_history`.
 - **Atribuição:** `capture_lead`/`track_event` resolvem canal, campanha e landing a partir de `utm_*` e do slug da landing: campanha por `utm_campaign` (traz o canal), senão canal por `utm_source` (código ou alias), senão `other`; sem UTM e sem landing, fica `null` (acesso direto). Para tráfego pago de Instagram/Meta, cadastre a campanha com seu `utm_campaign`, senão `utm_source=instagram` cai em orgânico.
-- **Métricas respeitam o papel.** `admin_dashboard_metrics` devolve `null` e lista em `restricted` o que o papel não vê: leads/conversão só para admin/operator/marketing; gasto, CPL e CAC só para admin/marketing/finance. `admin_funnel` é só admin/operator/marketing.
+- **Métricas só para staff.** `admin_dashboard_metrics`, `admin_funnel` e `admin_new_users_series` exigem `is_staff()` (admin ou collaborator) e levantam `forbidden` (42501) para os demais. O campo `restricted` continua no contrato do JSON, hoje sempre vazio, para um papel futuro com visão parcial.
 - **Cliente não lê `crm_contacts`.** Ele vê só o próprio profile, assessments, resultados e consentimentos. Ele pode registrar/revogar consentimentos (insert em `consents`; é um ledger, cada decisão é uma linha, o estado vigente é a mais recente).
-- **Resultado do teste:** o cliente vê o próprio. Admin/operator só veem resultados individuais se o dono tem consentimento vigente `enneagram_profile_share`. Marketing/finance nunca veem resultado individual; para eles, só agregados via funções.
+- **Resultado do teste:** o cliente vê o próprio. Admin e collaborator só veem resultados individuais se o dono tem consentimento vigente `enneagram_profile_share`; sem ele, só agregados via funções.
 - **Escrita de assessments é do servidor** (service role): criar na abertura do teste (`status = 'in_progress'`), concluir com `answers`, `completed_at` e inserir `assessment_results`. O dashboard conta `tests_started`/`tests_completed` a partir dessa tabela. Teste feito anônimo grava `anonymous_id`; vincular a `user_id` depois do login é uma atualização feita pelo servidor.
 - **Funil (`admin_funnel`) é por etapa, não coorte estrita.** O visitante anônimo de `page_view` e o mesmo lead, já com `contact_id`, contam como atores distintos. Para coorte de leads use `leads_captured` / `leads_converted` / `lead_to_customer_rate` de `admin_dashboard_metrics`.
 
@@ -96,7 +123,7 @@ Estas migrations foram executadas em um Postgres de teste (PGlite, Postgres em W
 
 1. `select * from public.capture_lead('teste@exemplo.com')` com a service role retorna `contact_id` e `is_new`; com anon dá `permission denied`.
 2. Usuário novo cria `profiles` e `user_roles` (`client`); o `crm_contacts` só aparece quando o e-mail é confirmado (se o e-mail é de um lead existente, vincula o mesmo contato e não duplica).
-3. Com um usuário `client`: `select * from crm_contacts` retorna vazio; `insert into user_roles` falha por RLS; `admin_dashboard_metrics` levanta `forbidden`.
+3. Com um usuário `client`: `select * from crm_contacts` retorna vazio; `insert into user_roles` falha por RLS; `admin_dashboard_metrics` levanta `forbidden`. Com um `collaborator`: `insert into user_roles` e `insert into plans` falham por RLS; CRM e métricas funcionam.
 4. Com o admin promovido: `select public.admin_dashboard_metrics(now() - interval '7 days', now())` retorna o JSON; `admin_funnel` e `admin_new_users_series(..., 'day')` retornam linhas.
 5. O trigger em `auth.users` (`on_auth_user_created`) existe e está habilitado. O Supabase permite criá-lo pela migration; se o projeto bloquear, crie pelo SQL Editor como `postgres`.
 6. Advisors do Supabase (Database → Advisors → Security/Performance): sem "RLS disabled" e sem "function search path mutable".
@@ -154,7 +181,7 @@ webhook_events  id, provider, provider_event_id, event_type, payload jsonb, rece
                 processed_at, error text    unique (provider, provider_event_id)  -- idempotência
 ```
 
-Passa a alimentar `mrr`, `revenue`, `arpu`, `churn`, `retention`, `active_subscriptions`. Quando existir: `cac` e `lead_to_customer_rate` passam a ter clientes pagantes reais (hoje derivam do estágio `subscription_started`); um trigger em `subscriptions` move o estágio do contato (`subscription_started` → `active_customer` → `recurring_customer`/`churned`/`reactivated`). Escrita só por webhook (service role). Cliente lê as próprias assinaturas e pagamentos; finance lê tudo.
+Passa a alimentar `mrr`, `revenue`, `arpu`, `churn`, `retention`, `active_subscriptions`. Quando existir: `cac` e `lead_to_customer_rate` passam a ter clientes pagantes reais (hoje derivam do estágio `subscription_started`); um trigger em `subscriptions` move o estágio do contato (`subscription_started` → `active_customer` → `recurring_customer`/`churned`/`reactivated`). Escrita só por webhook (service role). Cliente lê as próprias assinaturas e pagamentos; staff lê tudo.
 
 ### Fase 6 — Marketplace de profissionais
 
