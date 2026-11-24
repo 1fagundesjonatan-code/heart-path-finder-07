@@ -17,7 +17,7 @@ export function FeatureStory({ activeStep }: Props) {
       aria-labelledby="features-title"
       className="scroll-mt-16 border-t border-border lg:scroll-mt-[72px]"
     >
-      <div className="mx-auto max-w-[1200px] px-5 py-20 md:px-8 md:py-28 lg:px-12 lg:py-36">
+      <div className="section-container py-20 md:py-28 lg:py-36">
         <SectionHeader
           id="features-title"
           eyebrow={features.eyebrow}

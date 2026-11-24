@@ -67,8 +67,8 @@ export function SiteHeader() {
           "pointer-events-auto mx-auto flex items-center justify-between gap-2 border sm:gap-4",
           "transition-[max-width,width,height,padding,translate,background-color,border-color,border-radius,box-shadow] duration-300 ease-[cubic-bezier(0.2,0.7,0.2,1)] motion-reduce:transition-none",
           scrolled
-            ? "h-14 w-[calc(100%-1.5rem)] max-w-[1040px] translate-y-3 rounded-full border-border bg-background/75 pl-5 pr-1.5 shadow-[0_1px_2px_oklch(0.14_0_0/6%),0_12px_32px_-12px_oklch(0.14_0_0/24%)] backdrop-blur-md backdrop-saturate-150 lg:pl-6"
-            : "h-16 w-full max-w-[1200px] translate-y-0 rounded-none border-transparent bg-transparent px-5 md:px-8 lg:h-[72px] lg:px-12",
+            ? "h-14 w-[calc(100%-1.5rem)] max-w-[1040px] translate-y-3 rounded-full border-border bg-background/85 pl-5 pr-1.5 shadow-[0_1px_2px_oklch(0.14_0_0/6%),0_12px_32px_-12px_oklch(0.14_0_0/24%)] backdrop-blur-md backdrop-saturate-150 lg:pl-6"
+            : "h-16 w-full max-w-7xl translate-y-0 rounded-none border-transparent bg-transparent px-5 md:px-8 lg:h-[72px] lg:px-12",
         )}
       >
         <Logo />

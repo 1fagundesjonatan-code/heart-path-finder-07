@@ -8,7 +8,7 @@ const footerLinkClass =
 export function SiteFooter() {
   return (
     <footer className="border-t border-border">
-      <div className="mx-auto max-w-[1200px] px-5 pt-16 md:px-8 lg:px-12">
+      <div className="section-container pt-16">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           <div>
             <Logo />

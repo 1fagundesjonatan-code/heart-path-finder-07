@@ -21,7 +21,7 @@ export function Faq() {
 
   return (
     <section id="faq" aria-labelledby="faq-title" className="scroll-mt-16 lg:scroll-mt-[72px]">
-      <div className="mx-auto grid max-w-[1200px] gap-y-12 px-5 py-20 md:px-8 md:py-28 lg:grid-cols-12 lg:gap-x-8 lg:px-12 lg:py-36">
+      <div className="section-container grid gap-y-12 py-20 md:py-28 lg:grid-cols-12 lg:gap-x-8 lg:py-36">
         <SectionHeader id="faq-title" title={faq.title} className="lg:col-span-4" />
         <Accordion
           type="single"

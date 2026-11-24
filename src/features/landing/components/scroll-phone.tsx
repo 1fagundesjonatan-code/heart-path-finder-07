@@ -47,7 +47,7 @@ export function ScrollPhone({ screens, active }: Props) {
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 z-10 hidden lg:motion-safe:block"
     >
-      <div className="mx-auto grid h-full max-w-[1200px] grid-cols-12 gap-x-8 px-12">
+      <div className="section-container grid h-full grid-cols-12 gap-x-8">
         <div className="col-span-6 col-start-7 -mr-12">
           <div className="sticky top-[72px] flex h-[calc(100svh-72px)] items-center justify-center [perspective:1600px]">
             <div ref={tiltRef} className="phone-tilt will-change-transform">

@@ -123,6 +123,20 @@
   }
 }
 
+/* Container único das seções da landing: largura total no mobile, 7xl a partir de lg. */
+@utility section-container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  @media (width >= 48rem) {
+    padding-inline: 2rem;
+  }
+  @media (width >= 64rem) {
+    max-width: 80rem;
+    padding-inline: 3rem;
+  }
+}
+
 @layer utilities {
   .grain {
     position: relative;

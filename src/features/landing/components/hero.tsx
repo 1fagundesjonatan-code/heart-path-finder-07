@@ -16,7 +16,7 @@ export function Hero() {
       data-story-step="0"
       className="overflow-x-clip lg:flex lg:min-h-[calc(100svh-72px)] lg:items-center"
     >
-      <div className="mx-auto grid w-full max-w-[1200px] gap-y-14 px-5 pt-12 md:px-8 md:pt-20 lg:grid-cols-12 lg:gap-x-8 lg:px-12 lg:py-16">
+      <div className="section-container grid gap-y-14 pt-12 md:pt-20 lg:grid-cols-12 lg:gap-x-8 lg:py-16">
         <div className="lg:col-span-5">
           <div className="hero-in" style={enter(0)}>
             <Eyebrow>{hero.eyebrow}</Eyebrow>

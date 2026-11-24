@@ -6,7 +6,7 @@ import { SectionHeader } from "./section-header";
 export function Privacy() {
   return (
     <section aria-labelledby="privacy-title" className="section-ink">
-      <div className="mx-auto grid max-w-[1200px] gap-y-12 px-5 py-20 md:px-8 md:py-28 lg:grid-cols-12 lg:gap-x-8 lg:px-12 lg:py-36">
+      <div className="section-container grid gap-y-12 py-20 md:py-28 lg:grid-cols-12 lg:gap-x-8 lg:py-36">
         <div className="lg:col-span-5">
           <SectionHeader
             id="privacy-title"

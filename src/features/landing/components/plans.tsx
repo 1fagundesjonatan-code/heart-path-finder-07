@@ -32,7 +32,7 @@ export function Plans() {
 
   return (
     <section id="planos" aria-labelledby="plans-title" className="scroll-mt-16 lg:scroll-mt-[72px]">
-      <div className="mx-auto max-w-[1200px] px-5 py-20 md:px-8 md:py-28 lg:px-12 lg:py-36">
+      <div className="section-container py-20 md:py-28 lg:py-36">
         <div className="flex flex-wrap items-end justify-between gap-8">
           <SectionHeader
             id="plans-title"
