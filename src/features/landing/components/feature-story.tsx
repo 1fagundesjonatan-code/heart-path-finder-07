@@ -1,36 +1,15 @@
-import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { features } from "../content";
-import { AppScreen } from "./app-screens";
-import { DeviceFrame } from "./device-frame";
+import { PhoneMockup } from "./phone-mockup";
 import { SectionHeader } from "./section-header";
 import { StatusPill } from "./status-pill";
 import { TestCta } from "./test-cta";
 
-// Bloco ativo = o que cruza a faixa central (20%) da viewport.
-function useActiveBlock(count: number) {
-  const refs = useRef<Array<HTMLLIElement | null>>([]);
-  const [active, setActive] = useState(0);
+type Props = { activeStep: number };
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) setActive(Number((entry.target as HTMLElement).dataset.index));
-        }
-      },
-      { rootMargin: "-40% 0px -40% 0px" },
-    );
-    refs.current.slice(0, count).forEach((el) => el && observer.observe(el));
-    return () => observer.disconnect();
-  }, [count]);
-
-  return { refs, active };
-}
-
-export function FeatureStory() {
+// Passo 0 é o hero; os blocos são 1..n (data-story-step), lidos pelo useStoryStep.
+export function FeatureStory({ activeStep }: Props) {
   const { blocks } = features;
-  const { refs, active } = useActiveBlock(blocks.length);
 
   return (
     <section
@@ -43,20 +22,17 @@ export function FeatureStory() {
           id="features-title"
           eyebrow={features.eyebrow}
           title={features.title}
-          className="max-w-3xl"
+          className="max-w-3xl lg:max-w-[600px]"
         />
 
         <div className="mt-16 lg:grid-cols-12 lg:gap-x-8 lg:motion-safe:mt-8 lg:motion-safe:grid">
           <ol className="space-y-20 lg:col-span-5 lg:motion-safe:space-y-0">
             {blocks.map((block, i) => {
-              const isActive = i === active;
+              const isActive = i + 1 === activeStep;
               return (
                 <li
                   key={block.id}
-                  ref={(el) => {
-                    refs.current[i] = el;
-                  }}
-                  data-index={i}
+                  data-story-step={i + 1}
                   className="lg:motion-safe:flex lg:motion-safe:min-h-[70vh] lg:motion-safe:items-center"
                 >
                   <article
@@ -97,34 +73,13 @@ export function FeatureStory() {
                     )}
 
                     <div className="relative mt-10 h-[440px] overflow-hidden rounded-t-[2.5rem] bg-secondary px-6 pt-8 lg:motion-safe:hidden">
-                      <DeviceFrame className="mx-auto max-w-[280px]">
-                        <AppScreen id={block.screen} />
-                      </DeviceFrame>
+                      <PhoneMockup screens={[block.screen]} className="mx-auto max-w-[280px]" />
                     </div>
                   </article>
                 </li>
               );
             })}
           </ol>
-
-          <div className="hidden lg:col-span-6 lg:col-start-7 lg:motion-safe:block">
-            <div className="sticky top-24 flex h-[calc(100vh-7rem)] items-center justify-center">
-              <DeviceFrame className="lg:max-w-[min(360px,calc((100vh-9rem)*0.46))]">
-                {blocks.map((block, i) => (
-                  <div
-                    key={block.id}
-                    aria-hidden={i !== active}
-                    className={cn(
-                      "absolute inset-0 transition-opacity duration-[250ms]",
-                      i === active ? "opacity-100" : "opacity-0",
-                    )}
-                  >
-                    <AppScreen id={block.screen} />
-                  </div>
-                ))}
-              </DeviceFrame>
-            </div>
-          </div>
         </div>
 
         <TestCta label={features.closingCta} className="mt-16" />

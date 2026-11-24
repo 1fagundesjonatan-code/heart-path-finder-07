@@ -8,8 +8,8 @@ export type FeatureStatus = "available" | "soon";
 export type ScreenId = "result" | "quiz" | "chat" | "kanban" | "pomodoro" | "professionals";
 
 export const nav = [
-  { id: "como-funciona", label: "Como funciona" },
   { id: "recursos", label: "Recursos" },
+  { id: "como-funciona", label: "Como funciona" },
   { id: "profissionais", label: "Profissionais" },
   { id: "planos", label: "Planos" },
   { id: "faq", label: "FAQ" },
