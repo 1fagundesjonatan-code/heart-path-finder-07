@@ -5,7 +5,7 @@ import { nitro } from "nitro/vite";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   resolve: { dedupe: ["react", "react-dom", "@tanstack/react-router", "@tanstack/react-start"] },
   plugins: [
     tsconfigPaths(),
@@ -15,6 +15,7 @@ export default defineConfig({
     }),
     viteReact(),
     tailwindcss(),
-    nitro({ preset: "vercel" }),
+    // Nitro so no build: em dev o preset vercel tenta emular o runtime da Vercel e o SSR fica indisponivel.
+    command === "build" && nitro({ preset: "vercel" }),
   ],
-});
+}));
