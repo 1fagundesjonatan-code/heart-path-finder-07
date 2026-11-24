@@ -1,9 +1,3 @@
-// ATENÇÃO: escrito à mão no formato do `supabase gen types typescript`.
-// Reflete supabase/migrations/20261124000100..0600. Depois de aplicar as migrations
-// no projeto Supabase, REGENERE este arquivo (ele será sobrescrito):
-//   supabase gen types typescript --project-id <ref> --schema public > src/integrations/supabase/types.ts
-// Tipos de retorno estruturados das RPCs ficam em ./rpc-types.ts (não são sobrescritos).
-
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
 export type Database = {
@@ -11,64 +5,66 @@ export type Database = {
     Tables: {
       acquisition_channels: {
         Row: {
-          id: number;
           code: string;
-          name: string;
-          utm_aliases: string[];
-          is_paid: boolean;
-          is_active: boolean;
-          sort_order: number;
           created_at: string;
-          updated_at: string;
-        };
-        Insert: {
-          id?: never;
-          code: string;
+          id: number;
+          is_active: boolean;
+          is_paid: boolean;
           name: string;
-          utm_aliases?: string[];
-          is_paid?: boolean;
-          is_active?: boolean;
-          sort_order?: number;
+          sort_order: number;
+          updated_at: string;
+          utm_aliases: string[];
+        };
+        ComputedFields: never;
+        Insert: {
+          code: string;
           created_at?: string;
+          id?: never;
+          is_active?: boolean;
+          is_paid?: boolean;
+          name: string;
+          sort_order?: number;
           updated_at?: string;
+          utm_aliases?: string[];
         };
         Update: {
-          id?: never;
           code?: string;
-          name?: string;
-          utm_aliases?: string[];
-          is_paid?: boolean;
-          is_active?: boolean;
-          sort_order?: number;
           created_at?: string;
+          id?: never;
+          is_active?: boolean;
+          is_paid?: boolean;
+          name?: string;
+          sort_order?: number;
           updated_at?: string;
+          utm_aliases?: string[];
         };
         Relationships: [];
       };
       assessment_results: {
         Row: {
-          id: number;
           assessment_id: number;
-          scores: Json;
-          primary_type: string;
-          scoring_version: string | null;
           computed_at: string;
-        };
-        Insert: {
-          id?: never;
-          assessment_id: number;
-          scores: Json;
+          id: number;
           primary_type: string;
-          scoring_version?: string | null;
+          scores: NonNullable<Json>;
+          scoring_version: string | null;
+        };
+        ComputedFields: never;
+        Insert: {
+          assessment_id: number;
           computed_at?: string;
+          id?: never;
+          primary_type: string;
+          scores: NonNullable<Json>;
+          scoring_version?: string | null;
         };
         Update: {
-          id?: never;
           assessment_id?: number;
-          scores?: Json;
-          primary_type?: string;
-          scoring_version?: string | null;
           computed_at?: string;
+          id?: never;
+          primary_type?: string;
+          scores?: NonNullable<Json>;
+          scoring_version?: string | null;
         };
         Relationships: [
           {
@@ -82,46 +78,47 @@ export type Database = {
       };
       assessments: {
         Row: {
-          id: number;
-          user_id: string | null;
-          contact_id: number | null;
           anonymous_id: string | null;
-          instrument: string;
-          status: "in_progress" | "completed" | "abandoned";
-          started_at: string;
-          completed_at: string | null;
           answered_count: number;
           answers: Json | null;
+          completed_at: string | null;
+          contact_id: number | null;
           created_at: string;
-          updated_at: string;
-        };
-        Insert: {
-          id?: never;
-          user_id?: string | null;
-          contact_id?: number | null;
-          anonymous_id?: string | null;
+          id: number;
           instrument: string;
-          status?: "in_progress" | "completed" | "abandoned";
-          started_at?: string;
-          completed_at?: string | null;
+          started_at: string;
+          status: string;
+          updated_at: string;
+          user_id: string | null;
+        };
+        ComputedFields: never;
+        Insert: {
+          anonymous_id?: string | null;
           answered_count?: number;
           answers?: Json | null;
+          completed_at?: string | null;
+          contact_id?: number | null;
           created_at?: string;
+          id?: never;
+          instrument: string;
+          started_at?: string;
+          status?: string;
           updated_at?: string;
+          user_id?: string | null;
         };
         Update: {
-          id?: never;
-          user_id?: string | null;
-          contact_id?: number | null;
           anonymous_id?: string | null;
-          instrument?: string;
-          status?: "in_progress" | "completed" | "abandoned";
-          started_at?: string;
-          completed_at?: string | null;
           answered_count?: number;
           answers?: Json | null;
+          completed_at?: string | null;
+          contact_id?: number | null;
           created_at?: string;
+          id?: never;
+          instrument?: string;
+          started_at?: string;
+          status?: string;
           updated_at?: string;
+          user_id?: string | null;
         };
         Relationships: [
           {
@@ -135,67 +132,69 @@ export type Database = {
       };
       audit_log: {
         Row: {
-          id: number;
-          at: string;
+          action: string;
           actor_id: string | null;
-          action: "insert" | "update" | "delete";
-          entity_table: string;
-          entity_id: string | null;
+          at: string;
           diff: Json | null;
-        };
-        Insert: {
-          id?: never;
-          at?: string;
-          actor_id?: string | null;
-          action: "insert" | "update" | "delete";
+          entity_id: string | null;
           entity_table: string;
-          entity_id?: string | null;
+          id: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          action: string;
+          actor_id?: string | null;
+          at?: string;
           diff?: Json | null;
+          entity_id?: string | null;
+          entity_table: string;
+          id?: never;
         };
         Update: {
-          id?: never;
-          at?: string;
+          action?: string;
           actor_id?: string | null;
-          action?: "insert" | "update" | "delete";
-          entity_table?: string;
-          entity_id?: string | null;
+          at?: string;
           diff?: Json | null;
+          entity_id?: string | null;
+          entity_table?: string;
+          id?: never;
         };
         Relationships: [];
       };
       campaigns: {
         Row: {
-          id: number;
           channel_id: number;
-          name: string;
-          utm_campaign: string | null;
-          starts_on: string | null;
-          ends_on: string | null;
-          status: "draft" | "active" | "paused" | "ended";
           created_at: string;
-          updated_at: string;
-        };
-        Insert: {
-          id?: never;
-          channel_id: number;
+          ends_on: string | null;
+          id: number;
           name: string;
-          utm_campaign?: string | null;
-          starts_on?: string | null;
-          ends_on?: string | null;
-          status?: "draft" | "active" | "paused" | "ended";
+          starts_on: string | null;
+          status: string;
+          updated_at: string;
+          utm_campaign: string | null;
+        };
+        ComputedFields: never;
+        Insert: {
+          channel_id: number;
           created_at?: string;
+          ends_on?: string | null;
+          id?: never;
+          name: string;
+          starts_on?: string | null;
+          status?: string;
           updated_at?: string;
+          utm_campaign?: string | null;
         };
         Update: {
-          id?: never;
           channel_id?: number;
-          name?: string;
-          utm_campaign?: string | null;
-          starts_on?: string | null;
-          ends_on?: string | null;
-          status?: "draft" | "active" | "paused" | "ended";
           created_at?: string;
+          ends_on?: string | null;
+          id?: never;
+          name?: string;
+          starts_on?: string | null;
+          status?: string;
           updated_at?: string;
+          utm_campaign?: string | null;
         };
         Relationships: [
           {
@@ -209,31 +208,32 @@ export type Database = {
       };
       consents: {
         Row: {
-          id: number;
-          contact_id: number;
           consent_type: Database["public"]["Enums"]["consent_type"];
-          document_version: string;
-          granted: boolean;
-          source: string | null;
+          contact_id: number;
           created_at: string;
-        };
-        Insert: {
-          id?: never;
-          contact_id: number;
-          consent_type: Database["public"]["Enums"]["consent_type"];
           document_version: string;
           granted: boolean;
-          source?: string | null;
+          id: number;
+          source: string | null;
+        };
+        ComputedFields: never;
+        Insert: {
+          consent_type: Database["public"]["Enums"]["consent_type"];
+          contact_id: number;
           created_at?: string;
+          document_version: string;
+          granted: boolean;
+          id?: never;
+          source?: string | null;
         };
         Update: {
-          id?: never;
-          contact_id?: number;
           consent_type?: Database["public"]["Enums"]["consent_type"];
+          contact_id?: number;
+          created_at?: string;
           document_version?: string;
           granted?: boolean;
+          id?: never;
           source?: string | null;
-          created_at?: string;
         };
         Relationships: [
           {
@@ -248,21 +248,22 @@ export type Database = {
       crm_contact_tags: {
         Row: {
           contact_id: number;
-          tag_id: number;
-          created_by: string | null;
           created_at: string;
+          created_by: string | null;
+          tag_id: number;
         };
+        ComputedFields: never;
         Insert: {
           contact_id: number;
-          tag_id: number;
-          created_by?: string | null;
           created_at?: string;
+          created_by?: string | null;
+          tag_id: number;
         };
         Update: {
           contact_id?: number;
-          tag_id?: number;
-          created_by?: string | null;
           created_at?: string;
+          created_by?: string | null;
+          tag_id?: number;
         };
         Relationships: [
           {
@@ -283,110 +284,109 @@ export type Database = {
       };
       crm_contacts: {
         Row: {
-          id: number;
-          user_id: string | null;
-          full_name: string | null;
+          created_at: string;
           email: string | null;
-          phone: string | null;
-          stage: Database["public"]["Enums"]["crm_stage"];
-          first_touch_at: string | null;
-          first_channel_id: number | null;
           first_campaign_id: number | null;
+          first_channel_id: number | null;
           first_landing_page_id: number | null;
-          first_utm_source: string | null;
-          first_utm_medium: string | null;
+          first_touch_at: string | null;
           first_utm_campaign: string | null;
           first_utm_content: string | null;
+          first_utm_medium: string | null;
+          first_utm_source: string | null;
           first_utm_term: string | null;
-          last_touch_at: string | null;
-          last_channel_id: number | null;
+          full_name: string | null;
+          id: number;
           last_campaign_id: number | null;
+          last_channel_id: number | null;
+          last_interaction_at: string | null;
           last_landing_page_id: number | null;
-          last_utm_source: string | null;
-          last_utm_medium: string | null;
+          last_touch_at: string | null;
           last_utm_campaign: string | null;
           last_utm_content: string | null;
+          last_utm_medium: string | null;
+          last_utm_source: string | null;
           last_utm_term: string | null;
-          last_interaction_at: string | null;
           notes: string | null;
-          created_at: string;
+          phone: string | null;
+          stage: Database["public"]["Enums"]["crm_stage"];
           updated_at: string;
+          user_id: string | null;
         };
-        // Staff só pode inserir/atualizar as colunas liberadas por GRANT de coluna
-        // (ver migration 0200); o restante é escrito por capture_lead()/triggers.
+        ComputedFields: never;
         Insert: {
-          id?: never;
-          user_id?: string | null;
-          full_name?: string | null;
+          created_at?: string;
           email?: string | null;
-          phone?: string | null;
-          stage?: Database["public"]["Enums"]["crm_stage"];
-          first_touch_at?: string | null;
-          first_channel_id?: number | null;
           first_campaign_id?: number | null;
+          first_channel_id?: number | null;
           first_landing_page_id?: number | null;
-          first_utm_source?: string | null;
-          first_utm_medium?: string | null;
+          first_touch_at?: string | null;
           first_utm_campaign?: string | null;
           first_utm_content?: string | null;
+          first_utm_medium?: string | null;
+          first_utm_source?: string | null;
           first_utm_term?: string | null;
-          last_touch_at?: string | null;
-          last_channel_id?: number | null;
+          full_name?: string | null;
+          id?: never;
           last_campaign_id?: number | null;
+          last_channel_id?: number | null;
+          last_interaction_at?: string | null;
           last_landing_page_id?: number | null;
-          last_utm_source?: string | null;
-          last_utm_medium?: string | null;
+          last_touch_at?: string | null;
           last_utm_campaign?: string | null;
           last_utm_content?: string | null;
+          last_utm_medium?: string | null;
+          last_utm_source?: string | null;
           last_utm_term?: string | null;
-          last_interaction_at?: string | null;
           notes?: string | null;
-          created_at?: string;
+          phone?: string | null;
+          stage?: Database["public"]["Enums"]["crm_stage"];
           updated_at?: string;
+          user_id?: string | null;
         };
         Update: {
-          id?: never;
-          user_id?: string | null;
-          full_name?: string | null;
+          created_at?: string;
           email?: string | null;
-          phone?: string | null;
-          stage?: Database["public"]["Enums"]["crm_stage"];
-          first_touch_at?: string | null;
-          first_channel_id?: number | null;
           first_campaign_id?: number | null;
+          first_channel_id?: number | null;
           first_landing_page_id?: number | null;
-          first_utm_source?: string | null;
-          first_utm_medium?: string | null;
+          first_touch_at?: string | null;
           first_utm_campaign?: string | null;
           first_utm_content?: string | null;
+          first_utm_medium?: string | null;
+          first_utm_source?: string | null;
           first_utm_term?: string | null;
-          last_touch_at?: string | null;
-          last_channel_id?: number | null;
+          full_name?: string | null;
+          id?: never;
           last_campaign_id?: number | null;
+          last_channel_id?: number | null;
+          last_interaction_at?: string | null;
           last_landing_page_id?: number | null;
-          last_utm_source?: string | null;
-          last_utm_medium?: string | null;
+          last_touch_at?: string | null;
           last_utm_campaign?: string | null;
           last_utm_content?: string | null;
+          last_utm_medium?: string | null;
+          last_utm_source?: string | null;
           last_utm_term?: string | null;
-          last_interaction_at?: string | null;
           notes?: string | null;
-          created_at?: string;
+          phone?: string | null;
+          stage?: Database["public"]["Enums"]["crm_stage"];
           updated_at?: string;
+          user_id?: string | null;
         };
         Relationships: [
-          {
-            foreignKeyName: "crm_contacts_first_channel_id_fkey";
-            columns: ["first_channel_id"];
-            isOneToOne: false;
-            referencedRelation: "acquisition_channels";
-            referencedColumns: ["id"];
-          },
           {
             foreignKeyName: "crm_contacts_first_campaign_id_fkey";
             columns: ["first_campaign_id"];
             isOneToOne: false;
             referencedRelation: "campaigns";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "crm_contacts_first_channel_id_fkey";
+            columns: ["first_channel_id"];
+            isOneToOne: false;
+            referencedRelation: "acquisition_channels";
             referencedColumns: ["id"];
           },
           {
@@ -397,17 +397,17 @@ export type Database = {
             referencedColumns: ["id"];
           },
           {
-            foreignKeyName: "crm_contacts_last_channel_id_fkey";
-            columns: ["last_channel_id"];
-            isOneToOne: false;
-            referencedRelation: "acquisition_channels";
-            referencedColumns: ["id"];
-          },
-          {
             foreignKeyName: "crm_contacts_last_campaign_id_fkey";
             columns: ["last_campaign_id"];
             isOneToOne: false;
             referencedRelation: "campaigns";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "crm_contacts_last_channel_id_fkey";
+            columns: ["last_channel_id"];
+            isOneToOne: false;
+            referencedRelation: "acquisition_channels";
             referencedColumns: ["id"];
           },
           {
@@ -421,34 +421,35 @@ export type Database = {
       };
       crm_interactions: {
         Row: {
-          id: number;
-          contact_id: number;
-          interaction_type: "note" | "call" | "message" | "email" | "meeting" | "other";
-          channel: "whatsapp" | "email" | "phone" | "instagram_dm" | "in_person" | "other" | null;
-          content: string;
           author_id: string | null;
-          occurred_at: string;
-          created_at: string;
-        };
-        Insert: {
-          id?: never;
+          channel: string | null;
           contact_id: number;
-          interaction_type: "note" | "call" | "message" | "email" | "meeting" | "other";
-          channel?: "whatsapp" | "email" | "phone" | "instagram_dm" | "in_person" | "other" | null;
           content: string;
+          created_at: string;
+          id: number;
+          interaction_type: string;
+          occurred_at: string;
+        };
+        ComputedFields: never;
+        Insert: {
           author_id?: string | null;
-          occurred_at?: string;
+          channel?: string | null;
+          contact_id: number;
+          content: string;
           created_at?: string;
+          id?: never;
+          interaction_type: string;
+          occurred_at?: string;
         };
         Update: {
-          id?: never;
-          contact_id?: number;
-          interaction_type?: "note" | "call" | "message" | "email" | "meeting" | "other";
-          channel?: "whatsapp" | "email" | "phone" | "instagram_dm" | "in_person" | "other" | null;
-          content?: string;
           author_id?: string | null;
-          occurred_at?: string;
+          channel?: string | null;
+          contact_id?: number;
+          content?: string;
           created_at?: string;
+          id?: never;
+          interaction_type?: string;
+          occurred_at?: string;
         };
         Relationships: [
           {
@@ -462,31 +463,32 @@ export type Database = {
       };
       crm_stage_history: {
         Row: {
-          id: number;
+          changed_at: string;
+          changed_by: string | null;
           contact_id: number;
           from_stage: Database["public"]["Enums"]["crm_stage"] | null;
-          to_stage: Database["public"]["Enums"]["crm_stage"];
-          changed_by: string | null;
-          changed_at: string;
+          id: number;
           reason: string | null;
+          to_stage: Database["public"]["Enums"]["crm_stage"];
         };
+        ComputedFields: never;
         Insert: {
-          id?: never;
+          changed_at?: string;
+          changed_by?: string | null;
           contact_id: number;
           from_stage?: Database["public"]["Enums"]["crm_stage"] | null;
-          to_stage: Database["public"]["Enums"]["crm_stage"];
-          changed_by?: string | null;
-          changed_at?: string;
+          id?: never;
           reason?: string | null;
+          to_stage: Database["public"]["Enums"]["crm_stage"];
         };
         Update: {
-          id?: never;
+          changed_at?: string;
+          changed_by?: string | null;
           contact_id?: number;
           from_stage?: Database["public"]["Enums"]["crm_stage"] | null;
-          to_stage?: Database["public"]["Enums"]["crm_stage"];
-          changed_by?: string | null;
-          changed_at?: string;
+          id?: never;
           reason?: string | null;
+          to_stage?: Database["public"]["Enums"]["crm_stage"];
         };
         Relationships: [
           {
@@ -500,86 +502,97 @@ export type Database = {
       };
       event_types: {
         Row: {
-          name: string;
-          description: string | null;
-          funnel_stage: Database["public"]["Enums"]["crm_stage"] | null;
-          funnel_order: number | null;
-          touches_contact: boolean;
-          is_active: boolean;
           created_at: string;
-        };
-        Insert: {
+          description: string | null;
+          funnel_order: number | null;
+          funnel_stage: Database["public"]["Enums"]["crm_stage"] | null;
+          is_active: boolean;
           name: string;
-          description?: string | null;
-          funnel_stage?: Database["public"]["Enums"]["crm_stage"] | null;
-          funnel_order?: number | null;
-          touches_contact?: boolean;
-          is_active?: boolean;
+          touches_contact: boolean;
+        };
+        ComputedFields: never;
+        Insert: {
           created_at?: string;
+          description?: string | null;
+          funnel_order?: number | null;
+          funnel_stage?: Database["public"]["Enums"]["crm_stage"] | null;
+          is_active?: boolean;
+          name: string;
+          touches_contact?: boolean;
         };
         Update: {
-          name?: string;
-          description?: string | null;
-          funnel_stage?: Database["public"]["Enums"]["crm_stage"] | null;
-          funnel_order?: number | null;
-          touches_contact?: boolean;
-          is_active?: boolean;
           created_at?: string;
+          description?: string | null;
+          funnel_order?: number | null;
+          funnel_stage?: Database["public"]["Enums"]["crm_stage"] | null;
+          is_active?: boolean;
+          name?: string;
+          touches_contact?: boolean;
         };
         Relationships: [];
       };
       events: {
         Row: {
-          id: number;
-          occurred_at: string;
-          event_name: string;
-          contact_id: number | null;
-          user_id: string | null;
           anonymous_id: string | null;
-          session_id: string | null;
-          channel_id: number | null;
           campaign_id: number | null;
+          channel_id: number | null;
+          contact_id: number | null;
+          event_name: string;
+          id: number;
           landing_page_id: number | null;
-          utm_source: string | null;
-          utm_medium: string | null;
+          occurred_at: string;
+          properties: NonNullable<Json>;
+          session_id: string | null;
+          user_id: string | null;
           utm_campaign: string | null;
           utm_content: string | null;
+          utm_medium: string | null;
+          utm_source: string | null;
           utm_term: string | null;
-          properties: Json;
         };
-        // Append-only: escrita apenas via track_event()/capture_lead() (service role).
+        ComputedFields: never;
         Insert: {
-          id?: never;
-          occurred_at?: string;
-          event_name: string;
-          contact_id?: number | null;
-          user_id?: string | null;
           anonymous_id?: string | null;
-          session_id?: string | null;
-          channel_id?: number | null;
           campaign_id?: number | null;
+          channel_id?: number | null;
+          contact_id?: number | null;
+          event_name: string;
+          id?: never;
           landing_page_id?: number | null;
-          utm_source?: string | null;
-          utm_medium?: string | null;
+          occurred_at?: string;
+          properties?: NonNullable<Json>;
+          session_id?: string | null;
+          user_id?: string | null;
           utm_campaign?: string | null;
           utm_content?: string | null;
+          utm_medium?: string | null;
+          utm_source?: string | null;
           utm_term?: string | null;
-          properties?: Json;
         };
-        Update: never;
+        Update: {
+          anonymous_id?: string | null;
+          campaign_id?: number | null;
+          channel_id?: number | null;
+          contact_id?: number | null;
+          event_name?: string;
+          id?: never;
+          landing_page_id?: number | null;
+          occurred_at?: string;
+          properties?: NonNullable<Json>;
+          session_id?: string | null;
+          user_id?: string | null;
+          utm_campaign?: string | null;
+          utm_content?: string | null;
+          utm_medium?: string | null;
+          utm_source?: string | null;
+          utm_term?: string | null;
+        };
         Relationships: [
           {
-            foreignKeyName: "events_event_name_fkey";
-            columns: ["event_name"];
+            foreignKeyName: "events_campaign_id_fkey";
+            columns: ["campaign_id"];
             isOneToOne: false;
-            referencedRelation: "event_types";
-            referencedColumns: ["name"];
-          },
-          {
-            foreignKeyName: "events_contact_id_fkey";
-            columns: ["contact_id"];
-            isOneToOne: false;
-            referencedRelation: "crm_contacts";
+            referencedRelation: "campaigns";
             referencedColumns: ["id"];
           },
           {
@@ -590,11 +603,18 @@ export type Database = {
             referencedColumns: ["id"];
           },
           {
-            foreignKeyName: "events_campaign_id_fkey";
-            columns: ["campaign_id"];
+            foreignKeyName: "events_contact_id_fkey";
+            columns: ["contact_id"];
             isOneToOne: false;
-            referencedRelation: "campaigns";
+            referencedRelation: "crm_contacts";
             referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "events_event_name_fkey";
+            columns: ["event_name"];
+            isOneToOne: false;
+            referencedRelation: "event_types";
+            referencedColumns: ["name"];
           },
           {
             foreignKeyName: "events_landing_page_id_fkey";
@@ -607,33 +627,34 @@ export type Database = {
       };
       landing_pages: {
         Row: {
+          campaign_id: number | null;
+          created_at: string;
           id: number;
-          slug: string;
+          is_active: boolean;
           name: string;
           path: string | null;
-          campaign_id: number | null;
-          is_active: boolean;
-          created_at: string;
+          slug: string;
           updated_at: string;
         };
+        ComputedFields: never;
         Insert: {
+          campaign_id?: number | null;
+          created_at?: string;
           id?: never;
-          slug: string;
+          is_active?: boolean;
           name: string;
           path?: string | null;
-          campaign_id?: number | null;
-          is_active?: boolean;
-          created_at?: string;
+          slug: string;
           updated_at?: string;
         };
         Update: {
+          campaign_id?: number | null;
+          created_at?: string;
           id?: never;
-          slug?: string;
+          is_active?: boolean;
           name?: string;
           path?: string | null;
-          campaign_id?: number | null;
-          is_active?: boolean;
-          created_at?: string;
+          slug?: string;
           updated_at?: string;
         };
         Relationships: [
@@ -648,49 +669,43 @@ export type Database = {
       };
       marketing_spend: {
         Row: {
-          id: number;
-          spend_date: string;
-          channel_id: number;
-          campaign_id: number | null;
           amount: number;
-          currency: string;
-          notes: string | null;
-          created_by: string | null;
+          campaign_id: number | null;
+          channel_id: number;
           created_at: string;
+          created_by: string | null;
+          currency: string;
+          id: number;
+          notes: string | null;
+          spend_date: string;
           updated_at: string;
         };
+        ComputedFields: never;
         Insert: {
-          id?: never;
-          spend_date: string;
-          channel_id: number;
-          campaign_id?: number | null;
           amount: number;
-          currency?: string;
-          notes?: string | null;
-          created_by?: string | null;
+          campaign_id?: number | null;
+          channel_id: number;
           created_at?: string;
+          created_by?: string | null;
+          currency?: string;
+          id?: never;
+          notes?: string | null;
+          spend_date: string;
           updated_at?: string;
         };
         Update: {
-          id?: never;
-          spend_date?: string;
-          channel_id?: number;
-          campaign_id?: number | null;
           amount?: number;
-          currency?: string;
-          notes?: string | null;
-          created_by?: string | null;
+          campaign_id?: number | null;
+          channel_id?: number;
           created_at?: string;
+          created_by?: string | null;
+          currency?: string;
+          id?: never;
+          notes?: string | null;
+          spend_date?: string;
           updated_at?: string;
         };
         Relationships: [
-          {
-            foreignKeyName: "marketing_spend_channel_id_fkey";
-            columns: ["channel_id"];
-            isOneToOne: false;
-            referencedRelation: "acquisition_channels";
-            referencedColumns: ["id"];
-          },
           {
             foreignKeyName: "marketing_spend_campaign_id_fkey";
             columns: ["campaign_id"];
@@ -698,126 +713,136 @@ export type Database = {
             referencedRelation: "campaigns";
             referencedColumns: ["id"];
           },
+          {
+            foreignKeyName: "marketing_spend_channel_id_fkey";
+            columns: ["channel_id"];
+            isOneToOne: false;
+            referencedRelation: "acquisition_channels";
+            referencedColumns: ["id"];
+          },
         ];
       };
       plans: {
         Row: {
-          id: number;
+          billing_interval: string;
           code: string;
-          name: string;
-          description: string | null;
-          price: number;
-          currency: string;
-          billing_interval: "monthly" | "quarterly" | "yearly" | "one_time";
-          limits: Json;
-          is_active: boolean;
-          sort_order: number;
           created_at: string;
+          currency: string;
+          description: string | null;
+          id: number;
+          is_active: boolean;
+          limits: NonNullable<Json>;
+          name: string;
+          price: number;
+          sort_order: number;
           updated_at: string;
         };
+        ComputedFields: never;
         Insert: {
-          id?: never;
+          billing_interval: string;
           code: string;
-          name: string;
-          description?: string | null;
-          price: number;
-          currency?: string;
-          billing_interval: "monthly" | "quarterly" | "yearly" | "one_time";
-          limits?: Json;
-          is_active?: boolean;
-          sort_order?: number;
           created_at?: string;
+          currency?: string;
+          description?: string | null;
+          id?: never;
+          is_active?: boolean;
+          limits?: NonNullable<Json>;
+          name: string;
+          price: number;
+          sort_order?: number;
           updated_at?: string;
         };
         Update: {
-          id?: never;
+          billing_interval?: string;
           code?: string;
-          name?: string;
-          description?: string | null;
-          price?: number;
-          currency?: string;
-          billing_interval?: "monthly" | "quarterly" | "yearly" | "one_time";
-          limits?: Json;
-          is_active?: boolean;
-          sort_order?: number;
           created_at?: string;
+          currency?: string;
+          description?: string | null;
+          id?: never;
+          is_active?: boolean;
+          limits?: NonNullable<Json>;
+          name?: string;
+          price?: number;
+          sort_order?: number;
           updated_at?: string;
         };
         Relationships: [];
       };
       profiles: {
         Row: {
-          id: string;
-          full_name: string | null;
           avatar_url: string | null;
+          created_at: string;
+          full_name: string | null;
+          id: string;
           locale: string;
           timezone: string;
-          created_at: string;
           updated_at: string;
         };
-        // Cliente só atualiza full_name, avatar_url, locale, timezone (GRANT de coluna).
+        ComputedFields: never;
         Insert: {
-          id: string;
-          full_name?: string | null;
           avatar_url?: string | null;
+          created_at?: string;
+          full_name?: string | null;
+          id: string;
           locale?: string;
           timezone?: string;
-          created_at?: string;
           updated_at?: string;
         };
         Update: {
-          id?: string;
-          full_name?: string | null;
           avatar_url?: string | null;
+          created_at?: string;
+          full_name?: string | null;
+          id?: string;
           locale?: string;
           timezone?: string;
-          created_at?: string;
           updated_at?: string;
         };
         Relationships: [];
       };
       tags: {
         Row: {
-          id: number;
-          name: string;
           color: string | null;
           created_at: string;
+          id: number;
+          name: string;
         };
+        ComputedFields: never;
         Insert: {
+          color?: string | null;
+          created_at?: string;
           id?: never;
           name: string;
-          color?: string | null;
-          created_at?: string;
         };
         Update: {
-          id?: never;
-          name?: string;
           color?: string | null;
           created_at?: string;
+          id?: never;
+          name?: string;
         };
         Relationships: [];
       };
       user_roles: {
         Row: {
-          id: number;
-          user_id: string;
-          role: Database["public"]["Enums"]["app_role"];
-          granted_by: string | null;
           created_at: string;
-        };
-        Insert: {
-          id?: never;
-          user_id: string;
+          granted_by: string | null;
+          id: number;
           role: Database["public"]["Enums"]["app_role"];
-          granted_by?: string | null;
+          user_id: string;
+        };
+        ComputedFields: never;
+        Insert: {
           created_at?: string;
+          granted_by?: string | null;
+          id?: never;
+          role: Database["public"]["Enums"]["app_role"];
+          user_id: string;
         };
         Update: {
-          id?: never;
-          user_id?: string;
-          role?: Database["public"]["Enums"]["app_role"];
-          granted_by?: string | null;
           created_at?: string;
+          granted_by?: string | null;
+          id?: never;
+          role?: Database["public"]["Enums"]["app_role"];
+          user_id?: string;
         };
         Relationships: [];
       };
@@ -827,80 +852,83 @@ export type Database = {
     };
     Functions: {
       admin_dashboard_metrics: {
-        Args: {
-          p_from: string;
-          p_to: string;
-          p_currency?: string;
-          p_active_window_days?: number;
-        };
+        Args: { p_active_window_days?: number; p_currency?: string; p_from: string; p_to: string };
         Returns: Json;
       };
       admin_funnel: {
         Args: { p_from: string; p_to: string };
         Returns: {
+          conversion_from_previous: number;
           step: string;
           step_order: number;
-          unique_actors: number;
           total_events: number;
-          conversion_from_previous: number | null;
+          unique_actors: number;
         }[];
       };
       admin_new_users_series: {
-        Args: { p_from: string; p_to: string; p_bucket?: string };
+        Args: { p_bucket?: string; p_from: string; p_to: string };
         Returns: {
           bucket_start: string;
           new_users: number;
         }[];
       };
-      // Somente service role (server function):
+      assert_json_object: {
+        Args: { p_label: string; p_max_bytes: number; p_value: Json };
+        Returns: undefined;
+      };
       capture_lead: {
         Args: {
-          p_email: string;
-          p_full_name?: string | null;
-          p_phone?: string | null;
-          p_anonymous_id?: string | null;
-          p_session_id?: string | null;
-          p_landing_slug?: string | null;
-          p_utm?: Json;
+          p_anonymous_id?: string;
           p_consents?: Json;
+          p_email: string;
+          p_full_name?: string;
+          p_landing_slug?: string;
+          p_phone?: string;
           p_properties?: Json;
+          p_session_id?: string;
+          p_utm?: Json;
         };
         Returns: {
           contact_id: number;
           is_new: boolean;
         }[];
       };
-      track_event: {
-        Args: {
-          p_event_name: string;
-          p_anonymous_id?: string | null;
-          p_session_id?: string | null;
-          p_contact_id?: number | null;
-          p_user_id?: string | null;
-          p_landing_slug?: string | null;
-          p_utm?: Json;
-          p_properties?: Json;
-        };
-        Returns: number;
-      };
-      // Helpers de autorização:
-      current_contact_id: { Args: Record<PropertyKey, never>; Returns: number | null };
+      current_contact_id: { Args: Record<PropertyKey, never>; Returns: number };
       has_active_consent: {
-        Args: {
-          p_contact_id: number;
-          p_type: Database["public"]["Enums"]["consent_type"];
-        };
+        Args: { p_contact_id: number; p_type: Database["public"]["Enums"]["consent_type"] };
         Returns: boolean;
       };
       has_any_role: {
         Args: { p_roles: Database["public"]["Enums"]["app_role"][] };
         Returns: boolean;
       };
-      has_role: {
-        Args: { p_role: Database["public"]["Enums"]["app_role"] };
-        Returns: boolean;
-      };
+      has_role: { Args: { p_role: Database["public"]["Enums"]["app_role"] }; Returns: boolean };
       is_staff: { Args: Record<PropertyKey, never>; Returns: boolean };
+      resolve_acquisition: {
+        Args: { p_landing_slug: string; p_utm: Json };
+        Returns: {
+          o_campaign_id: number;
+          o_channel_id: number;
+          o_landing_page_id: number;
+        }[];
+      };
+      sync_user_contact: {
+        Args: { p_email: string; p_meta: Json; p_user_id: string };
+        Returns: undefined;
+      };
+      track_event: {
+        Args: {
+          p_anonymous_id?: string;
+          p_contact_id?: number;
+          p_event_name: string;
+          p_landing_slug?: string;
+          p_properties?: Json;
+          p_session_id?: string;
+          p_user_id?: string;
+          p_utm?: Json;
+        };
+        Returns: number;
+      };
     };
     Enums: {
       app_role: "admin" | "collaborator" | "partner" | "client";
@@ -926,14 +954,106 @@ export type Database = {
   };
 };
 
-type DefaultSchema = Database["public"];
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">;
 
-export type Tables<T extends keyof DefaultSchema["Tables"]> = DefaultSchema["Tables"][T]["Row"];
-export type TablesInsert<T extends keyof DefaultSchema["Tables"]> =
-  DefaultSchema["Tables"][T]["Insert"];
-export type TablesUpdate<T extends keyof DefaultSchema["Tables"]> =
-  DefaultSchema["Tables"][T]["Update"];
-export type Enums<T extends keyof DefaultSchema["Enums"]> = DefaultSchema["Enums"][T];
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">];
+
+export type Tables<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals;
+  }
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
+    : never) = never,
+> = DefaultSchemaTableNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
+  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R;
+    }
+    ? R
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] & DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+        Row: infer R;
+      }
+      ? R
+      : never
+    : never;
+
+export type TablesInsert<
+  DefaultSchemaTableNameOrOptions extends
+    keyof DefaultSchema["Tables"] | { schema: keyof DatabaseWithoutInternals },
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals;
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never) = never,
+> = DefaultSchemaTableNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I;
+    }
+    ? I
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Insert: infer I;
+      }
+      ? I
+      : never
+    : never;
+
+export type TablesUpdate<
+  DefaultSchemaTableNameOrOptions extends
+    keyof DefaultSchema["Tables"] | { schema: keyof DatabaseWithoutInternals },
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals;
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never) = never,
+> = DefaultSchemaTableNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U;
+    }
+    ? U
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Update: infer U;
+      }
+      ? U
+      : never
+    : never;
+
+export type Enums<
+  DefaultSchemaEnumNameOrOptions extends
+    keyof DefaultSchema["Enums"] | { schema: keyof DatabaseWithoutInternals },
+  EnumName extends (DefaultSchemaEnumNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals;
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
+    : never) = never,
+> = DefaultSchemaEnumNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
+    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
+    : never;
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    keyof DefaultSchema["CompositeTypes"] | { schema: keyof DatabaseWithoutInternals },
+  CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals;
+  }
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never) = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never;
 
 export const Constants = {
   public: {
