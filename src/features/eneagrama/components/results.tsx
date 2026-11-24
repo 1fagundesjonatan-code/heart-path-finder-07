@@ -49,7 +49,10 @@ export function Results({ answers, onRestart }: { answers: Answers; onRestart: (
 
   return (
     <section aria-labelledby="resultado-titulo" className="mx-auto max-w-4xl px-6 py-16 md:py-24">
-      <div className="text-[11px] uppercase tracking-[0.22em] text-primary">Seu resultado</div>
+      <div className="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.16em] text-foreground/70">
+        <span aria-hidden="true" className="h-0.5 w-6 shrink-0 bg-primary" />
+        Seu resultado
+      </div>
       <h1 id="resultado-titulo" className="mt-4 font-serif text-5xl leading-[1.05] md:text-7xl">
         {t.name}
       </h1>
@@ -240,7 +243,9 @@ export function Results({ answers, onRestart }: { answers: Answers; onRestart: (
 function Block({ title, body }: { title: string; body: string }) {
   return (
     <div className="rounded-2xl border border-border bg-card p-6">
-      <h2 className="font-sans text-[11px] uppercase tracking-[0.2em] text-primary">{title}</h2>
+      <h2 className="font-sans text-[11px] uppercase tracking-[0.2em] text-foreground/70">
+        {title}
+      </h2>
       <p className="mt-3 text-[15px] leading-relaxed text-foreground/85">{body}</p>
     </div>
   );

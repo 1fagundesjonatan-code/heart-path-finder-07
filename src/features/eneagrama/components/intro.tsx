@@ -3,11 +3,12 @@ import { NonDiagnosticNotice } from "./non-diagnostic-notice";
 export function Intro({ onStart, total }: { onStart: () => void; total: number }) {
   return (
     <section className="mx-auto max-w-3xl px-6 py-20 md:py-28">
-      <div className="text-[11px] uppercase tracking-[0.22em] text-primary">
+      <div className="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.16em] text-foreground/70">
+        <span aria-hidden="true" className="h-0.5 w-6 shrink-0 bg-primary" />
         Teste reflexivo · {total} afirmações
       </div>
       <h1 className="mt-5 font-serif text-5xl leading-[1.05] md:text-7xl">
-        Conheça <em className="not-italic text-primary">quem você é</em> por dentro.
+        Conheça <em className="mark-gold not-italic">quem você é</em> por dentro.
       </h1>
       <p className="mt-7 max-w-xl text-lg leading-relaxed text-muted-foreground">
         O Eneagrama é um mapa antigo da alma — nove tipos, nove jeitos de ver o mundo. Responda com
