@@ -10,7 +10,6 @@ export type ScreenId = "result" | "quiz" | "chat" | "kanban" | "pomodoro" | "pro
 export const nav = [
   { id: "recursos", label: "Recursos" },
   { id: "como-funciona", label: "Como funciona" },
-  { id: "profissionais", label: "Profissionais" },
   { id: "planos", label: "Planos" },
   { id: "faq", label: "FAQ" },
 ] as const;
@@ -135,10 +134,10 @@ export const features = {
     },
     {
       id: "especialistas",
-      name: "Profissionais",
+      name: "Terapeutas e psicólogos",
       status: "soon",
-      title: "Quando for hora, fale com quem estudou pra isso.",
-      body: "Encontre terapeutas e psicólogos, veja a formação de cada um e agende. Você escolhe se compartilha o seu mapa e o que ele pode ver.",
+      title: "Em breve: converse com terapeutas e psicólogos.",
+      body: "Quando quiser ir além da reflexão, encontre um profissional, veja a formação de cada um e agende pelo app. Você escolhe se compartilha o seu mapa e o que ele pode ver.",
       items: ["Você controla o que é compartilhado."],
       screen: "professionals",
     },
@@ -174,19 +173,6 @@ export const privacy = {
     },
   ],
   policyLink: "Ler a política de privacidade",
-};
-
-export const professionals = {
-  eyebrow: "Para profissionais",
-  title: "Atenda com mais contexto desde a primeira sessão.",
-  body: "No The Self Map, o seu cliente chega com o mapa pronto e escolhe compartilhar com você. Você vê o que ele liberou e organiza a sua agenda no mesmo lugar.",
-  items: [
-    "Acesso ao que o cliente compartilha, e nada além disso.",
-    "Agenda integrada ao perfil do cliente.",
-    "Seu perfil e a sua abordagem visíveis no diretório.",
-  ],
-  cta: "Quero ser profissional parceiro",
-  note: "[Critérios de entrada e verificação do registro a definir.]",
 };
 
 export type BillingCycle = "monthly" | "yearly";
@@ -283,14 +269,13 @@ export const finalCta = {
     after: "",
   } satisfies Emphasized,
   body: "162 afirmações, de 15 a 25 minutos, gratuito.",
-  professionalLink: "Sou profissional",
+  plansLink: "Ver planos",
 };
 
-// shortcut: rotas legais e formulário de profissionais ainda não existem (pendências 7 e 12).
+// shortcut: rotas legais ainda não existem (pendência 7).
 export const pendingRoutes = {
   privacy: "/privacidade",
   terms: "/termos",
-  professionalInterest: "/profissionais/interesse",
 };
 
 export const footer = {
@@ -305,10 +290,6 @@ export const footer = {
         { label: "Planos", href: "/#planos" },
         { label: "FAQ", href: "/#faq" },
       ],
-    },
-    {
-      title: "Profissionais",
-      links: [{ label: "Sou profissional", href: "/#profissionais" }],
     },
     {
       title: "Legal",
@@ -334,7 +315,6 @@ export const landingContent = {
   howItWorks,
   features,
   privacy,
-  professionals,
   plans,
   faq,
   finalCta,

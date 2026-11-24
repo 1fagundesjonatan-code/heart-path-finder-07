@@ -6,7 +6,6 @@ import { Plans } from "./plans";
 import { Privacy } from "./privacy";
 import { Problem } from "./problem";
 import { ProductStory } from "./product-story";
-import { Professionals } from "./professionals";
 import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
 
@@ -20,7 +19,6 @@ export function LandingPage() {
         <Problem />
         <HowItWorks />
         <Privacy />
-        <Professionals />
         <Plans />
         <Faq />
         <FinalCta />

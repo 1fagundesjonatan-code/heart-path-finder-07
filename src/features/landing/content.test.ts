@@ -19,3 +19,11 @@ describe("landing content placeholders", () => {
     expect(findPlaceholders(landingContent)).toEqual([]);
   });
 });
+
+describe("landing audience", () => {
+  it("talks only to end clients, with no partner acquisition copy", () => {
+    const copy = JSON.stringify(landingContent).toLowerCase();
+    expect(copy).not.toMatch(/parceir|sou profissional|para profissionais|\/profissionais/);
+    expect(landingContent.nav.map((item) => item.id)).not.toContain("profissionais");
+  });
+});

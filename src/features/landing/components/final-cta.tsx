@@ -16,8 +16,8 @@ export function FinalCta() {
         <p className="mt-6 text-lg tabular-nums md:text-xl">{finalCta.body}</p>
         <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
           <TestCta size="lg" />
-          <a href="#profissionais" className={textLinkClass}>
-            {finalCta.professionalLink}
+          <a href="#planos" className={textLinkClass}>
+            {finalCta.plansLink}
           </a>
         </div>
       </div>
