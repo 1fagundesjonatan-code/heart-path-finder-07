@@ -194,38 +194,33 @@
   .hero-in {
     animation: hero-in 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
   }
-  /* Celular da história: pose inicial igual ao HERO_TILT do scroll-phone.tsx. */
-  .phone-tilt {
-    transform: rotateX(14deg) rotateY(-22deg) rotateZ(5deg) scale(1.04);
-    transform-style: preserve-3d;
-  }
   .phone-intro {
     animation: phone-in 1100ms cubic-bezier(0.2, 0.7, 0.2, 1) 200ms both;
   }
   .phone-float {
     animation: phone-float 7s ease-in-out 1300ms infinite;
   }
-  .hero-grid {
-    background-image:
-      linear-gradient(oklch(1 0 0 / 7%) 1px, transparent 1px),
-      linear-gradient(90deg, oklch(1 0 0 / 7%) 1px, transparent 1px);
-    background-size: 56px 56px;
-    background-position: center;
-    mask-image: radial-gradient(ellipse 70% 70% at 70% 50%, black 10%, transparent 75%);
+  /* Hero: curvas de nível (o "Map") em ouro, mais fortes à direita atrás do celular. */
+  .hero-topography {
+    background-color: oklch(0.72 0.13 85 / 55%);
+    mask-image:
+      url("/images/hero-topography.svg"),
+      radial-gradient(ellipse 65% 80% at 74% 50%, black 15%, transparent 78%);
+    mask-size:
+      cover,
+      100% 100%;
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-composite: intersect;
   }
   .hero-glow {
     background: radial-gradient(
       closest-side,
-      oklch(0.72 0.13 85 / 42%),
-      oklch(0.72 0.13 85 / 12%) 55%,
+      oklch(0.84 0.1 85 / 45%),
+      oklch(0.84 0.1 85 / 14%) 55%,
       transparent
     );
     animation: hero-glow 9s ease-in-out infinite;
-  }
-  .hero-grain {
-    opacity: 0.12;
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
   @media (prefers-reduced-motion: reduce) {
     .hero-glow,
@@ -233,9 +228,6 @@
     .phone-intro,
     .phone-float {
       animation: none;
-    }
-    .phone-tilt {
-      transform: none;
     }
     .mark-gold-draw {
       animation: none;
@@ -270,7 +262,7 @@
 @keyframes phone-in {
   from {
     opacity: 0;
-    transform: translateY(28%) rotateX(28deg) scale(0.92);
+    transform: translateY(14%);
   }
 }
 

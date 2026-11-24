@@ -4,13 +4,13 @@ import type { ScreenId } from "../content";
 import { AppScreen } from "./app-screens";
 
 const PHONE_SRC = "/images/hero-phone.png";
-const PHONE_WIDTH = 887;
-const PHONE_HEIGHT = 1774;
+const PHONE_WIDTH = 797;
+const PHONE_HEIGHT = 1590;
 
 // Área da tela (transparente no PNG), em % da caixa da imagem. O raio é relativo à própria
-// área (13.812% / 6.472% dá o mesmo valor em px nos dois eixos). Trocou o render? Ajuste aqui.
-const SCREEN_AREA = { left: 9.132, top: 6.483, width: 81.623, height: 87.091 };
-const SCREEN_RADIUS = "13.812% / 6.472%";
+// área (~107px no PNG, medido no canto). Trocou o render? Ajuste aqui.
+const SCREEN_AREA = { left: 5.521, top: 2.264, width: 89.21, height: 95.535 };
+const SCREEN_RADIUS = "15% / 7.2%";
 // Folga pra não aparecer fresta entre a tela HTML e a moldura.
 const SCREEN_BLEED = 0.2;
 

@@ -1,73 +1,111 @@
-import type { CSSProperties } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { hero } from "../content";
+import { AngledPhone } from "./angled-phone";
 import { textLinkClass } from "./cta-styles";
-import { PhoneMockup } from "./phone-mockup";
-import { HeroBackdrop } from "./hero-backdrop";
 import { EmphasisText, Eyebrow } from "./section-header";
 import { TestCta } from "./test-cta";
 
 const STAGGER_MS = 90;
 const enter = (step: number): CSSProperties => ({ animationDelay: `${step * STAGGER_MS}ms` });
+const MOTION_QUERY = "(prefers-reduced-motion: no-preference)";
+const DESKTOP_MOTION_QUERY = "(min-width: 1024px) and (prefers-reduced-motion: no-preference)";
 
-// No desktop com motion, o celular vem do ScrollPhone (sobreposto); aqui fica só o palco.
+// Parallax das curvas de nível e saída do celular ao rolar pra fora do hero (só transform/opacity).
+function useHeroScroll() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const linesRef = useRef<HTMLDivElement>(null);
+  const phoneRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    gsap.registerPlugin(ScrollTrigger);
+    const scrub = { trigger: section, start: "top top", end: "bottom top", scrub: 0.6 };
+    const mm = gsap.matchMedia();
+    mm.add(MOTION_QUERY, () => {
+      gsap.to(linesRef.current, { yPercent: 8, ease: "none", scrollTrigger: scrub });
+    });
+    mm.add(DESKTOP_MOTION_QUERY, () => {
+      gsap.to(phoneRef.current, {
+        y: 160,
+        opacity: 0,
+        ease: "none",
+        scrollTrigger: { ...scrub, end: "bottom 35%" },
+      });
+    });
+    return () => mm.revert();
+  }, []);
+
+  return { sectionRef, linesRef, phoneRef };
+}
+
+// Full-bleed: o fundo topográfico passa por trás do header (margem negativa da altura dele).
 export function Hero() {
-  return (
-    <section aria-labelledby="hero-title" data-story-step="0" className="section-container pb-2">
-      {/* Sem isolate/z-index no card: o balão do mentor precisa ficar acima do celular (z-10). */}
-      <div className="section-ink relative overflow-hidden rounded-[2rem] lg:flex lg:min-h-[calc(100svh-72px-0.5rem)] lg:items-center lg:rounded-[2.5rem]">
-        <HeroBackdrop />
-        <div className="relative grid w-full gap-y-12 px-6 pt-12 md:px-12 md:pt-16 lg:grid-cols-12 lg:gap-x-8 lg:px-16 lg:py-16">
-          <div className="lg:col-span-6 xl:col-span-5">
-            <div className="hero-in" style={enter(0)}>
-              <Eyebrow>{hero.eyebrow}</Eyebrow>
-            </div>
-            <h1
-              id="hero-title"
-              style={enter(1)}
-              className="hero-in display mt-6 text-balance text-[40px] text-background leading-[1.02] md:text-[60px] lg:text-[54px] xl:text-[60px]"
-            >
-              <EmphasisText text={hero.title} animate />
-            </h1>
-            <p
-              style={enter(2)}
-              className="hero-in mt-6 max-w-[52ch] text-pretty text-lg leading-[1.55] text-muted-foreground md:text-xl"
-            >
-              {hero.lead}
-            </p>
-            <div
-              style={enter(3)}
-              className="hero-in mt-10 flex flex-wrap items-center gap-x-6 gap-y-3"
-            >
-              <TestCta />
-              <a href="#como-funciona" className={textLinkClass}>
-                {hero.secondary}
-              </a>
-            </div>
-            <p style={enter(4)} className="hero-in mt-5 text-sm tabular-nums text-muted-foreground">
-              {hero.meta.join(" · ")}
-            </p>
-            <p
-              role="note"
-              style={enter(5)}
-              className="hero-in mt-8 max-w-[44ch] border-l-2 border-primary pl-4 text-sm leading-[1.5] text-muted-foreground"
-            >
-              {hero.notice}
-            </p>
-          </div>
+  const { sectionRef, linesRef, phoneRef } = useHeroScroll();
 
-          <div className="relative lg:col-span-6 lg:col-start-7 lg:-mr-12">
-            <div className="relative mx-auto h-[min(118vw,520px)] max-w-[300px] overflow-hidden md:h-[560px] md:max-w-[340px] lg:hidden lg:motion-reduce:block lg:h-auto lg:overflow-visible lg:pt-0">
-              <PhoneMockup screens={["quiz"]} priority className="hero-in mx-auto" />
-            </div>
-            <div
-              aria-hidden="true"
-              style={enter(6)}
-              className="hero-in absolute bottom-10 left-0 z-20 hidden max-w-[260px] rounded-2xl border border-black/5 bg-card/95 p-4 text-sm leading-snug text-card-foreground shadow-[0_1px_2px_oklch(0.14_0_0/6%),0_16px_32px_-16px_oklch(0.14_0_0/24%)] backdrop-blur-sm lg:block"
-            >
-              <span className="mb-1 block text-xs font-medium uppercase tracking-[0.16em] text-foreground/65">
-                Mentor de IA
-              </span>
-              {hero.chatPreview}
+  return (
+    <section
+      ref={sectionRef}
+      aria-labelledby="hero-title"
+      data-story-step="0"
+      className="relative -mt-16 overflow-x-clip bg-[oklch(0.985_0.004_85)] lg:-mt-[72px] lg:flex lg:min-h-svh lg:items-center"
+    >
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="hero-glow absolute bottom-0 left-1/2 aspect-square w-[150%] -translate-x-1/2 translate-y-1/3 lg:top-1/2 lg:bottom-auto lg:left-[72%] lg:w-[60%] lg:-translate-y-1/2" />
+        <div ref={linesRef} className="hero-topography absolute inset-x-0 -inset-y-[10%]" />
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-background" />
+      </div>
+
+      <div className="section-container relative grid gap-y-12 pb-16 pt-28 md:pt-32 lg:grid-cols-12 lg:gap-x-8 lg:pb-16 lg:pt-[calc(72px+3rem)]">
+        <div className="lg:col-span-6 xl:col-span-5">
+          <div className="hero-in" style={enter(0)}>
+            <Eyebrow>{hero.eyebrow}</Eyebrow>
+          </div>
+          <h1
+            id="hero-title"
+            style={enter(1)}
+            className="hero-in display mt-6 text-balance text-[40px] leading-[1.02] md:text-[60px] lg:text-[54px] xl:text-[64px]"
+          >
+            <EmphasisText text={hero.title} animate />
+          </h1>
+          <p
+            style={enter(2)}
+            className="hero-in mt-6 max-w-[52ch] text-pretty text-lg leading-[1.55] text-muted-foreground md:text-xl"
+          >
+            {hero.lead}
+          </p>
+          <div
+            style={enter(3)}
+            className="hero-in mt-10 flex flex-wrap items-center gap-x-6 gap-y-3"
+          >
+            <TestCta />
+            <a href="#como-funciona" className={textLinkClass}>
+              {hero.secondary}
+            </a>
+          </div>
+          <p style={enter(4)} className="hero-in mt-5 text-sm tabular-nums text-muted-foreground">
+            {hero.meta.join(" · ")}
+          </p>
+          <p
+            role="note"
+            style={enter(5)}
+            className="hero-in mt-8 max-w-[44ch] border-l-2 border-primary pl-4 text-sm leading-[1.5] text-muted-foreground"
+          >
+            {hero.notice}
+          </p>
+        </div>
+
+        <div className="flex justify-center lg:col-span-6 lg:col-start-7 lg:items-center">
+          <div ref={phoneRef}>
+            <div className="phone-intro">
+              <div className="phone-float">
+                <AngledPhone
+                  screen="quiz"
+                  className="w-[min(64vw,260px)] md:w-[300px] lg:w-[min(380px,calc((100svh-10rem)*0.4656))]"
+                />
+              </div>
             </div>
           </div>
         </div>

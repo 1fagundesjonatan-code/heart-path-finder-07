@@ -31,7 +31,6 @@ export const hero = {
   secondary: "Ver como funciona",
   meta: ["162 afirmações", "de 15 a 25 minutos", "resultado na hora"],
   notice: "Ferramenta de reflexão. Não é diagnóstico nem substitui acompanhamento profissional.",
-  chatPreview: "Por que eu adio conversas difíceis mesmo sabendo que vão me aliviar?",
 };
 
 export const problem = {

@@ -4,7 +4,7 @@ import { FeatureStory } from "./feature-story";
 import { Hero } from "./hero";
 import { ScrollPhone } from "./scroll-phone";
 
-const STORY_SCREENS: readonly ScreenId[] = ["quiz", ...features.blocks.map((b) => b.screen)];
+const FEATURE_SCREENS: readonly ScreenId[] = features.blocks.map((b) => b.screen);
 
 // Passo ativo = o [data-story-step] que cruza a faixa central (20%) da viewport.
 function useStoryStep() {
@@ -30,15 +30,17 @@ function useStoryStep() {
   return { ref, step };
 }
 
-// Hero + recursos dividem um wrapper pra o celular viajar entre os dois.
+// Hero (celular em 3/4) passa o bastão pro celular frontal fixo em recursos.
 export function ProductStory() {
   const { ref, step } = useStoryStep();
 
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref}>
       <Hero />
-      <FeatureStory activeStep={step} />
-      <ScrollPhone screens={STORY_SCREENS} active={step} />
+      <div className="relative">
+        <FeatureStory activeStep={step} />
+        <ScrollPhone screens={FEATURE_SCREENS} active={Math.max(step - 1, 0)} />
+      </div>
     </div>
   );
 }
