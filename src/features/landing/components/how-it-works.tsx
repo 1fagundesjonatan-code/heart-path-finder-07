@@ -29,12 +29,12 @@ export function HowItWorks() {
               <Reveal index={i}>
                 <span
                   aria-hidden="true"
-                  className="block font-serif text-[64px] font-light leading-none tabular-nums"
+                  className="block font-serif text-[64px] leading-none tracking-[-0.04em] tabular-nums"
                 >
                   {step.number}
                 </span>
                 <span aria-hidden="true" className="mt-3 block h-[3px] w-10 bg-primary" />
-                <h3 className="mt-6 text-balance text-2xl font-normal leading-[1.15] tracking-[-0.01em] md:text-[28px]">
+                <h3 className="mt-6 text-balance text-2xl font-medium leading-[1.15] tracking-[-0.025em] md:text-[28px]">
                   {step.title}
                 </h3>
                 <p className="mt-3 max-w-[62ch] text-pretty text-[17px] leading-[1.65] text-muted-foreground lg:text-lg">

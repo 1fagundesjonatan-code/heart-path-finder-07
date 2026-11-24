@@ -45,18 +45,10 @@ export function Logo() {
   return (
     <Link
       to="/"
-      className="focus-ring flex min-h-11 shrink-0 items-center gap-2.5 whitespace-nowrap rounded-md"
+      className="focus-ring flex min-h-11 shrink-0 items-center whitespace-nowrap rounded-md text-[17px] font-semibold leading-none tracking-[-0.03em]"
       aria-label="The Self Map, início"
     >
-      <span
-        aria-hidden="true"
-        className="grid size-8 place-items-center rounded-full border border-current/30 font-serif text-sm font-semibold"
-      >
-        S
-      </span>
-      <span aria-hidden="true" className="font-serif text-[17px] leading-none">
-        The Self Map
-      </span>
+      The Self Map
     </Link>
   );
 }
@@ -128,7 +120,7 @@ export function SiteHeader() {
                       <a
                         href={`#${item.id}`}
                         onClick={() => setMenuOpen(false)}
-                        className="focus-ring flex min-h-14 items-center font-serif text-[28px] font-light"
+                        className="focus-ring flex min-h-14 items-center text-[28px] font-medium tracking-[-0.03em]"
                       >
                         {item.label}
                       </a>
@@ -138,7 +130,7 @@ export function SiteHeader() {
                     <Link
                       to="/entrar"
                       search={{ next: "/" }}
-                      className="focus-ring flex min-h-14 items-center font-serif text-[28px] font-light"
+                      className="focus-ring flex min-h-14 items-center text-[28px] font-medium tracking-[-0.03em]"
                     >
                       {cta.login}
                     </Link>

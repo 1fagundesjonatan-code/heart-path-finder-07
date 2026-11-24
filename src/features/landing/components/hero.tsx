@@ -13,7 +13,7 @@ export function Hero() {
           <Eyebrow>{hero.eyebrow}</Eyebrow>
           <h1
             id="hero-title"
-            className="display mt-6 text-balance text-[40px] font-light leading-[1.04] tracking-[-0.02em] md:text-[60px] lg:text-[64px] xl:text-[80px]"
+            className="display mt-6 text-balance text-[40px] leading-[1.02] md:text-[60px] lg:text-[60px] xl:text-[72px]"
           >
             <EmphasisText text={hero.title} animate />
           </h1>

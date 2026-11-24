@@ -74,7 +74,7 @@ export function FeatureStory() {
                     </div>
                     <h3
                       id={`feature-${block.id}`}
-                      className="mt-5 text-balance text-2xl font-normal leading-[1.15] tracking-[-0.01em] md:text-[28px] lg:text-[32px]"
+                      className="mt-5 text-balance text-2xl font-medium leading-[1.15] tracking-[-0.025em] md:text-[28px] lg:text-[32px]"
                     >
                       {block.title}
                     </h3>

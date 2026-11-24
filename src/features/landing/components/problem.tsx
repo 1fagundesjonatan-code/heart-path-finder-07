@@ -18,7 +18,7 @@ export function Problem() {
           {problem.items.map((item, i) => (
             <li key={item.title}>
               <Reveal index={i} className="py-8 md:py-10">
-                <h3 className="text-balance text-2xl font-normal leading-[1.15] tracking-[-0.01em] text-background md:text-[28px] lg:text-[32px]">
+                <h3 className="text-balance text-2xl font-medium leading-[1.15] tracking-[-0.025em] text-background md:text-[28px] lg:text-[32px]">
                   {item.title}
                 </h3>
                 <p className="mt-4 max-w-[62ch] text-pretty text-[17px] leading-[1.65] lg:text-lg">

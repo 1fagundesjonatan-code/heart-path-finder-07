@@ -41,7 +41,7 @@ function ResultScreen() {
   return (
     <Screen>
       <ScreenLabel>Seu resultado, Ana</ScreenLabel>
-      <div className="mt-2 font-serif text-[26px] font-light leading-[1.05]">
+      <div className="mt-2 font-serif text-[24px] leading-[1.05] tracking-[-0.03em]">
         {shortTypeName(TOP_TYPE)}
       </div>
       <p className="mt-2 line-clamp-3 text-[11px] leading-relaxed text-foreground/70">
@@ -99,7 +99,9 @@ function QuizScreen() {
       <div className="mt-2 h-1 overflow-hidden rounded-full bg-secondary">
         <div className="h-full w-[23%] rounded-full bg-primary" />
       </div>
-      <p className="mt-10 font-serif text-[22px] font-light leading-snug">{question?.text}</p>
+      <p className="mt-10 font-serif text-[20px] leading-snug tracking-[-0.02em]">
+        {question?.text}
+      </p>
       <div className="mt-auto space-y-2">
         {[1, 2, 3, 4, 5].map((value) => (
           <div
@@ -175,7 +177,7 @@ function PomodoroScreen() {
     <Screen className="items-center text-center">
       <ScreenLabel>Foco</ScreenLabel>
       <div className="mt-16 grid size-48 place-items-center rounded-full border-[6px] border-secondary [border-top-color:var(--primary)] [border-right-color:var(--primary)]">
-        <span className="font-serif text-[44px] font-light tabular-nums">18:24</span>
+        <span className="font-serif text-[44px] tracking-[-0.04em] tabular-nums">18:24</span>
       </div>
       <div className="mt-8 text-[10px] uppercase tracking-[0.16em] text-foreground/60">
         Tarefa atual

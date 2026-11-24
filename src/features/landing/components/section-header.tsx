@@ -23,9 +23,7 @@ export function EmphasisText({ text, animate = false }: { text: Emphasized; anim
   return (
     <>
       {text.before}
-      <em className={cn("mark-gold font-light italic", animate && "mark-gold-draw")}>
-        {text.emphasis}
-      </em>
+      <em className={cn("mark-gold not-italic", animate && "mark-gold-draw")}>{text.emphasis}</em>
       {text.after}
     </>
   );
@@ -47,7 +45,7 @@ export function SectionHeader({ id, eyebrow, eyebrowIcon, title, className }: Se
         id={id}
         className={cn(
           eyebrow && "mt-6",
-          "display text-balance text-[32px] font-light leading-[1.08] tracking-[-0.015em] md:text-[44px] lg:text-[56px]",
+          "display text-balance text-[32px] leading-[1.06] md:text-[44px] lg:text-[52px]",
         )}
       >
         {title}

@@ -80,15 +80,9 @@ export function AdminSidebar({ modules, user, roles, onSignOut }: Props) {
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b border-sidebar-border px-4 py-5">
         <div className="flex items-center gap-3">
-          <div
-            aria-hidden="true"
-            className="grid size-8 shrink-0 place-items-center rounded-full border border-sidebar-primary/60 font-serif text-sm font-semibold text-sidebar-primary"
-          >
-            S
-          </div>
           <div className="min-w-0 leading-tight group-data-[collapsible=icon]:hidden">
-            <div className="font-serif text-sm tracking-[0.04em] text-sidebar-accent-foreground">
-              THE SELF MAP
+            <div className="text-[15px] font-semibold tracking-[-0.03em] text-sidebar-accent-foreground">
+              The Self Map
             </div>
             <div className="text-[10px] uppercase tracking-[0.22em] text-sidebar-foreground/70">
               Administration

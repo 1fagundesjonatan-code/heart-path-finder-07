@@ -7,21 +7,13 @@ export function SiteHeader() {
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
         <Link
           to="/"
-          className="flex min-h-11 items-center gap-3 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground"
+          className="flex min-h-11 items-baseline gap-2 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground"
         >
-          <div
-            aria-hidden="true"
-            className="grid h-8 w-8 place-items-center rounded-full border border-foreground/30 font-serif text-sm font-semibold"
-          >
-            S
-          </div>
-          <div className="leading-tight">
-            <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-              The Self Map
-            </div>
-            <div className="font-serif text-base">Eneagrama</div>
-            <span className="sr-only">, voltar ao início</span>
-          </div>
+          <span className="text-[17px] font-semibold leading-none tracking-[-0.03em]">
+            The Self Map
+          </span>
+          <span className="text-sm leading-none text-muted-foreground">Eneagrama</span>
+          <span className="sr-only">, voltar ao início</span>
         </Link>
         <div className="hidden text-xs uppercase tracking-[0.18em] text-muted-foreground md:block">
           Autoconhecimento · 9 tipos

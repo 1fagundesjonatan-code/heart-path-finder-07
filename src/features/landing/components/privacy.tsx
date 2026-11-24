@@ -21,7 +21,7 @@ export function Privacy() {
         <dl className="divide-y divide-border border-y border-border lg:col-span-6 lg:col-start-7">
           {privacy.items.map((item) => (
             <div key={item.term} className="py-7 md:py-8">
-              <dt className="font-serif text-2xl font-normal leading-[1.15] tracking-[-0.01em] text-background md:text-[28px]">
+              <dt className="font-serif text-2xl leading-[1.15] tracking-[-0.02em] text-background md:text-[28px]">
                 {item.term}
               </dt>
               <dd className="mt-3 max-w-[62ch] text-pretty text-[17px] leading-[1.65] lg:text-lg">

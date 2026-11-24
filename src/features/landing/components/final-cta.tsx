@@ -9,7 +9,7 @@ export function FinalCta() {
       <div className="mx-auto max-w-[1200px] px-5 py-28 md:px-8 lg:px-12 lg:py-40">
         <h2
           id="final-cta-title"
-          className="display max-w-4xl text-balance text-[40px] font-light leading-[1.06] tracking-[-0.015em] text-background md:text-[56px] lg:text-[72px]"
+          className="display max-w-4xl text-balance text-[40px] leading-[1.04] text-background md:text-[56px] lg:text-[72px]"
         >
           <EmphasisText text={finalCta.title} />
         </h2>

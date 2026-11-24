@@ -72,19 +72,19 @@ export function Plans() {
 
         <div className="mt-12 grid gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="border-t border-border pt-8 lg:col-span-5">
-            <h3 className="font-serif text-[28px] font-normal leading-[1.15]">{free.name}</h3>
-            <p className="mt-4 font-serif text-5xl font-light tabular-nums">{free.price}</p>
+            <h3 className="font-serif text-[28px] leading-[1.15]">{free.name}</h3>
+            <p className="mt-4 font-serif text-5xl tracking-[-0.03em] tabular-nums">{free.price}</p>
             <PlanList items={free.items} />
             <TestCta className="mt-10" />
           </div>
 
           <div className="section-ink rounded-2xl p-8 md:p-10 lg:col-span-7">
-            <h3 className="font-serif text-[28px] font-normal leading-[1.15] text-background">
+            <h3 className="font-serif text-[28px] leading-[1.15] text-background">
               {subscription.name}
             </h3>
             <p
               aria-live="polite"
-              className="mt-4 font-serif text-5xl font-light tabular-nums text-background"
+              className="mt-4 font-serif text-5xl tracking-[-0.03em] tabular-nums text-background"
             >
               {subscription.price[cycle]}
               <span className="ml-1 font-sans text-lg font-normal text-muted-foreground">
