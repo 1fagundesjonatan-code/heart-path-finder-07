@@ -7,7 +7,7 @@ const footerLinkClass =
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border">
+    <footer>
       <div className="section-container pt-16">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           <div>
@@ -47,7 +47,7 @@ export function SiteFooter() {
           {footer.crisis.rest}
         </p>
 
-        <div className="mt-8 flex flex-col gap-3 border-t border-border py-6 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
+        <div className="mt-8 flex flex-col gap-3 py-6 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
           <NonDiagnosticNotice short className="text-sm" />
           <div className="flex items-center gap-6">
             <a

@@ -15,7 +15,7 @@ export function FeatureStory({ activeStep }: Props) {
     <section
       id="recursos"
       aria-labelledby="features-title"
-      className="scroll-mt-16 border-t border-border lg:scroll-mt-[72px]"
+      className="scroll-mt-16 lg:scroll-mt-[72px]"
     >
       <div className="section-container py-20 md:py-28 lg:py-36">
         <SectionHeader

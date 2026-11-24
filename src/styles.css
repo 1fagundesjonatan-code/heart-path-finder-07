@@ -205,7 +205,30 @@
   .phone-float {
     animation: phone-float 7s ease-in-out 1300ms infinite;
   }
+  .hero-grid {
+    background-image:
+      linear-gradient(oklch(1 0 0 / 7%) 1px, transparent 1px),
+      linear-gradient(90deg, oklch(1 0 0 / 7%) 1px, transparent 1px);
+    background-size: 56px 56px;
+    background-position: center;
+    mask-image: radial-gradient(ellipse 70% 70% at 70% 50%, black 10%, transparent 75%);
+  }
+  .hero-glow {
+    background: radial-gradient(
+      closest-side,
+      oklch(0.72 0.13 85 / 42%),
+      oklch(0.72 0.13 85 / 12%) 55%,
+      transparent
+    );
+    animation: hero-glow 9s ease-in-out infinite;
+  }
+  .hero-grain {
+    opacity: 0.12;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
   @media (prefers-reduced-motion: reduce) {
+    .hero-glow,
     .hero-in,
     .phone-intro,
     .phone-float {
@@ -254,5 +277,12 @@
 @keyframes phone-float {
   50% {
     transform: translateY(-10px);
+  }
+}
+
+@keyframes hero-glow {
+  50% {
+    opacity: 0.75;
+    transform: scale(1.08);
   }
 }
