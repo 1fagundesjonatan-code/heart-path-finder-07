@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as EntrarRouteImport } from './routes/entrar'
+import { Route as EneagramaRouteImport } from './routes/eneagrama'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
@@ -20,6 +21,11 @@ import { Route as AdminConfiguracoesUsuariosRouteImport } from './routes/admin/c
 const EntrarRoute = EntrarRouteImport.update({
   id: '/entrar',
   path: '/entrar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EneagramaRoute = EneagramaRouteImport.update({
+  id: '/eneagrama',
+  path: '/eneagrama',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -57,6 +63,7 @@ const AdminConfiguracoesUsuariosRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/eneagrama': typeof EneagramaRoute
   '/entrar': typeof EntrarRoute
   '/admin/$modulo': typeof AdminModuloRoute
   '/admin/integracoes': typeof AdminIntegracoesRoute
@@ -65,6 +72,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/eneagrama': typeof EneagramaRoute
   '/entrar': typeof EntrarRoute
   '/admin/$modulo': typeof AdminModuloRoute
   '/admin/integracoes': typeof AdminIntegracoesRoute
@@ -75,6 +83,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/eneagrama': typeof EneagramaRoute
   '/entrar': typeof EntrarRoute
   '/admin/$modulo': typeof AdminModuloRoute
   '/admin/integracoes': typeof AdminIntegracoesRoute
@@ -86,6 +95,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/eneagrama'
     | '/entrar'
     | '/admin/$modulo'
     | '/admin/integracoes'
@@ -94,6 +104,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/eneagrama'
     | '/entrar'
     | '/admin/$modulo'
     | '/admin/integracoes'
@@ -103,6 +114,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
+    | '/eneagrama'
     | '/entrar'
     | '/admin/$modulo'
     | '/admin/integracoes'
@@ -113,6 +125,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
+  EneagramaRoute: typeof EneagramaRoute
   EntrarRoute: typeof EntrarRoute
 }
 
@@ -123,6 +136,13 @@ declare module '@tanstack/react-router' {
       path: '/entrar'
       fullPath: '/entrar'
       preLoaderRoute: typeof EntrarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/eneagrama': {
+      id: '/eneagrama'
+      path: '/eneagrama'
+      fullPath: '/eneagrama'
+      preLoaderRoute: typeof EneagramaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -189,6 +209,7 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
+  EneagramaRoute: EneagramaRoute,
   EntrarRoute: EntrarRoute,
 }
 export const routeTree = rootRouteImport
