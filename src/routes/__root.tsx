@@ -37,7 +37,10 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: ErrorComponentProps) {
   const router = useRouter();
   useEffect(() => {
-    console.error("Root error boundary caught an error", { route: window.location.pathname, error });
+    console.error("Root error boundary caught an error", {
+      route: window.location.pathname,
+      error,
+    });
   }, [error]);
 
   return (
