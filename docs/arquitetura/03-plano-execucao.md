@@ -1,6 +1,6 @@
 # 03 — Plano de execução
 
-Regras de execução: cada entrega é pequena, funciona ponta a ponta e deixa o `main` verde (Lovable sincroniza a `main`). Migration antes do código que a usa. Sem compat com versões antigas. Cada entrega termina com revisão de código antes do commit (fluxo do orquestrador). Responsáveis: DE = data-engineer, DF = dev-fullstack, UX = ux-designer, QA = qa-engineer, DO = devops, JF = Jonatan.
+Regras de execução: cada entrega é pequena, funciona ponta a ponta e deixa o `main` verde (a `main` vai direto para produção na Vercel). Migration antes do código que a usa. Sem compat com versões antigas. Cada entrega termina com revisão de código antes do commit (fluxo do orquestrador). Responsáveis: DE = data-engineer, DF = dev-fullstack, UX = ux-designer, QA = qa-engineer, DO = devops, JF = Jonatan.
 
 ## 1. Visão por fase
 
@@ -27,7 +27,7 @@ Dentro: tudo abaixo. Fora (não fazer agora): conversa com IA, memória, pagamen
 | Escopo | `.gitignore` com `.env*` e `!.env.example`; `lang="pt-BR"` (raiz e `error-page.ts`); 404/erro em português; corrigir `choose` e `useEffect` do teclado (`e.repeat`, deps, sem timer solto); aviso "não é diagnóstico clínico" (texto aprovado pelo JF); landmarks, `radiogroup`/`aria-*` e foco visível no quiz; fontes self-host; extrair `computeScores` para `features/eneagrama/domain/scoring.ts` com testes Vitest; versionar instrumento (`enneagram-v1`); instalar Vitest e script `test` |
 | Responsável | DF (UX define o texto/foco visível), QA revisa casos de teste |
 | Pronto quando | Lint e build passam; testes de pontuação cobrem: respostas vazias, todas 1, todas 5, empate, 162 respostas válidas; quiz navegável só com teclado e sem perda de resposta ao pressionar duas teclas rápido; leitor de tela anuncia grupo e opção marcada; nenhum texto em inglês nas telas de erro; aviso visível na intro, no resultado e no rodapé |
-| Ponto de atenção | Dependência nova (Vitest) pode esbarrar na guarda de 24h do bun; só pedir exclusão ao JF se falhar |
+| Ponto de atenção | Dependência nova (Vitest) entra normalmente via pnpm |
 
 ### Entrega 1: Supabase client + env
 
@@ -141,17 +141,17 @@ E0 pode correr em paralelo com a criação do projeto Supabase. E8 não depende 
 
 | Item | Quando | Detalhe |
 |---|---|---|
-| Decidir Supabase próprio x Lovable Cloud | Antes da E1 | Recomendação: **projeto Supabase próprio** (migrations versionadas em `supabase/`, mais controle e portabilidade). Lovable Cloud é válido se quiser tudo gerenciado pelo Lovable, mas gera arquivos próprios em `src/integrations/supabase/` e limita o controle das migrations. Criar 2 projetos (staging e prod) se possível; região `sa-east-1` |
+| Projeto Supabase | Antes da E1 | Decisão tomada: **projeto Supabase próprio** (migrations versionadas em `supabase/`). Criar 2 projetos (staging e prod) se possível; região `sa-east-1` |
 | Chaves do Supabase | E1 | URL, publishable key, service role e senha do banco. Entregar por canal seguro, nunca no chat do repositório nem em arquivo commitado. Quem configura no deploy: devops |
-| Máquina local | E0/E1 | Instalar dependências (`bun install`, hoje não há `node_modules`), Supabase CLI e Docker (para `supabase start`), Node compatível. Confirmar versão de Node que o Lovable usa |
+| Máquina local | E0/E1 | Instalar dependências (`pnpm install`), Supabase CLI e Docker (para `supabase start`), Node 22 ou superior (`engines` no `package.json`) |
 | Primeiro admin | E2 | E-mail do primeiro administrador e método de login desejado |
 | E-mail/SMTP | E2 | Remetente e provedor (ex.: Resend, SES) para confirmação/link mágico em produção; domínio com SPF/DKIM |
 | Texto "não é diagnóstico" e copy do teste | E0 | Aprovar redação; **confirmar se a marca evita a palavra "Eneagrama" também no site** |
 | Política de privacidade, termos, encarregado, canal do titular, texto de consentimento | Antes do deploy da E6 | Revisão jurídica; este plano não substitui advogado |
 | Retenção de dados e base legal por finalidade | Antes da E6 | Prazos por categoria; lista de operadores |
-| Captcha/anti-bot | E6 | Cloudflare Turnstile é a opção natural (já na Cloudflare); precisa de conta/chaves |
-| Domínio e URLs de redirect | E2 | URLs de produção e preview do Lovable para configurar no Auth do Supabase |
-| Autorizar `bunfig.toml` | Se necessário | Se algum pacote novo for recusado pela guarda de 24h, o arquivo exige confirmação do JF antes de excluir o pacote |
+| Captcha/anti-bot | E6 | Cloudflare Turnstile é a opção natural (funciona com qualquer host); precisa de conta/chaves |
+| Domínio e URLs de redirect | E2 | URLs de produção e preview da Vercel para configurar no Auth do Supabase |
+| Secrets de deploy | Antes do primeiro deploy | No GitHub: `VERCEL_TOKEN` e `VERCEL_ORG_ID`. Na Vercel: `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY` e `SUPABASE_SERVICE_ROLE_KEY` |
 | Provedor de IA e chave | Antes da Fase 2 | Conta e chave de API (Claude por padrão) com limite de gasto mensal configurado |
 | Provedor de embeddings | Antes da Fase 3 | Decisão (fixa a dimensão do vetor) |
 | Revisão jurídica da memória e do Mentor | Antes da Fase 3 | Dados sensíveis, retenção, transferência internacional, protocolo de crise |
@@ -163,8 +163,8 @@ E0 pode correr em paralelo com a criação do projeto Supabase. E8 não depende 
 
 | Risco | Mitigação |
 |---|---|
-| Lovable e trabalho local sobrescrevendo `routeTree.gen.ts` ou arquivos de integração | Um dono por pasta; commits pequenos; nunca reescrever histórico |
+| Conflitos em `routeTree.gen.ts` ou arquivos de integração | Um dono por pasta; commits pequenos; regenerar pelo build |
 | Migration aplicada em produção antes do código (ou o inverso) | Ordem fixa: migration → código; testar em staging; cada migration em passo único e reversível por nova migration (sem backward compat de código) |
-| Server functions em runtime Cloudflare (cookies, Node APIs) | E1 já valida ponta a ponta no preview, antes de construir em cima |
+| Server functions em runtime Vercel (cookies, Node APIs) | E1 já valida ponta a ponta no preview, antes de construir em cima |
 | RLS com furo | Testes por papel obrigatórios em CI; revisão do data-engineer e do code-reviewer em toda migration |
 | Escopo crescer (CRM sofisticado cedo demais) | Fase 1 entrega só o descrito; kanban, automações e CRUD de estágios ficam fora |

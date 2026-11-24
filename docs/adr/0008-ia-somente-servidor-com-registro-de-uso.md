@@ -25,5 +25,5 @@ As Fases 2 e 3 chamam modelos de linguagem (e embeddings). Chave de API não pod
 
 ## Consequências
 - (+) Segurança, custo visível, troca de modelo barata, base para limites por plano (Fase 5).
-- (-) Latência extra de passar pelo servidor; streaming e tempo máximo de execução no runtime Cloudflare precisam de verificação na primeira entrega da Fase 2.
+- (-) Latência extra de passar pelo servidor; streaming e tempo máximo de execução no runtime da Vercel (Functions) precisam de verificação na primeira entrega da Fase 2.
 - (-) Escrita em `ai_usage` usa service role: caso nomeado e testado.

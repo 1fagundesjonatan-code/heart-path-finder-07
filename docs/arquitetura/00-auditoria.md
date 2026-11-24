@@ -7,13 +7,13 @@ Data: 2026-11-24. Base: leitura direta de `src/routes/index.tsx`, `src/routes/__
 | Item | Estado | Detalhe |
 |---|---|---|
 | Stack | Funcional (lida de `package.json`) | TanStack Start 1.167, Router 1.168, React 19.2, Vite 8, Tailwind 4.2, shadcn (46 componentes em `src/components/ui/`), recharts 2.15, react-hook-form 7, zod 3.24, TanStack Query 5, sonner |
-| Build/deploy | Configurado pelo Lovable | `@lovable.dev/vite-tanstack-config` já injeta tanstackStart, react, tailwind, tsconfig-paths, nitro (Cloudflare), alias `@`. `vite.config.ts` só redireciona o server entry para `src/server.ts`. Não duplicar plugins |
+| Build/deploy | Vite explícito + Vercel | `vite.config.ts` declara tanstackStart (server entry `src/server.ts`), react, tailwind, tsconfig-paths e nitro com preset `vercel`. Deploy por GitHub Actions (`.github/workflows/pipeline.yml`) |
 | SSR error wrapper | Funcional | `src/server.ts` + `src/start.ts` (request middleware) devolvem HTML de erro em 500; `src/lib/error-capture.ts` guarda o erro original porque o h3 engole o throw |
 | Rotas | 1 rota de página | `/` (`index.tsx`, 578 linhas) + `__root.tsx`. `routeTree.gen.ts` é gerado |
 | Teste de Eneagrama | Funcional ponta a ponta no cliente | 162 afirmações Likert 1–5 (`src/data/enneagram.ts`), 9 tipos com textos, fluxo intro → quiz → resultado (barras + radar top-3 por dimensão C/M/E) |
 | Persistência, auth, backend, analytics, captura de lead | Não existe | Nada sai do navegador. Fechou a aba, perdeu o resultado |
 | Testes, CI | Não existe | Nenhum arquivo de teste, nenhum workflow |
-| Ambiente | Incompleto | `node_modules` ausente; lockfile `bun.lock`; `bunfig.toml` com guarda de 24h para pacotes novos (relevante ao adicionar `@supabase/*`: pode exigir esperar ou pedir autorização do Jonatan para excluir da guarda) |
+| Ambiente | Incompleto | `node_modules` ausente; gerenciador pnpm (`pnpm-lock.yaml`, campo `packageManager`) |
 
 ## 2. Dados do instrumento (verificado por contagem)
 
@@ -73,7 +73,7 @@ Severidade: A = corrigir antes de coletar dados reais; M = corrigir na Fase 1/2;
 | X1 | **`.gitignore` não ignora `.env`** (só `*.local`, `.dev.vars`). Antes de criar qualquer `.env`, adicionar `.env`, `.env.*` e `!.env.example`. Hoje basta um `git add .` para vazar a service role | A |
 | X2 | Sem validação de entrada em nenhuma fronteira (não há fronteiras ainda). Toda server function nova nasce com schema zod | — |
 | X3 | Sem rate limit/anti-bot: a captura de lead pública será o primeiro endpoint exposto e o alvo óbvio de spam | A (E6) |
-| X4 | Pacotes novos passam pela guarda `minimumReleaseAge = 86400` do bun: instalar `@supabase/supabase-js` recém-publicado pode falhar. Pedir ao Jonatan antes de editar `bunfig.toml` (o próprio arquivo diz isso) | B |
+| X4 | (Resolvido) A guarda de 24h do bun deixou de existir com a migração para pnpm | B |
 
 ### 3.5 Qualidade de engenharia
 
@@ -82,15 +82,15 @@ Severidade: A = corrigir antes de coletar dados reais; M = corrigir na Fase 1/2;
 | Q1 | `index.tsx` mistura rota, lógica de pontuação, 7 componentes de UI. Não é testável. A pontuação (`computeScores`) deve virar função pura em `src/features/eneagrama/` com testes | M |
 | Q2 | Sem testes. Pontuação, RLS e funções de métricas exigem teste desde a primeira entrega (Vitest para unidade; testes SQL/pgTAP ou script de integração para RLS) | A |
 | Q3 | Sem CI (lint + typecheck + build). Fica a cargo do devops; ver doc 03 | M |
-| Q4 | `routeTree.gen.ts` versionado e gerado: conflitos de merge possíveis entre Lovable e commits locais. Regra: nunca editar à mão; regenerar rodando `vite dev`/`build` | B |
+| Q4 | `routeTree.gen.ts` versionado e gerado: conflitos de merge possíveis entre branches. Regra: nunca editar à mão; regenerar rodando `vite dev`/`build` | B |
 
 ## 4. Riscos técnicos da base
 
 | Risco | Probabilidade | Impacto | Mitigação |
 |---|---|---|---|
-| Lovable sincroniza a `main`: commit quebrado vira projeto quebrado no editor deles; migration aplicada antes/depois do código errado derruba produção | Alta | Alto | Migrations antes do código que as usa; compatibilidade só durante o intervalo do deploy (uma entrega); nunca reescrever histórico; branch de trabalho + merge só verde |
-| Lovable (editor) e desenvolvimento local editarem os mesmos arquivos (`routeTree.gen.ts`, `src/integrations/supabase/*`) | Média | Médio | Decidir quem é dono de cada pasta; `types.ts` do Supabase é gerado, não editar à mão |
-| Runtime Cloudflare Workers: `process.env`, Node APIs, limites de CPU/tempo e bundle afetam server functions, jobs de IA longos e SDKs | Média | Alto | Segredos via bindings/env do Worker; testar server function de ponta a ponta no preview antes de depender; jobs longos (sumarização) fora do request, ver doc 01 |
+| Deploy de produção sai a cada push na `main`: commit quebrado derruba produção; migration aplicada antes/depois do código errado também | Alta | Alto | Migrations antes do código que as usa; compatibilidade só durante o intervalo do deploy (uma entrega); branch de trabalho + PR com pipeline verde antes do merge |
+| Edição manual de arquivos gerados (`routeTree.gen.ts`, `src/integrations/supabase/types.ts`) | Média | Médio | Nunca editar à mão; regenerar pelo build e pelo CLI do Supabase |
+| Runtime serverless da Vercel: limites de duração, memória e bundle das Functions afetam server functions, jobs de IA longos e SDKs | Média | Alto | Segredos via env do projeto na Vercel; testar server function de ponta a ponta no preview antes de depender; jobs longos (sumarização) fora do request, ver doc 01 |
 | Coletar dados antes de ter privacidade/consentimento | Média | Alto (jurídico) | E5 só vai ao ar com política, checkbox de consentimento e texto de finalidade |
 | Instrumento sem validação apresentado como resultado "verdadeiro" | Alta | Médio (reputação) | Aviso, status "Necessita validação", linguagem de hipótese |
 

@@ -11,7 +11,7 @@ flowchart LR
     ADM["Admin: /admin/* (SPA após SSR)"]
   end
 
-  subgraph App["App TanStack Start (nitro / Cloudflare Worker)"]
+  subgraph App["App TanStack Start (nitro / Vercel Functions)"]
     RT["Rotas (src/routes) finas"]
     SF["Server functions (createServerFn) + middlewares de auth/papel"]
     FEAT["src/features/*/server (casos de uso)"]
@@ -198,8 +198,8 @@ Mínimo útil, sem plataforma nova na Fase 1:
 
 | Camada | Fase 1 | Depois |
 |---|---|---|
-| Erros de UI | `reportLovableError` já existe em `__root.tsx`; manter | Sentry ou similar se Lovable não bastar (decisão futura) |
-| Erros de servidor | `console.error` estruturado (objeto com `code`, `fn`, `userId` quando houver; **sem PII, sem conteúdo de conversa**) em server functions e middleware; `src/server.ts` já normaliza 500 | Log drain / Cloudflare Logs |
+| Erros de UI | Error boundary raiz em `__root.tsx` com `console.error` e contexto | Sentry ou similar (decisão futura) |
+| Erros de servidor | `console.error` estruturado (objeto com `code`, `fn`, `userId` quando houver; **sem PII, sem conteúdo de conversa**) em server functions e middleware; `src/server.ts` já normaliza 500 | Vercel Logs / log drain |
 | Auditoria | `audit_log` (ações de staff, mudança de papel, acesso excepcional) | Alertas sobre acesso a conteúdo individual |
 | Negócio | `events` (funil) + dashboard | Particionamento/rollup quando volume exigir |
 | IA | `ai_usage` por chamada: modelo, tokens in/out, custo estimado, latência, feature, `user_id`, status (Fase 2) | Orçamento por usuário/plano, alerta de custo |
@@ -211,7 +211,7 @@ Mínimo útil, sem plataforma nova na Fase 1:
 |---|---|---|
 | local | Supabase local (`supabase start`) ou projeto `dev` | Desenvolvimento, migrations novas, testes de RLS |
 | preview/staging | Projeto Supabase `staging` (recomendado) | Conferir migration + código antes de produção |
-| produção | Projeto Supabase `prod`, deploy a partir da `main` (sincronizada com Lovable) | Dados reais |
+| produção | Projeto Supabase `prod`, deploy na Vercel a partir da `main` (GitHub Actions) | Dados reais |
 
 Variáveis (nomes propostos; valores **nunca** no repositório):
 
@@ -219,19 +219,19 @@ Variáveis (nomes propostos; valores **nunca** no repositório):
 |---|---|---|
 | `VITE_SUPABASE_URL` | build/browser | pública |
 | `VITE_SUPABASE_PUBLISHABLE_KEY` | build/browser | pública (protegida por RLS) |
-| `SUPABASE_SERVICE_ROLE_KEY` | só servidor (bindings do Worker / painel do deploy) | **segredo** |
+| `SUPABASE_SERVICE_ROLE_KEY` | só servidor (env do projeto na Vercel) | **segredo** |
 | `SUPABASE_DB_URL` ou senha do DB | só máquina de quem aplica migrations / CI | **segredo** |
 | `ANTHROPIC_API_KEY` (ou do provedor escolhido) | só servidor, Fase 2 | **segredo** |
 | `STRIPE_*`, `MERCADOPAGO_*`, `*_WEBHOOK_SECRET` | só servidor, Fase 5 | **segredo** |
 | `APP_ENV` (`local`/`staging`/`production`) | servidor | pública |
 
-Regras: `.env*` no `.gitignore` (hoje ausente, ver auditoria X1); commitar `.env.example` só com nomes; validar presença das variáveis no startup do servidor com zod (falhar rápido); rotacionar imediatamente se algo vazar; service role e chaves de IA nunca em prefixo `VITE_`. Se o Jonatan optar por Lovable Cloud, o Lovable gera/gerencia parte disso e arquivos em `src/integrations/supabase/` (não editar `types.ts`/`client.ts` gerados).
+Regras: `.env*` no `.gitignore` (hoje ausente, ver auditoria X1); commitar `.env.example` só com nomes; validar presença das variáveis no startup do servidor com zod (falhar rápido); rotacionar imediatamente se algo vazar; service role e chaves de IA nunca em prefixo `VITE_`. `src/integrations/supabase/types.ts` é gerado: não editar à mão.
 
 ## 9. IA e jobs assíncronos (visão, detalhes na Fase 2/3)
 
 - Toda chamada de modelo passa por `src/integrations/ai/` (interface mínima: `complete`, `stream`, `embed`), no servidor, com registro em `ai_usage`. Modelo configurável por feature em um único arquivo de configuração; sem hardcode espalhado (ADR 0008).
-- Streaming do chat via server route/server function com `ReadableStream`; verificar suporte no runtime Cloudflare na primeira entrega da Fase 2 (risco listado).
-- Trabalhos pós-conversa (resumir, extrair memória, recalcular perfil) **não** rodam dentro do request do chat: fila/cron. Opções a decidir na Fase 3: `pg_cron` + Edge Function, ou Cloudflare Queues/Cron Triggers. Critério: o que já estiver disponível sem nova conta.
+- Streaming do chat via server route/server function com `ReadableStream`; verificar suporte nas Vercel Functions na primeira entrega da Fase 2 (risco listado).
+- Trabalhos pós-conversa (resumir, extrair memória, recalcular perfil) **não** rodam dentro do request do chat: fila/cron. Opções a decidir na Fase 3: `pg_cron` + Edge Function, ou Vercel Cron. Critério: o que já estiver disponível sem nova conta.
 
 ## 10. Trade-offs principais
 

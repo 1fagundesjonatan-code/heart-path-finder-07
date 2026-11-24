@@ -309,7 +309,7 @@ Mecânica: montar por **prioridade** A > guardrails > B > D > C; se estourar, co
 |---|---|
 | pgvector | Extensão do Supabase, habilitar na migration da Fase 3 (data-engineer) |
 | Provedor de embeddings | Pendente de decisão; fixa a dimensão do vetor |
-| Fila/cron | Pendente (pg_cron + Edge Function ou Cloudflare Queues) |
+| Fila/cron | Pendente (pg_cron + Edge Function ou Vercel Cron) |
 | Qualidade | Memória errada ("alucinada") prejudica confiança: toda memória é visível e corrigível; extração só de afirmações do **usuário**, não de suposições do modelo |
 | Privacidade | Dados sensíveis, retenção e base legal: **Necessita validação** jurídica antes do lançamento da Fase 3 |
 | Avaliação | Montar conjunto de conversas sintéticas para testar extração, deduplicação, recuperação e orçamento antes de liberar |

@@ -4,7 +4,7 @@
 - Data: 2026-11-24
 
 ## Contexto
-O produto precisa de um painel interno (17 módulos) além do site público e, depois, da área do cliente. O app é TanStack Start com deploy único via Lovable/nitro. Equipe pequena.
+O produto precisa de um painel interno (17 módulos) além do site público e, depois, da área do cliente. O app é TanStack Start com deploy único na Vercel via nitro. Equipe pequena.
 
 ## Decisão
 O admin vive no mesmo app, sob `/admin/*`, com uma layout route (`src/routes/admin.tsx`: guard + sidebar). Autorização validada **no servidor** (middleware das server functions, `createServerFn`) **e no banco** (RLS). Esconder menu ou checar no cliente é só UX. O layout é marcado `noindex` e bloqueado no `robots.txt`.
