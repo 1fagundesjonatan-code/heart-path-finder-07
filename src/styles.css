@@ -29,6 +29,14 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
   --color-gold: var(--gold);
   --color-gold-light: var(--gold-light);
   --font-serif: "Fraunces", Georgia, serif;
@@ -39,7 +47,7 @@
   --radius: 0.75rem;
   /* Luxury identity: white, black, gold */
   --gold: oklch(0.72 0.13 85);
-  --gold-light: oklch(0.84 0.10 85);
+  --gold-light: oklch(0.84 0.1 85);
 
   --background: oklch(1 0 0);
   --foreground: oklch(0.14 0 0);
@@ -47,19 +55,29 @@
   --card-foreground: oklch(0.14 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.14 0 0);
-  --primary: oklch(0.72 0.13 85);            /* gold */
-  --primary-foreground: oklch(0.14 0 0);     /* black text on gold */
+  --primary: oklch(0.72 0.13 85); /* gold */
+  --primary-foreground: oklch(0.14 0 0); /* black text on gold */
   --secondary: oklch(0.96 0 0);
   --secondary-foreground: oklch(0.14 0 0);
   --muted: oklch(0.96 0 0);
   --muted-foreground: oklch(0.52 0 0);
-  --accent: oklch(0.78 0.11 85);             /* soft gold */
+  --accent: oklch(0.78 0.11 85); /* soft gold */
   --accent-foreground: oklch(0.14 0 0);
-  --destructive: oklch(0.55 0.20 27);
+  --destructive: oklch(0.55 0.2 27);
   --destructive-foreground: oklch(1 0 0);
   --border: oklch(0.14 0 0 / 12%);
   --input: oklch(0.14 0 0 / 12%);
   --ring: oklch(0.72 0.13 85);
+
+  /* Admin: barra lateral escura (tinta) com ouro como marca de seleção */
+  --sidebar: oklch(0.14 0 0);
+  --sidebar-foreground: oklch(0.86 0 0);
+  --sidebar-primary: oklch(0.78 0.11 85);
+  --sidebar-primary-foreground: oklch(0.14 0 0);
+  --sidebar-accent: oklch(0.22 0 0);
+  --sidebar-accent-foreground: oklch(0.98 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.78 0.11 85);
 }
 
 .dark {
@@ -74,7 +92,7 @@
   --secondary: oklch(0.22 0 0);
   --secondary-foreground: oklch(0.98 0 0);
   --muted: oklch(0.22 0 0);
-  --muted-foreground: oklch(0.70 0 0);
+  --muted-foreground: oklch(0.7 0 0);
   --accent: oklch(0.72 0.13 85);
   --accent-foreground: oklch(0.14 0 0);
   --border: oklch(1 0 0 / 12%);
@@ -83,14 +101,20 @@
 }
 
 @layer base {
-  * { border-color: var(--color-border); }
-  html, body {
+  * {
+    border-color: var(--color-border);
+  }
+  html,
+  body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     font-feature-settings: "ss01", "cv11";
   }
-  h1, h2, h3, .font-serif {
+  h1,
+  h2,
+  h3,
+  .font-serif {
     font-family: var(--font-serif);
     font-feature-settings: "ss01";
     letter-spacing: -0.01em;
@@ -103,7 +127,8 @@
   }
   .grain::before {
     content: "";
-    position: absolute; inset: 0;
+    position: absolute;
+    inset: 0;
     pointer-events: none;
     background-image: radial-gradient(oklch(0 0 0 / 0.03) 1px, transparent 1px);
     background-size: 3px 3px;
