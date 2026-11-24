@@ -56,7 +56,7 @@ export type AdminModule = {
   delivery: string;
 };
 
-const ALL_STAFF = ["admin", "operator", "marketing", "finance"] as const;
+const ALL_STAFF = ["admin", "collaborator"] as const;
 
 export const ADMIN_MODULES: readonly AdminModule[] = [
   {
@@ -91,7 +91,7 @@ export const ADMIN_MODULES: readonly AdminModule[] = [
     description: "Contato único (lead ou cliente) com estágio, histórico, notas e linha do tempo.",
     phase: 1,
     status: "Em desenvolvimento",
-    roles: ["admin", "operator", "marketing"],
+    roles: ALL_STAFF,
     dependencies: ["Autenticação e papéis"],
     delivery: "Entra com a entrega E5.",
   },
@@ -103,7 +103,7 @@ export const ADMIN_MODULES: readonly AdminModule[] = [
     description: "Visão do CRM para contatos em estágio inicial, com origem, UTM e consentimento.",
     phase: 1,
     status: "Em desenvolvimento",
-    roles: ["admin", "operator", "marketing"],
+    roles: ALL_STAFF,
     dependencies: ["CRM (E5)", "Captura de lead com consentimento (E6)"],
     delivery: "Entra com a entrega E6, depois de política de privacidade e consentimento prontos.",
   },
@@ -129,7 +129,7 @@ export const ADMIN_MODULES: readonly AdminModule[] = [
       "Eneagrama conversacional e configuração operacional da IA (prompts, modelo, limites).",
     phase: 2,
     status: "Planejado",
-    roles: ["admin", "operator"],
+    roles: ALL_STAFF,
     dependencies: ["Fase 1 concluída", "Chave do provedor de IA", "Protocolo de crise"],
     delivery: "Planejado para a Fase 2.",
   },
@@ -141,7 +141,7 @@ export const ADMIN_MODULES: readonly AdminModule[] = [
     description: "Mentor pessoal com memória em camadas, controlada pelo usuário.",
     phase: 3,
     status: "Planejado",
-    roles: ["admin", "operator"],
+    roles: ALL_STAFF,
     dependencies: ["The Self AI (Fase 2)", "Embeddings", "Validação jurídica (dados sensíveis)"],
     delivery:
       "Planejado para a Fase 3. Conteúdo de conversas nunca será lido por padrão pela equipe.",
@@ -154,7 +154,7 @@ export const ADMIN_MODULES: readonly AdminModule[] = [
     description: "Versões do instrumento, distribuição de resultados e qualidade das respostas.",
     phase: 1,
     status: "Necessita validação",
-    roles: ["admin", "operator", "marketing"],
+    roles: ALL_STAFF,
     dependencies: ["Resultados salvos (E6)", "Revisão psicométrica do instrumento"],
     delivery:
       "O teste público funciona, mas é autorrelato sem validação psicométrica. Agregados entram após E6.",
@@ -167,7 +167,7 @@ export const ADMIN_MODULES: readonly AdminModule[] = [
     description: "Trilhas guiadas de autoconhecimento.",
     phase: 3,
     status: "Planejado",
-    roles: ["admin", "operator", "marketing"],
+    roles: ALL_STAFF,
     dependencies: ["Mentor IA (Fase 3)"],
     delivery: "Planejado para as Fases 3 e 4.",
   },
@@ -179,7 +179,7 @@ export const ADMIN_MODULES: readonly AdminModule[] = [
     description: "Planos, cobrança recorrente, limites de uso por plano.",
     phase: 5,
     status: "Necessita integração",
-    roles: ["admin", "operator", "finance"],
+    roles: ALL_STAFF,
     dependencies: ["Stripe e/ou Mercado Pago", "Decisão de preços"],
     delivery: "Depende de gateway de pagamento. Planejado para a Fase 5.",
   },
@@ -191,7 +191,7 @@ export const ADMIN_MODULES: readonly AdminModule[] = [
     description: "Agendamento e venda de atendimentos de profissionais.",
     phase: 6,
     status: "Planejado",
-    roles: ["admin", "operator", "finance"],
+    roles: ALL_STAFF,
     dependencies: ["Gateway com split e repasse", "Definição jurídica clínico x Mentor IA"],
     delivery: "Planejado para a Fase 6.",
   },
@@ -203,7 +203,7 @@ export const ADMIN_MODULES: readonly AdminModule[] = [
     description: "Cadastro, verificação e vínculo de psicólogos e terapeutas.",
     phase: 6,
     status: "Planejado",
-    roles: ["admin", "operator", "finance"],
+    roles: ALL_STAFF,
     dependencies: ["Marketplace (Fase 6)", "Validação do registro profissional"],
     delivery: "Planejado para a Fase 6.",
   },
@@ -215,7 +215,7 @@ export const ADMIN_MODULES: readonly AdminModule[] = [
     description: "Receita, repasses e conciliação.",
     phase: 5,
     status: "Necessita integração",
-    roles: ["admin", "finance"],
+    roles: ALL_STAFF,
     dependencies: ["Gateway de pagamento (Fase 5)", "Marketplace (Fase 6)"],
     delivery:
       "Sem fonte de receita hoje. A única informação financeira real da Fase 1 é o gasto manual de marketing.",
@@ -240,7 +240,7 @@ export const ADMIN_MODULES: readonly AdminModule[] = [
     description: "Edição de textos e itens publicados.",
     phase: 4,
     status: "Planejado",
-    roles: ["admin", "operator", "marketing"],
+    roles: ALL_STAFF,
     dependencies: ["Jornadas"],
     delivery: "Planejado para a Fase 4. Hoje os textos ficam no código.",
   },
@@ -252,7 +252,7 @@ export const ADMIN_MODULES: readonly AdminModule[] = [
     description: "Estado das conexões externas. Mostra só status, nunca segredos.",
     phase: 1,
     status: "Em desenvolvimento",
-    roles: ["admin", "finance"],
+    roles: ALL_STAFF,
     dependencies: ["Variáveis de ambiente do servidor"],
     delivery:
       "Mostra o estado real da conexão com o Supabase. As demais integrações ainda não existem.",

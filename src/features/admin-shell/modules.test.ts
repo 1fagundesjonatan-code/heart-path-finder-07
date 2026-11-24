@@ -16,12 +16,17 @@ describe("registro de módulos", () => {
     }
   });
 
-  test("admin vê tudo; financeiro não vê CRM nem Configurações", () => {
+  test("admin vê tudo; colaborador vê tudo menos Configurações (papéis)", () => {
     expect(modulesForRoles(["admin"])).toHaveLength(17);
-    const finance = modulesForRoles(["finance"]).map((m) => m.id);
-    expect(finance).toContain("financeiro");
-    expect(finance).not.toContain("crm");
-    expect(finance).not.toContain("configuracoes");
+    const collaborator = modulesForRoles(["collaborator"]).map((m) => m.id);
+    expect(collaborator).toHaveLength(16);
+    expect(collaborator).toContain("integracoes");
+    expect(collaborator).toContain("financeiro");
+    expect(collaborator).not.toContain("configuracoes");
+  });
+
+  test("parceiro não acessa o painel", () => {
+    expect(modulesForRoles(["partner"])).toHaveLength(0);
   });
 
   test("cliente sem papel de staff não acessa nada", () => {

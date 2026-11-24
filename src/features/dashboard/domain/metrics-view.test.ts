@@ -94,7 +94,7 @@ describe("buildMetricGroups", () => {
   });
 });
 
-const FINANCE_VIEW: DashboardMetrics = {
+const LEADS_HIDDEN_VIEW: DashboardMetrics = {
   ...empty,
   new_users: 5,
   leads_captured: null,
@@ -109,7 +109,7 @@ const FINANCE_VIEW: DashboardMetrics = {
   },
 };
 
-const OPERATOR_VIEW: DashboardMetrics = {
+const SPEND_HIDDEN_VIEW: DashboardMetrics = {
   ...empty,
   new_users: 5,
   leads_captured: 8,
@@ -124,8 +124,8 @@ const OPERATOR_VIEW: DashboardMetrics = {
 };
 
 describe("indicadores restritos por papel", () => {
-  test("financeiro: oculta leads e clientes, mantém gasto, sem tratar como 'sem dados'", () => {
-    const view = buildMetricGroups(FINANCE_VIEW);
+  test("payload sem leads e clientes: oculta esses cards, mantém gasto, sem tratar como 'sem dados'", () => {
+    const view = buildMetricGroups(LEADS_HIDDEN_VIEW);
     const keys = view.groups.flatMap((g) => g.cards.map((c) => c.key));
     expect(keys).not.toContain("leads_captured");
     expect(keys).not.toContain("new_customers");
@@ -139,8 +139,8 @@ describe("indicadores restritos por papel", () => {
     ]);
   });
 
-  test("operador: oculta gasto, CPL e CAC (não vira 'Necessita integração')", () => {
-    const view = buildMetricGroups(OPERATOR_VIEW);
+  test("payload sem gasto, CPL e CAC: oculta esses cards (não vira 'Necessita integração')", () => {
+    const view = buildMetricGroups(SPEND_HIDDEN_VIEW);
     const cards = view.groups.flatMap((g) => g.cards);
     const keys = cards.map((c) => c.key);
     expect(keys).not.toContain("marketing_spend");
@@ -153,7 +153,7 @@ describe("indicadores restritos por papel", () => {
   });
 
   test("valor restrito nulo não conta como atividade no período", () => {
-    expect(hasPeriodData({ ...FINANCE_VIEW, new_users: 0, marketing_spend: 0 })).toBe(false);
+    expect(hasPeriodData({ ...LEADS_HIDDEN_VIEW, new_users: 0, marketing_spend: 0 })).toBe(false);
   });
 
   test("sem restrições, nenhum rótulo restrito", () => {

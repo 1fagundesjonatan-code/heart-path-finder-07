@@ -1,22 +1,18 @@
 export const APP_ROLES = [
   "admin",
-  "operator",
-  "marketing",
-  "finance",
+  "collaborator",
   "partner",
   "client",
 ] as const;
 export type AppRole = (typeof APP_ROLES)[number];
 
 /** Papéis que acessam o painel administrativo (espelha is_staff() no banco). */
-export const STAFF_ROLES = ["admin", "operator", "marketing", "finance"] as const;
+export const STAFF_ROLES = ["admin", "collaborator"] as const;
 export type StaffRole = (typeof STAFF_ROLES)[number];
 
 export const ROLE_LABELS: Record<AppRole, string> = {
   admin: "Administrador",
-  operator: "Operador",
-  marketing: "Marketing",
-  finance: "Financeiro",
+  collaborator: "Colaborador",
   partner: "Profissional",
   client: "Cliente",
 };

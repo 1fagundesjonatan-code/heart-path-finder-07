@@ -903,7 +903,7 @@ export type Database = {
       is_staff: { Args: Record<PropertyKey, never>; Returns: boolean };
     };
     Enums: {
-      app_role: "admin" | "operator" | "marketing" | "finance" | "partner" | "client";
+      app_role: "admin" | "collaborator" | "partner" | "client";
       consent_type: "terms" | "privacy" | "marketing" | "ai_memory" | "enneagram_profile_share";
       crm_stage:
         | "visitor"
@@ -938,7 +938,7 @@ export type Enums<T extends keyof DefaultSchema["Enums"]> = DefaultSchema["Enums
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "operator", "marketing", "finance", "partner", "client"],
+      app_role: ["admin", "collaborator", "partner", "client"],
       consent_type: ["terms", "privacy", "marketing", "ai_memory", "enneagram_profile_share"],
       crm_stage: [
         "visitor",

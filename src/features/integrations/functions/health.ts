@@ -10,7 +10,7 @@ export type ServerHealth = {
 
 /** Verificação de conexão equivalente a `select 1` (RPC is_staff), sem expor chaves. */
 export const getServerHealth = createServerFn({ method: "GET" })
-  .middleware([requireRole(["admin", "finance"])])
+  .middleware([requireRole(["admin", "collaborator"])])
   .handler(async ({ context }): Promise<ServerHealth> => {
     const startedAt = Date.now();
     const { error } = await context.supabase.rpc("is_staff");

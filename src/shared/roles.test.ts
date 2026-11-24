@@ -9,12 +9,12 @@ describe("roles", () => {
   });
 
   test("qualquer papel de staff basta", () => {
-    expect(isStaff(["client", "marketing"])).toBe(true);
+    expect(isStaff(["client", "collaborator"])).toBe(true);
   });
 
   test("hasAnyRole respeita a lista permitida", () => {
-    expect(hasAnyRole(["operator"], ["admin"])).toBe(false);
-    expect(hasAnyRole(["operator"], ["admin", "operator"])).toBe(true);
+    expect(hasAnyRole(["collaborator"], ["admin"])).toBe(false);
+    expect(hasAnyRole(["collaborator"], ["admin", "collaborator"])).toBe(true);
   });
 
   test("isAppRole rejeita valores desconhecidos", () => {
