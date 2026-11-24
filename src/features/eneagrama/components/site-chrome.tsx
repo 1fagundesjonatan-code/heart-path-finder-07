@@ -1,10 +1,14 @@
+import { Link } from "@tanstack/react-router";
 import { NonDiagnosticNotice } from "./non-diagnostic-notice";
 
 export function SiteHeader() {
   return (
     <header className="border-b border-border/60">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
-        <div className="flex items-center gap-3">
+        <Link
+          to="/"
+          className="flex min-h-11 items-center gap-3 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground"
+        >
           <div
             aria-hidden="true"
             className="grid h-8 w-8 place-items-center rounded-full border border-foreground/30 font-serif text-sm font-semibold"
@@ -16,8 +20,9 @@ export function SiteHeader() {
               The Self Map
             </div>
             <div className="font-serif text-base">Eneagrama</div>
+            <span className="sr-only">, voltar ao início</span>
           </div>
-        </div>
+        </Link>
         <div className="hidden text-xs uppercase tracking-[0.18em] text-muted-foreground md:block">
           Autoconhecimento · 9 tipos
         </div>

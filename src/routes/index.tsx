@@ -1,22 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { EnneagramTest } from "@/features/eneagrama";
+import { LandingPage } from "@/features/landing";
+
+const TITLE = "The Self Map | Autoconhecimento com método";
+const DESCRIPTION =
+  "Comece com um teste de Eneagrama gratuito e continue com mentor de IA, tarefas, foco e profissionais de verdade. The Self Map, do The Self Institute.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Teste de Eneagrama — The Self Map" },
-      {
-        name: "description",
-        content:
-          "Um teste reflexivo de 162 afirmações para revelar seu tipo de eneagrama. Conduzido pelo The Self Map.",
-      },
-      { property: "og:title", content: "Teste de Eneagrama — The Self Map" },
-      {
-        property: "og:description",
-        content:
-          "162 afirmações em escala de 1 a 5 para mapear seu tipo, asas e direções de estresse e segurança.",
-      },
+      { title: TITLE },
+      { name: "description", content: DESCRIPTION },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESCRIPTION },
     ],
   }),
-  component: EnneagramTest,
+  component: LandingPage,
 });
