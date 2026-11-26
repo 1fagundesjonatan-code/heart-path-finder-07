@@ -30,17 +30,15 @@ function useStoryStep() {
   return { ref, step };
 }
 
-// Hero (celular em 3/4) passa o bastão pro celular frontal fixo em recursos.
+// Hero + recursos dividem um wrapper pra um celular só viajar entre os dois.
 export function ProductStory() {
   const { ref, step } = useStoryStep();
 
   return (
-    <div ref={ref}>
+    <div ref={ref} className="relative">
       <Hero />
-      <div className="relative">
-        <FeatureStory activeStep={step} />
-        <ScrollPhone screens={FEATURE_SCREENS} active={Math.max(step - 1, 0)} />
-      </div>
+      <FeatureStory activeStep={step} />
+      <ScrollPhone screens={FEATURE_SCREENS} active={Math.max(step - 1, 0)} />
     </div>
   );
 }

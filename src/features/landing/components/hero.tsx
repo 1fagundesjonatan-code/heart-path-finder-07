@@ -10,13 +10,11 @@ import { WaitlistCta } from "./waitlist-cta";
 const STAGGER_MS = 90;
 const enter = (step: number): CSSProperties => ({ animationDelay: `${step * STAGGER_MS}ms` });
 const MOTION_QUERY = "(prefers-reduced-motion: no-preference)";
-const DESKTOP_MOTION_QUERY = "(min-width: 1024px) and (prefers-reduced-motion: no-preference)";
 
-// Parallax das curvas de nível e saída do celular ao rolar pra fora do hero (só transform/opacity).
+// Parallax das curvas de nível. No desktop o celular é o do ScrollPhone (acompanha o scroll).
 function useHeroScroll() {
   const sectionRef = useRef<HTMLElement>(null);
   const linesRef = useRef<HTMLDivElement>(null);
-  const phoneRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -27,23 +25,15 @@ function useHeroScroll() {
     mm.add(MOTION_QUERY, () => {
       gsap.to(linesRef.current, { yPercent: 8, ease: "none", scrollTrigger: scrub });
     });
-    mm.add(DESKTOP_MOTION_QUERY, () => {
-      gsap.to(phoneRef.current, {
-        y: 160,
-        opacity: 0,
-        ease: "none",
-        scrollTrigger: { ...scrub, end: "bottom 35%" },
-      });
-    });
     return () => mm.revert();
   }, []);
 
-  return { sectionRef, linesRef, phoneRef };
+  return { sectionRef, linesRef };
 }
 
 // Full-bleed: o fundo topográfico passa por trás do header (margem negativa da altura dele).
 export function Hero() {
-  const { sectionRef, linesRef, phoneRef } = useHeroScroll();
+  const { sectionRef, linesRef } = useHeroScroll();
 
   return (
     <section
@@ -97,8 +87,8 @@ export function Hero() {
           </p>
         </div>
 
-        <div className="flex justify-center lg:col-span-6 lg:col-start-7 lg:items-center">
-          <div ref={phoneRef}>
+        <div className="flex justify-center lg:col-span-6 lg:col-start-7 lg:items-center lg:motion-safe:invisible">
+          <div>
             <div className="phone-intro">
               <div className="phone-float">
                 <AngledPhone
