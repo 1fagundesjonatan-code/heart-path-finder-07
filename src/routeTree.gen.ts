@@ -9,38 +9,149 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as EntrarRouteImport } from './routes/entrar'
+import { Route as EneagramaRouteImport } from './routes/eneagrama'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminIntegracoesRouteImport } from './routes/admin/integracoes'
+import { Route as AdminModuloRouteImport } from './routes/admin/$modulo'
+import { Route as AdminConfiguracoesUsuariosRouteImport } from './routes/admin/configuracoes/usuarios'
 
+const EntrarRoute = EntrarRouteImport.update({
+  id: '/entrar',
+  path: '/entrar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EneagramaRoute = EneagramaRouteImport.update({
+  id: '/eneagrama',
+  path: '/eneagrama',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminIntegracoesRoute = AdminIntegracoesRouteImport.update({
+  id: '/integracoes',
+  path: '/integracoes',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminModuloRoute = AdminModuloRouteImport.update({
+  id: '/$modulo',
+  path: '/$modulo',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminConfiguracoesUsuariosRoute =
+  AdminConfiguracoesUsuariosRouteImport.update({
+    id: '/configuracoes/usuarios',
+    path: '/configuracoes/usuarios',
+    getParentRoute: () => AdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/eneagrama': typeof EneagramaRoute
+  '/entrar': typeof EntrarRoute
+  '/admin/$modulo': typeof AdminModuloRoute
+  '/admin/integracoes': typeof AdminIntegracoesRoute
+  '/admin/': typeof AdminIndexRoute
+  '/admin/configuracoes/usuarios': typeof AdminConfiguracoesUsuariosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/eneagrama': typeof EneagramaRoute
+  '/entrar': typeof EntrarRoute
+  '/admin/$modulo': typeof AdminModuloRoute
+  '/admin/integracoes': typeof AdminIntegracoesRoute
+  '/admin': typeof AdminIndexRoute
+  '/admin/configuracoes/usuarios': typeof AdminConfiguracoesUsuariosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/eneagrama': typeof EneagramaRoute
+  '/entrar': typeof EntrarRoute
+  '/admin/$modulo': typeof AdminModuloRoute
+  '/admin/integracoes': typeof AdminIntegracoesRoute
+  '/admin/': typeof AdminIndexRoute
+  '/admin/configuracoes/usuarios': typeof AdminConfiguracoesUsuariosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/eneagrama'
+    | '/entrar'
+    | '/admin/$modulo'
+    | '/admin/integracoes'
+    | '/admin/'
+    | '/admin/configuracoes/usuarios'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/eneagrama'
+    | '/entrar'
+    | '/admin/$modulo'
+    | '/admin/integracoes'
+    | '/admin'
+    | '/admin/configuracoes/usuarios'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/eneagrama'
+    | '/entrar'
+    | '/admin/$modulo'
+    | '/admin/integracoes'
+    | '/admin/'
+    | '/admin/configuracoes/usuarios'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
+  EneagramaRoute: typeof EneagramaRoute
+  EntrarRoute: typeof EntrarRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/entrar': {
+      id: '/entrar'
+      path: '/entrar'
+      fullPath: '/entrar'
+      preLoaderRoute: typeof EntrarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/eneagrama': {
+      id: '/eneagrama'
+      path: '/eneagrama'
+      fullPath: '/eneagrama'
+      preLoaderRoute: typeof EneagramaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,12 +159,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/integracoes': {
+      id: '/admin/integracoes'
+      path: '/integracoes'
+      fullPath: '/admin/integracoes'
+      preLoaderRoute: typeof AdminIntegracoesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/$modulo': {
+      id: '/admin/$modulo'
+      path: '/$modulo'
+      fullPath: '/admin/$modulo'
+      preLoaderRoute: typeof AdminModuloRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/configuracoes/usuarios': {
+      id: '/admin/configuracoes/usuarios'
+      path: '/configuracoes/usuarios'
+      fullPath: '/admin/configuracoes/usuarios'
+      preLoaderRoute: typeof AdminConfiguracoesUsuariosRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminModuloRoute: typeof AdminModuloRoute
+  AdminIntegracoesRoute: typeof AdminIntegracoesRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminConfiguracoesUsuariosRoute: typeof AdminConfiguracoesUsuariosRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminModuloRoute: AdminModuloRoute,
+  AdminIntegracoesRoute: AdminIntegracoesRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  AdminConfiguracoesUsuariosRoute: AdminConfiguracoesUsuariosRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
+  EneagramaRoute: EneagramaRoute,
+  EntrarRoute: EntrarRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
