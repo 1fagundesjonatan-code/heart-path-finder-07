@@ -1,7 +1,7 @@
 import { finalCta } from "../content";
 import { textLinkClass } from "./cta-styles";
 import { EmphasisText } from "./section-header";
-import { TestCta } from "./test-cta";
+import { WaitlistCta } from "./waitlist-cta";
 
 export function FinalCta() {
   return (
@@ -15,7 +15,7 @@ export function FinalCta() {
         </h2>
         <p className="mt-6 text-lg tabular-nums md:text-xl">{finalCta.body}</p>
         <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
-          <TestCta size="lg" />
+          <WaitlistCta size="lg" />
           <a href="#planos" className={textLinkClass}>
             {finalCta.plansLink}
           </a>

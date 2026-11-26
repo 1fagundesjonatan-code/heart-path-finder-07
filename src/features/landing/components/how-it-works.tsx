@@ -2,7 +2,7 @@ import { howItWorks } from "../content";
 import { AppScreen } from "./app-screens";
 import { Reveal } from "./reveal";
 import { SectionHeader } from "./section-header";
-import { TestCta } from "./test-cta";
+import { WaitlistCta } from "./waitlist-cta";
 
 export function HowItWorks() {
   return (
@@ -50,7 +50,7 @@ export function HowItWorks() {
           ))}
         </ol>
 
-        <TestCta className="mt-16" />
+        <WaitlistCta className="mt-16" />
       </div>
     </section>
   );

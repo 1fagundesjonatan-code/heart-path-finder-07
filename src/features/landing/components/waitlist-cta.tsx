@@ -1,8 +1,7 @@
-import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import type { VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
-import { cta } from "../content";
+import { cta, WAITLIST_URL } from "../content";
 import { ctaVariants } from "./cta-styles";
 
 type Props = VariantProps<typeof ctaVariants> & {
@@ -11,10 +10,21 @@ type Props = VariantProps<typeof ctaVariants> & {
   withArrow?: boolean;
 };
 
-export function TestCta({ label = cta.primary, className, withArrow = true, ...variants }: Props) {
+export function WaitlistCta({
+  label = cta.primary,
+  className,
+  withArrow = true,
+  ...variants
+}: Props) {
   return (
-    <Link to="/eneagrama" className={cn(ctaVariants(variants), className)}>
+    <a
+      href={WAITLIST_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={cn(ctaVariants(variants), className)}
+    >
       {label}
+      <span className="sr-only"> (abre o WhatsApp em nova aba)</span>
       {withArrow && (
         <ArrowRight
           aria-hidden="true"
@@ -22,6 +32,6 @@ export function TestCta({ label = cta.primary, className, withArrow = true, ...v
           className="size-5 transition-transform duration-150 group-hover:translate-x-1 motion-reduce:transition-none"
         />
       )}
-    </Link>
+    </a>
   );
 }

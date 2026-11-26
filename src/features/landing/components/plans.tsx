@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { cn } from "@/lib/utils";
 import { plans, type BillingCycle } from "../content";
-import { ctaVariants } from "./cta-styles";
 import { SectionHeader } from "./section-header";
-import { TestCta } from "./test-cta";
+import { WaitlistCta } from "./waitlist-cta";
 
 function isBillingCycle(value: string): value is BillingCycle {
   return value === "monthly" || value === "yearly";
@@ -75,7 +73,7 @@ export function Plans() {
             <h3 className="font-serif text-[28px] leading-[1.15]">{free.name}</h3>
             <p className="mt-4 font-serif text-5xl tracking-[-0.03em] tabular-nums">{free.price}</p>
             <PlanList items={free.items} />
-            <TestCta className="mt-10" />
+            <WaitlistCta className="mt-10" />
           </div>
 
           <div className="section-ink rounded-2xl p-8 md:p-10 lg:col-span-7">
@@ -92,14 +90,7 @@ export function Plans() {
               </span>
             </p>
             <PlanList items={subscription.items} />
-            {/* Sem checkout ainda (pendência 1 da spec): botão desabilitado até existir. */}
-            <button
-              type="button"
-              disabled
-              className={cn(ctaVariants(), "mt-10 disabled:cursor-not-allowed disabled:opacity-60")}
-            >
-              {subscription.cta}
-            </button>
+            <WaitlistCta label={subscription.cta} className="mt-10" />
           </div>
         </div>
 

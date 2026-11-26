@@ -3,7 +3,7 @@ import { features } from "../content";
 import { PhoneMockup } from "./phone-mockup";
 import { SectionHeader } from "./section-header";
 import { StatusPill } from "./status-pill";
-import { TestCta } from "./test-cta";
+import { WaitlistCta } from "./waitlist-cta";
 
 type Props = { activeStep: number };
 
@@ -82,7 +82,7 @@ export function FeatureStory({ activeStep }: Props) {
           </ol>
         </div>
 
-        <TestCta label={features.closingCta} className="mt-16" />
+        <WaitlistCta label={features.closingCta} className="mt-16" />
       </div>
     </section>
   );

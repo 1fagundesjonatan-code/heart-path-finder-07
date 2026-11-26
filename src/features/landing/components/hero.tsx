@@ -5,7 +5,7 @@ import { hero } from "../content";
 import { AngledPhone } from "./angled-phone";
 import { textLinkClass } from "./cta-styles";
 import { EmphasisText, Eyebrow } from "./section-header";
-import { TestCta } from "./test-cta";
+import { WaitlistCta } from "./waitlist-cta";
 
 const STAGGER_MS = 90;
 const enter = (step: number): CSSProperties => ({ animationDelay: `${step * STAGGER_MS}ms` });
@@ -80,7 +80,7 @@ export function Hero() {
             style={enter(3)}
             className="hero-in mt-10 flex flex-wrap items-center gap-x-6 gap-y-3"
           >
-            <TestCta />
+            <WaitlistCta />
             <a href="#como-funciona" className={textLinkClass}>
               {hero.secondary}
             </a>

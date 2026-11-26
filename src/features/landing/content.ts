@@ -1,7 +1,8 @@
 // Toda a copy da landing. Textos entre colchetes são placeholders pendentes (ver
 // docs/design/landing-direction.md, seção 9) e bloqueiam a publicação via content.test.ts.
 
-export const TEST_ROUTE = "/eneagrama";
+// Pré-lançamento: todo CTA leva pro grupo da lista de espera no WhatsApp.
+export const WAITLIST_URL = "[link do grupo do WhatsApp]";
 
 export type Emphasized = { before: string; emphasis: string; after: string };
 export type FeatureStatus = "available" | "soon";
@@ -15,21 +16,20 @@ export const nav = [
 ] as const;
 
 export const cta = {
-  primary: "Fazer o teste gratuito",
-  compact: "Fazer o teste",
-  login: "Entrar",
+  primary: "Entrar na lista de espera",
+  compact: "Lista de espera",
 };
 
 export const hero = {
-  eyebrow: "Autoconhecimento com método",
+  eyebrow: "Lista de espera aberta",
   title: {
     before: "Entenda como você funciona. Depois, ",
     emphasis: "use isso",
     after: " no seu dia.",
   } satisfies Emphasized,
-  lead: "O The Self Map começa com um teste de Eneagrama gratuito e continua com um mentor de IA, tarefas, foco e, quando você quiser, profissionais de verdade.",
+  lead: "O The Self Map junta teste de Eneagrama, mentor de IA, tarefas e foco num app só. Entre no grupo da lista de espera e receba o acesso antes da abertura.",
   secondary: "Ver como funciona",
-  meta: ["162 afirmações", "de 15 a 25 minutos", "resultado na hora"],
+  meta: ["Grupo no WhatsApp", "acesso antecipado", "gratuito pra entrar"],
   notice: "Ferramenta de reflexão. Não é diagnóstico nem substitui acompanhamento profissional.",
 };
 
@@ -92,12 +92,12 @@ export type FeatureBlock = {
 export const features = {
   eyebrow: "O que tem dentro",
   title: "Um lugar só pro que você descobre e pro que você faz com isso.",
-  closingCta: "Começar pelo teste gratuito",
+  closingCta: "Quero acesso antecipado",
   blocks: [
     {
       id: "teste",
       name: "Teste de Eneagrama",
-      status: "available",
+      status: "soon",
       title: "Um teste que leva a sério o seu tempo.",
       body: "162 afirmações respondidas em escala de 1 a 5, com resultado completo: tipo, asas, direções de estresse e segurança e pontuação dos nove tipos.",
       items: ["Gratuito, sempre. [Confirmar]", "Resultado na hora, sem esperar e-mail."],
@@ -204,7 +204,7 @@ export const plans = {
       "Compartilhar o mapa com profissionais",
       "[Outros itens a definir]",
     ],
-    cta: "Assinar [texto final a definir]",
+    cta: "Garantir acesso antecipado",
   },
   note: "[Política de cancelamento e reembolso a definir.] Consultas com profissionais são cobradas à parte pelo valor de cada profissional.",
 };
@@ -213,10 +213,15 @@ export const faq = {
   title: "Perguntas frequentes",
   items: [
     {
-      id: "teste-gratuito",
-      question: "O teste é gratuito de verdade?",
+      id: "lista-de-espera",
+      question: "Como funciona a lista de espera?",
       answer:
-        "Sim. Você responde as 162 afirmações e vê o seu resultado completo sem pagar. [Confirmar se pede cadastro pra salvar o resultado.]",
+        "Você entra num grupo no WhatsApp. Lá avisamos primeiro quando o app abrir, e quem está no grupo recebe o acesso antes. Sair é só deixar o grupo.",
+    },
+    {
+      id: "teste-gratuito",
+      question: "O teste vai ser gratuito?",
+      answer: "Sim. O teste de Eneagrama completo, com o resultado, não vai ter custo.",
     },
     {
       id: "duracao",
@@ -263,11 +268,11 @@ export const faq = {
 
 export const finalCta = {
   title: {
-    before: "O mapa começa com uma pergunta. ",
-    emphasis: "Responda a primeira.",
+    before: "O mapa abre em breve. ",
+    emphasis: "Chegue primeiro.",
     after: "",
   } satisfies Emphasized,
-  body: "162 afirmações, de 15 a 25 minutos, gratuito.",
+  body: "Entre no grupo da lista de espera no WhatsApp e receba o acesso antes da abertura.",
   plansLink: "Ver planos",
 };
 
@@ -284,7 +289,7 @@ export const footer = {
     {
       title: "Produto",
       links: [
-        { label: "Teste", href: TEST_ROUTE },
+        { label: "Lista de espera", href: WAITLIST_URL },
         { label: "Recursos", href: "/#recursos" },
         { label: "Planos", href: "/#planos" },
         { label: "FAQ", href: "/#faq" },

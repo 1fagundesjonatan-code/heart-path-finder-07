@@ -4,8 +4,7 @@ import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { cta, nav } from "../content";
-import { ctaVariants } from "./cta-styles";
-import { TestCta } from "./test-cta";
+import { WaitlistCta } from "./waitlist-cta";
 
 const SCROLL_THRESHOLD = 24;
 
@@ -97,15 +96,8 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-1.5 sm:gap-2">
-          <Link
-            to="/entrar"
-            search={{ next: "/" }}
-            className={cn(ctaVariants({ variant: "ghost", size: "sm" }), "hidden lg:inline-flex")}
-          >
-            {cta.login}
-          </Link>
-          <TestCta size="sm" withArrow={false} label={cta.compact} className="xl:hidden" />
-          <TestCta size="sm" withArrow={false} className="hidden xl:inline-flex" />
+          <WaitlistCta size="sm" withArrow={false} label={cta.compact} className="xl:hidden" />
+          <WaitlistCta size="sm" withArrow={false} className="hidden xl:inline-flex" />
 
           <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
             <SheetTrigger
@@ -129,18 +121,9 @@ export function SiteHeader() {
                       </a>
                     </li>
                   ))}
-                  <li>
-                    <Link
-                      to="/entrar"
-                      search={{ next: "/" }}
-                      className="focus-ring flex min-h-14 items-center text-[28px] font-medium tracking-[-0.03em]"
-                    >
-                      {cta.login}
-                    </Link>
-                  </li>
                 </ul>
               </nav>
-              <TestCta className="mt-auto w-full" />
+              <WaitlistCta className="mt-auto w-full" />
             </SheetContent>
           </Sheet>
         </div>
