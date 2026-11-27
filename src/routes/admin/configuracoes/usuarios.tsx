@@ -5,7 +5,7 @@ import { canAccessModule, getModule } from "@/features/admin-shell/modules";
 import { UsersRolesTable } from "@/features/users/components/users-roles-table";
 
 export const Route = createFileRoute("/admin/configuracoes/usuarios")({
-  head: () => ({ meta: [{ title: "Usuários e papéis — THE SELF MAP" }] }),
+  head: () => ({ meta: [{ title: "Usuários e papéis | THE SELF MAP" }] }),
   component: UsersPage,
 });
 

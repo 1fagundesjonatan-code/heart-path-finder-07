@@ -9,7 +9,7 @@ export const Route = createFileRoute("/admin/$modulo")({
     if (!params.modulo || !getModuleBySlug(params.modulo)) throw notFound();
   },
   head: ({ params }) => ({
-    meta: [{ title: `${getModuleBySlug(params.modulo)?.label ?? "Módulo"} — THE SELF MAP` }],
+    meta: [{ title: `${getModuleBySlug(params.modulo)?.label ?? "Módulo"} | THE SELF MAP` }],
   }),
   component: ModulePage,
 });
