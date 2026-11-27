@@ -1,7 +1,7 @@
 import { howItWorks } from "../content";
-import { AppScreen } from "./app-screens";
 import { Reveal } from "./reveal";
 import { SectionHeader } from "./section-header";
+import { StepDemo } from "./step-demos";
 import { WaitlistCta } from "./waitlist-cta";
 
 export function HowItWorks() {
@@ -40,10 +40,8 @@ export function HowItWorks() {
                 <p className="mt-3 max-w-[62ch] text-pretty text-[17px] leading-[1.65] text-muted-foreground lg:text-lg">
                   {step.body}
                 </p>
-                <div className="mt-8 h-[280px] overflow-hidden rounded-xl border border-border bg-background">
-                  <div className="-mt-5 h-[560px]">
-                    <AppScreen id={step.screen} />
-                  </div>
+                <div className="mt-8">
+                  <StepDemo id={step.screen} />
                 </div>
               </Reveal>
             </li>

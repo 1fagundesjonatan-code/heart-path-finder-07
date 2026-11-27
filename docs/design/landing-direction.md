@@ -366,7 +366,7 @@ Fundo claro, `border-t`. Mobile: coluna única, desktop 4 colunas.
 - Coluna 3 Profissionais: Sou profissional, Diretório (se existir).
 - Coluna 4 Legal: Termos de uso, Política de privacidade (placeholders).
 - Faixa de segurança, visível e em destaque, antes do copyright: `Em crise ou com pensamentos de se machucar? Ligue 188 (CVV, 24 horas) ou procure o pronto atendimento mais próximo.` Link `tel:188`.
-- Faixa final: aviso de não diagnóstico (`NonDiagnosticNotice short`), `@theself.mp` (Instagram), `© ano`.
+- Faixa final: aviso de não diagnóstico (`NonDiagnosticNotice short`), `@theself.map` (Instagram), `© ano`.
 
 ---
 
@@ -436,7 +436,7 @@ Não usar: contagem regressiva, "restam X vagas", "N pessoas estão vendo isso a
 | 8 | Texto de método: de onde vem o teste de 162 afirmações, quem revisou, referências | Credibilidade da seção de ciência | 5.6 |
 | 9 | O teste exige cadastro pra salvar o resultado? Dá pra pausar e continuar? | Altera a copy do hero, do passo 01 e do FAQ | 5.2, 5.4, FAQ |
 | 10 | Existe vínculo entre tarefa e objetivo do mapa? A IA usa o resultado como contexto? | Copy de recursos promete isso | 5.5 |
-| 11 | Domínio, e-mail de contato e canais oficiais (Instagram `@theself.mp`, outros) | Footer e meta tags | 5.11 |
+| 11 | Domínio, e-mail de contato e canais oficiais (Instagram `@theself.map`, outros) | Footer e meta tags | 5.11 |
 | 12 | Formulário de profissionais: pra onde vai (lista de espera, CRM, e-mail) | CTA da seção profissional | 5.7 |
 | 13 | Autorização pra usar o nome The Self Institute e o Jonatan no rodapé e na seção de método | Marca e direito de imagem | 5.11 |
 

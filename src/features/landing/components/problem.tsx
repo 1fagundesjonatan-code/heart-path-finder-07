@@ -1,11 +1,13 @@
 import { problem } from "../content";
+import { InkCardBackground } from "./ink-card-background";
 import { Reveal } from "./reveal";
 import { SectionHeader } from "./section-header";
 
 export function Problem() {
   return (
     <section aria-labelledby="problem-title" className="section-container py-2 md:py-3">
-      <div className="section-ink rounded-[2rem] px-6 md:px-12 lg:rounded-[2.5rem] lg:px-16 grid gap-y-12 py-16 md:py-24 lg:grid-cols-12 lg:gap-x-8 lg:py-28">
+      <div className="section-ink relative isolate overflow-clip rounded-[2rem] px-6 md:px-12 lg:rounded-[2.5rem] lg:px-16 grid gap-y-12 py-16 md:py-24 lg:grid-cols-12 lg:gap-x-8 lg:py-28">
+        <InkCardBackground />
         <div className="lg:col-span-5">
           <SectionHeader
             id="problem-title"

@@ -67,7 +67,7 @@ export function SiteHeader() {
           "transition-[max-width,width,height,padding,translate,background-color,border-color,border-radius,box-shadow] duration-300 ease-[cubic-bezier(0.2,0.7,0.2,1)] motion-reduce:transition-none",
           scrolled
             ? "h-14 w-[calc(100%-1.5rem)] max-w-[1040px] translate-y-3 rounded-full border-border bg-background/90 pl-5 pr-1.5 shadow-[0_1px_2px_oklch(0.14_0_0/6%),0_12px_32px_-12px_oklch(0.14_0_0/24%)] backdrop-blur-md backdrop-saturate-150 lg:pl-6"
-            : "h-16 w-full max-w-7xl translate-y-0 rounded-none border-transparent bg-transparent px-5 md:px-8 lg:h-[72px] lg:px-12",
+            : "h-16 w-full max-w-[110rem] translate-y-0 rounded-none border-transparent bg-transparent text-background [&_.focus-ring:focus-visible]:outline-[var(--gold-light)] px-5 md:px-8 lg:h-[72px] lg:px-12 xl:px-16",
         )}
       >
         <Logo />
@@ -79,7 +79,12 @@ export function SiteHeader() {
                 <a
                   href={`#${item.id}`}
                   aria-current={active === item.id ? "location" : undefined}
-                  className="focus-ring relative inline-flex min-h-11 items-center rounded-full px-3 text-[15px] text-foreground/70 transition-colors duration-150 hover:text-foreground aria-[current=location]:text-foreground"
+                  className={cn(
+                    "focus-ring relative inline-flex min-h-11 items-center rounded-full px-3 text-[15px] transition-colors duration-150",
+                    scrolled
+                      ? "text-foreground/70 hover:text-foreground aria-[current=location]:text-foreground"
+                      : "text-background/75 hover:text-background aria-[current=location]:text-background",
+                  )}
                 >
                   {item.label}
                   <span
@@ -96,12 +101,15 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-1.5 sm:gap-2">
-          <WaitlistCta size="sm" withArrow={false} label={cta.compact} className="xl:hidden" />
-          <WaitlistCta size="sm" withArrow={false} className="hidden xl:inline-flex" />
+          <WaitlistCta size="sm" label={cta.compact} className="xl:hidden" />
+          <WaitlistCta size="sm" className="hidden xl:inline-flex" />
 
           <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
             <SheetTrigger
-              className="focus-ring grid size-11 cursor-pointer place-items-center rounded-full transition-colors duration-150 hover:bg-foreground/5 lg:hidden"
+              className={cn(
+                "focus-ring grid size-11 cursor-pointer place-items-center rounded-full transition-colors duration-150 lg:hidden",
+                scrolled ? "hover:bg-foreground/5" : "hover:bg-background/10",
+              )}
               aria-label="Abrir menu"
             >
               <Menu aria-hidden="true" strokeWidth={1.5} className="size-5" />
