@@ -33,7 +33,13 @@ export function LoginForm({ next }: { next: string }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
+    <form
+      // POST: submit antes da hidratacao nao pode por a senha na URL.
+      method="post"
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+      className="space-y-6"
+    >
       <div className="space-y-2">
         <Label htmlFor="email">E-mail</Label>
         <Input
