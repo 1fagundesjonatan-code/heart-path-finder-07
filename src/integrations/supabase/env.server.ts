@@ -3,7 +3,7 @@ import { parseEnv, readPublicEnv, type SupabasePublicEnv } from "./env";
 
 const serviceRoleSchema = z.object({ SUPABASE_SERVICE_ROLE_KEY: z.string().min(20) });
 
-function readRaw(name: string): string | undefined {
+export function readRaw(name: string): string | undefined {
   const fromProcess = typeof process !== "undefined" ? process.env?.[name] : undefined;
   if (fromProcess) return fromProcess;
   const fromImportMeta = (import.meta.env as Record<string, string | undefined>)[name];

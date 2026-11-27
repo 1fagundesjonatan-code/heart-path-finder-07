@@ -1,23 +1,26 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { forwardRef } from "react";
-import { LogOut } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarRail,
 } from "@/components/ui/sidebar";
 import type { AuthUser } from "@/features/auth/types";
 import type { ModuleStatus } from "@/shared/module-status";
-import { ROLE_LABELS, type AppRole } from "@/shared/roles";
-import type { AdminModule } from "../modules";
+import type { AppRole } from "@/shared/roles";
+import "../admin-scroll.css";
+import { useScrollFade } from "./use-scroll-fade";
+import { NavUser } from "./admin-account-menu";
+import { BrandMark } from "./brand-mark";
+import { groupModules, type AdminModule } from "../modules";
 
 const SHORT_STATUS: Record<ModuleStatus, string> = {
   Implementado: "Pronto",
@@ -75,78 +78,69 @@ type Props = {
 
 export function AdminSidebar({ modules, user, roles, onSignOut }: Props) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const sections = groupModules(modules);
+  const scrollRef = useScrollFade<HTMLDivElement>();
 
   return (
-    <Sidebar collapsible="icon">
-      <SidebarHeader className="border-b border-sidebar-border px-4 py-5">
-        <div className="flex items-center gap-3">
-          <div className="min-w-0 leading-tight group-data-[collapsible=icon]:hidden">
-            <div className="text-[15px] font-semibold tracking-[-0.03em] text-sidebar-accent-foreground">
-              The Self Map
-            </div>
-            <div className="text-[10px] uppercase tracking-[0.22em] text-sidebar-foreground/70">
-              Administration
-            </div>
-          </div>
-        </div>
+    <Sidebar variant="inset" collapsible="icon">
+      <SidebarHeader className="h-14 justify-center px-4 py-0 group-data-[collapsible=icon]:px-2">
+        <BrandMark className="size-8 shrink-0 text-sidebar-primary" />
       </SidebarHeader>
 
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <nav aria-label="Módulos do painel">
-              <SidebarMenu>
-                {modules.map((module) => {
-                  const Icon = module.icon;
-                  const active = isActive(pathname, module);
-                  return (
-                    <SidebarMenuItem key={module.id}>
-                      <SidebarMenuButton
-                        asChild
-                        isActive={active}
-                        tooltip={`${module.label} · ${module.status}`}
-                        className="data-[active=true]:font-medium data-[active=true]:shadow-[inset_2px_0_0_var(--sidebar-primary)]"
-                      >
-                        <ModuleNavLink module={module}>
-                          <Icon aria-hidden="true" />
-                          <span>{module.label}</span>
-                        </ModuleNavLink>
-                      </SidebarMenuButton>
-                      <SidebarMenuBadge
-                        title={module.status}
-                        className="text-[10px] uppercase tracking-[0.08em] text-sidebar-foreground/60"
-                      >
-                        <span aria-hidden="true">{SHORT_STATUS[module.status]}</span>
-                        <span className="sr-only">{module.status}</span>
-                      </SidebarMenuBadge>
-                    </SidebarMenuItem>
-                  );
-                })}
-              </SidebarMenu>
-            </nav>
-          </SidebarGroupContent>
-        </SidebarGroup>
+      <SidebarContent ref={scrollRef} className="admin-nav-scroll">
+        <nav aria-label="Módulos do painel">
+          {sections.map((section) => {
+            const headingId = `admin-nav-group-${section.id}`;
+            return (
+              <SidebarGroup key={section.id}>
+                <SidebarGroupLabel
+                  asChild
+                  className="text-[10px] font-medium uppercase tracking-[0.18em] text-sidebar-foreground/60"
+                >
+                  <h2 id={headingId}>{section.label}</h2>
+                </SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <SidebarMenu aria-labelledby={headingId}>
+                    {section.modules.map((module) => {
+                      const Icon = module.icon;
+                      const active = isActive(pathname, module);
+                      return (
+                        <SidebarMenuItem key={module.id}>
+                          <SidebarMenuButton
+                            asChild
+                            isActive={active}
+                            tooltip={`${module.label} · ${module.status}`}
+                            className="data-[active=true]:font-medium data-[active=true]:shadow-[inset_2px_0_0_var(--sidebar-primary)]"
+                          >
+                            <ModuleNavLink
+                              module={module}
+                              aria-current={active ? "page" : undefined}
+                            >
+                              <Icon aria-hidden="true" />
+                              <span>{module.label}</span>
+                            </ModuleNavLink>
+                          </SidebarMenuButton>
+                          <SidebarMenuBadge
+                            title={module.status}
+                            className="text-[10px] uppercase tracking-[0.08em] text-sidebar-foreground/60"
+                          >
+                            <span aria-hidden="true">{SHORT_STATUS[module.status]}</span>
+                            <span className="sr-only">{module.status}</span>
+                          </SidebarMenuBadge>
+                        </SidebarMenuItem>
+                      );
+                    })}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </SidebarGroup>
+            );
+          })}
+        </nav>
       </SidebarContent>
 
       <SidebarFooter className="border-t border-sidebar-border">
-        <div className="px-2 py-1 group-data-[collapsible=icon]:hidden">
-          <div className="truncate text-xs text-sidebar-accent-foreground">
-            {user.email ?? "Usuário"}
-          </div>
-          <div className="mt-0.5 truncate text-[10px] uppercase tracking-[0.18em] text-sidebar-foreground/60">
-            {roles.map((r) => ROLE_LABELS[r]).join(" · ")}
-          </div>
-        </div>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton onClick={onSignOut} tooltip="Sair">
-              <LogOut aria-hidden="true" />
-              <span>Sair</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <NavUser user={user} roles={roles} onSignOut={onSignOut} />
       </SidebarFooter>
-      <SidebarRail />
     </Sidebar>
   );
 }

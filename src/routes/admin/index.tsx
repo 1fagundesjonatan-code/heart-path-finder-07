@@ -6,7 +6,7 @@ import { StatusBadge } from "@/features/admin-shell/components/status-badge";
 import { DashboardView } from "@/features/dashboard/components/dashboard-view";
 
 export const Route = createFileRoute("/admin/")({
-  head: () => ({ meta: [{ title: "Dashboard — THE SELF MAP" }] }),
+  head: () => ({ meta: [{ title: "Dashboard | THE SELF MAP" }] }),
   component: DashboardPage,
 });
 

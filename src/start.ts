@@ -19,7 +19,7 @@ const errorMiddleware = createMiddleware().server(async ({ next }) => {
 });
 
 /** Áreas autenticadas: nunca em cache e nunca dentro de iframe de outro site (clickjacking). */
-const PROTECTED_PREFIXES = ["/admin", "/entrar", "/_serverFn"] as const;
+const PROTECTED_PREFIXES = ["/admin", "/entrar", "/_serverFn", "/api"] as const;
 
 const securityHeadersMiddleware = createMiddleware().server(async ({ next, pathname }) => {
   if (

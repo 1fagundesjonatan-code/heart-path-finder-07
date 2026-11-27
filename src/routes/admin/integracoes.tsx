@@ -5,7 +5,7 @@ import { canAccessModule, getModule } from "@/features/admin-shell/modules";
 import { SupabaseHealthPanel } from "@/features/integrations/components/supabase-health-panel";
 
 export const Route = createFileRoute("/admin/integracoes")({
-  head: () => ({ meta: [{ title: "Integrações — THE SELF MAP" }] }),
+  head: () => ({ meta: [{ title: "Integrações | THE SELF MAP" }] }),
   component: IntegrationsPage,
 });
 

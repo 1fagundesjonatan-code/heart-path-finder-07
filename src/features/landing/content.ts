@@ -11,7 +11,7 @@ export type ScreenId = "result" | "quiz" | "chat" | "kanban" | "pomodoro" | "pro
 export const nav = [
   { id: "recursos", label: "Recursos" },
   { id: "como-funciona", label: "Como funciona" },
-  { id: "planos", label: "Planos" },
+  { id: "lancamento", label: "Lançamento" },
   { id: "faq", label: "FAQ" },
 ] as const;
 
@@ -25,7 +25,7 @@ export const hero = {
   title: {
     before: "Entenda como você funciona. Depois, ",
     emphasis: "use isso",
-    after: " no seu dia.",
+    after: " no seu dia a dia.",
   } satisfies Emphasized,
   lead: "O The Self Map junta teste de Eneagrama, mentor de IA, tarefas e foco num app só. Entre no grupo da lista de espera e receba o acesso antes da abertura.",
   secondary: "Ver como funciona",
@@ -174,43 +174,25 @@ export const privacy = {
   policyLink: "Ler a política de privacidade",
 };
 
-export type BillingCycle = "monthly" | "yearly";
-
-export const plans = {
-  eyebrow: "Planos",
-  title: "Comece grátis. Assine quando fizer sentido.",
-  billingLabel: "Cobrança",
-  cycles: [
-    { value: "monthly", label: "Mensal" },
-    { value: "yearly", label: "Anual" },
-  ] satisfies { value: BillingCycle; label: string }[],
-  free: {
-    name: "Gratuito",
-    price: "R$ 0",
-    items: [
-      "Teste de Eneagrama completo",
-      "Resultado com tipo, asas e direções",
-      "[Limite de uso do chat de IA, a definir]",
-    ],
-  },
-  subscription: {
-    name: "Assinatura",
-    price: { monthly: "[R$ XX]", yearly: "[R$ XX]" } satisfies Record<BillingCycle, string>,
-    period: { monthly: "/mês", yearly: "/ano" } satisfies Record<BillingCycle, string>,
-    items: [
-      "Mentor de IA com o seu mapa como contexto [limites a definir]",
-      "Tarefas em kanban",
-      "Foco com pomodoro",
-      "Compartilhar o mapa com profissionais",
-      "[Outros itens a definir]",
-    ],
-    cta: "Garantir acesso antecipado",
-  },
-  note: "[Política de cancelamento e reembolso a definir.] Consultas com profissionais são cobradas à parte pelo valor de cada profissional.",
+export const launch = {
+  eyebrow: "Em breve",
+  title: "O app ainda não abriu. Quem está na lista entra primeiro.",
+  lead: "Estamos finalizando o The Self Map. Quem entra no grupo da lista de espera no WhatsApp recebe o acesso antes da abertura e é avisado primeiro a cada novidade.",
+  itemsTitle: "O que chega no lançamento",
+  items: [
+    "Teste de Eneagrama completo, com tipo, asas e direções",
+    "Mentor de IA com o seu mapa como contexto",
+    "Tarefas em kanban",
+    "Foco com pomodoro",
+    "Compartilhar o mapa com profissionais",
+  ],
+  cta: "Garantir acesso antecipado",
 };
 
 export const faq = {
   title: "Perguntas frequentes",
+  intro:
+    "Ainda com dúvida? Entre no grupo da lista de espera: é por lá que avisamos tudo primeiro.",
   items: [
     {
       id: "lista-de-espera",
@@ -273,7 +255,7 @@ export const finalCta = {
     after: "",
   } satisfies Emphasized,
   body: "Entre no grupo da lista de espera no WhatsApp e receba o acesso antes da abertura.",
-  plansLink: "Ver planos",
+  launchLink: "Ver o que chega no lançamento",
 };
 
 // shortcut: rotas legais ainda não existem (pendência 7).
@@ -291,7 +273,7 @@ export const footer = {
       links: [
         { label: "Lista de espera", href: WAITLIST_URL },
         { label: "Recursos", href: "/#recursos" },
-        { label: "Planos", href: "/#planos" },
+        { label: "Lançamento", href: "/#lancamento" },
         { label: "FAQ", href: "/#faq" },
       ],
     },
@@ -308,7 +290,7 @@ export const footer = {
     action: "Ligue 188",
     rest: "(CVV, 24 horas) ou procure o pronto atendimento mais próximo.",
   },
-  instagram: { handle: "@theself.mp", href: "https://www.instagram.com/theself.mp/" },
+  instagram: { handle: "@theself.map", href: "https://www.instagram.com/theself.map/" },
 };
 
 export const landingContent = {
@@ -319,7 +301,7 @@ export const landingContent = {
   howItWorks,
   features,
   privacy,
-  plans,
+  launch,
   faq,
   finalCta,
   footer,

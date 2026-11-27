@@ -13,7 +13,7 @@ export const Route = createFileRoute("/entrar")({
     return { auth };
   },
   head: () => ({
-    meta: [{ title: "Entrar — The Self Map" }, { name: "robots", content: "noindex, nofollow" }],
+    meta: [{ title: "Entrar | The Self Map" }, { name: "robots", content: "noindex, nofollow" }],
   }),
   component: LoginPage,
 });

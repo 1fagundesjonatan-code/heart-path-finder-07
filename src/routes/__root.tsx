@@ -79,13 +79,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Teste de Eneagrama — The Self Map" },
+      { title: "Teste de Eneagrama | The Self Map" },
       {
         name: "description",
         content:
           "Descubra seu tipo de eneagrama em um teste reflexivo com 162 afirmações. The Self Map.",
       },
-      { property: "og:title", content: "Teste de Eneagrama — The Self Map" },
+      { property: "og:title", content: "Teste de Eneagrama | The Self Map" },
       {
         property: "og:description",
         content:

@@ -40,6 +40,203 @@ export type Database = {
         };
         Relationships: [];
       };
+      ai_agent_versions: {
+        Row: {
+          created_at: string;
+          created_by: string | null;
+          id: number;
+          knowledge_enabled: boolean;
+          label: string | null;
+          max_output_tokens: number;
+          model: string;
+          persona: string;
+          published_at: string | null;
+          published_by: string | null;
+          status: string;
+          type_guides: NonNullable<Json>;
+          updated_at: string;
+          version: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          created_by?: string | null;
+          id?: never;
+          knowledge_enabled?: boolean;
+          label?: string | null;
+          max_output_tokens?: number;
+          model: string;
+          persona: string;
+          published_at?: string | null;
+          published_by?: string | null;
+          status?: string;
+          type_guides?: NonNullable<Json>;
+          updated_at?: string;
+          version: number;
+        };
+        Update: {
+          created_at?: string;
+          created_by?: string | null;
+          id?: never;
+          knowledge_enabled?: boolean;
+          label?: string | null;
+          max_output_tokens?: number;
+          model?: string;
+          persona?: string;
+          published_at?: string | null;
+          published_by?: string | null;
+          status?: string;
+          type_guides?: NonNullable<Json>;
+          updated_at?: string;
+          version?: number;
+        };
+        Relationships: [];
+      };
+      ai_conversations: {
+        Row: {
+          agent_version_id: number;
+          channel: string;
+          created_at: string;
+          id: string;
+          last_message_at: string;
+          simulated_type: number | null;
+          title: string | null;
+          user_id: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          agent_version_id: number;
+          channel: string;
+          created_at?: string;
+          id?: string;
+          last_message_at?: string;
+          simulated_type?: number | null;
+          title?: string | null;
+          user_id: string;
+        };
+        Update: {
+          agent_version_id?: number;
+          channel?: string;
+          created_at?: string;
+          id?: string;
+          last_message_at?: string;
+          simulated_type?: number | null;
+          title?: string | null;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "ai_conversations_agent_version_id_fkey";
+            columns: ["agent_version_id"];
+            isOneToOne: false;
+            referencedRelation: "ai_agent_versions";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      ai_messages: {
+        Row: {
+          conversation_id: string;
+          created_at: string;
+          id: string;
+          parts: NonNullable<Json>;
+          role: string;
+          seq: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          conversation_id: string;
+          created_at?: string;
+          id: string;
+          parts: NonNullable<Json>;
+          role: string;
+          seq?: never;
+        };
+        Update: {
+          conversation_id?: string;
+          created_at?: string;
+          id?: string;
+          parts?: NonNullable<Json>;
+          role?: string;
+          seq?: never;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "ai_messages_conversation_id_fkey";
+            columns: ["conversation_id"];
+            isOneToOne: false;
+            referencedRelation: "ai_conversations";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      ai_usage: {
+        Row: {
+          agent_version_id: number | null;
+          at: string;
+          cached_input_tokens: number;
+          conversation_id: string | null;
+          crisis_detected: boolean;
+          error_code: string | null;
+          feature: string;
+          id: number;
+          input_tokens: number;
+          latency_ms: number | null;
+          model: string;
+          output_tokens: number;
+          status: string;
+          user_id: string | null;
+        };
+        ComputedFields: never;
+        Insert: {
+          agent_version_id?: number | null;
+          at?: string;
+          cached_input_tokens?: number;
+          conversation_id?: string | null;
+          crisis_detected?: boolean;
+          error_code?: string | null;
+          feature: string;
+          id?: never;
+          input_tokens?: number;
+          latency_ms?: number | null;
+          model: string;
+          output_tokens?: number;
+          status: string;
+          user_id?: string | null;
+        };
+        Update: {
+          agent_version_id?: number | null;
+          at?: string;
+          cached_input_tokens?: number;
+          conversation_id?: string | null;
+          crisis_detected?: boolean;
+          error_code?: string | null;
+          feature?: string;
+          id?: never;
+          input_tokens?: number;
+          latency_ms?: number | null;
+          model?: string;
+          output_tokens?: number;
+          status?: string;
+          user_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "ai_usage_agent_version_id_fkey";
+            columns: ["agent_version_id"];
+            isOneToOne: false;
+            referencedRelation: "ai_agent_versions";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "ai_usage_conversation_id_fkey";
+            columns: ["conversation_id"];
+            isOneToOne: false;
+            referencedRelation: "ai_conversations";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       assessment_results: {
         Row: {
           assessment_id: number;
@@ -768,6 +965,61 @@ export type Database = {
         };
         Relationships: [];
       };
+      professionals: {
+        Row: {
+          bio: string | null;
+          created_at: string;
+          full_name: string;
+          invite_accepted_at: string | null;
+          invited_by: string | null;
+          registry_council: string;
+          registry_number: string;
+          registry_state: string;
+          specialties: string[];
+          updated_at: string;
+          user_id: string;
+          verification_note: string | null;
+          verification_status: string;
+          verified_at: string | null;
+          verified_by: string | null;
+        };
+        ComputedFields: never;
+        Insert: {
+          bio?: string | null;
+          created_at?: string;
+          full_name: string;
+          invite_accepted_at?: string | null;
+          invited_by?: string | null;
+          registry_council: string;
+          registry_number: string;
+          registry_state: string;
+          specialties?: string[];
+          updated_at?: string;
+          user_id: string;
+          verification_note?: string | null;
+          verification_status?: string;
+          verified_at?: string | null;
+          verified_by?: string | null;
+        };
+        Update: {
+          bio?: string | null;
+          created_at?: string;
+          full_name?: string;
+          invite_accepted_at?: string | null;
+          invited_by?: string | null;
+          registry_council?: string;
+          registry_number?: string;
+          registry_state?: string;
+          specialties?: string[];
+          updated_at?: string;
+          user_id?: string;
+          verification_note?: string | null;
+          verification_status?: string;
+          verified_at?: string | null;
+          verified_by?: string | null;
+        };
+        Relationships: [];
+      };
       profiles: {
         Row: {
           avatar_url: string | null;
@@ -851,6 +1103,17 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      admin_client_ai_summary: {
+        Args: { p_user_id: string };
+        Returns: {
+          conversations: number;
+          input_tokens: number;
+          last_activity_at: string;
+          messages: number;
+          output_tokens: number;
+        }[];
+      };
+      admin_client_detail: { Args: { p_user_id: string }; Returns: Json };
       admin_dashboard_metrics: {
         Args: { p_active_window_days?: number; p_currency?: string; p_from: string; p_to: string };
         Returns: Json;
@@ -865,12 +1128,85 @@ export type Database = {
           unique_actors: number;
         }[];
       };
+      admin_list_clients: {
+        Args: { p_after?: number; p_limit?: number; p_search?: string };
+        Returns: {
+          assessment_completed_at: string;
+          contact_id: number;
+          created_at: string;
+          email: string;
+          full_name: string;
+          phone: string;
+          primary_type: string;
+          stage: Database["public"]["Enums"]["crm_stage"];
+          user_id: string;
+        }[];
+      };
       admin_new_users_series: {
         Args: { p_bucket?: string; p_from: string; p_to: string };
         Returns: {
           bucket_start: string;
           new_users: number;
         }[];
+      };
+      admin_register_professional: {
+        Args: {
+          p_bio?: string;
+          p_full_name: string;
+          p_registry_council: string;
+          p_registry_number: string;
+          p_registry_state: string;
+          p_specialties?: string[];
+          p_user_id: string;
+        };
+        Returns: {
+          bio: string | null;
+          created_at: string;
+          full_name: string;
+          invite_accepted_at: string | null;
+          invited_by: string | null;
+          registry_council: string;
+          registry_number: string;
+          registry_state: string;
+          specialties: string[];
+          updated_at: string;
+          user_id: string;
+          verification_note: string | null;
+          verification_status: string;
+          verified_at: string | null;
+          verified_by: string | null;
+        };
+        SetofOptions: {
+          from: "*";
+          to: "professionals";
+          isOneToOne: true;
+          isSetofReturn: false;
+        };
+      };
+      ai_publish_agent_version: {
+        Args: { p_version_id: number };
+        Returns: {
+          created_at: string;
+          created_by: string | null;
+          id: number;
+          knowledge_enabled: boolean;
+          label: string | null;
+          max_output_tokens: number;
+          model: string;
+          persona: string;
+          published_at: string | null;
+          published_by: string | null;
+          status: string;
+          type_guides: NonNullable<Json>;
+          updated_at: string;
+          version: number;
+        };
+        SetofOptions: {
+          from: "*";
+          to: "ai_agent_versions";
+          isOneToOne: true;
+          isSetofReturn: false;
+        };
       };
       assert_json_object: {
         Args: { p_label: string; p_max_bytes: number; p_value: Json };

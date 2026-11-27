@@ -14,9 +14,15 @@ import { Route as EneagramaRouteImport } from './routes/eneagrama'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as AdminTheSelfAiRouteImport } from './routes/admin/the-self-ai'
 import { Route as AdminIntegracoesRouteImport } from './routes/admin/integracoes'
+import { Route as AdminChatRouteImport } from './routes/admin/chat'
 import { Route as AdminModuloRouteImport } from './routes/admin/$modulo'
+import { Route as AdminProfissionaisIndexRouteImport } from './routes/admin/profissionais/index'
+import { Route as AdminClientesIndexRouteImport } from './routes/admin/clientes/index'
 import { Route as AdminConfiguracoesUsuariosRouteImport } from './routes/admin/configuracoes/usuarios'
+import { Route as AdminClientesIdRouteImport } from './routes/admin/clientes/$id'
 
 const EntrarRoute = EntrarRouteImport.update({
   id: '/entrar',
@@ -43,14 +49,39 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminTheSelfAiRoute = AdminTheSelfAiRouteImport.update({
+  id: '/the-self-ai',
+  path: '/the-self-ai',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminIntegracoesRoute = AdminIntegracoesRouteImport.update({
   id: '/integracoes',
   path: '/integracoes',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminChatRoute = AdminChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminModuloRoute = AdminModuloRouteImport.update({
   id: '/$modulo',
   path: '/$modulo',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProfissionaisIndexRoute = AdminProfissionaisIndexRouteImport.update({
+  id: '/profissionais/',
+  path: '/profissionais/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminClientesIndexRoute = AdminClientesIndexRouteImport.update({
+  id: '/clientes/',
+  path: '/clientes/',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminConfiguracoesUsuariosRoute =
@@ -59,6 +90,11 @@ const AdminConfiguracoesUsuariosRoute =
     path: '/configuracoes/usuarios',
     getParentRoute: () => AdminRoute,
   } as any)
+const AdminClientesIdRoute = AdminClientesIdRouteImport.update({
+  id: '/clientes/$id',
+  path: '/clientes/$id',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -66,18 +102,30 @@ export interface FileRoutesByFullPath {
   '/eneagrama': typeof EneagramaRoute
   '/entrar': typeof EntrarRoute
   '/admin/$modulo': typeof AdminModuloRoute
+  '/admin/chat': typeof AdminChatRoute
   '/admin/integracoes': typeof AdminIntegracoesRoute
+  '/admin/the-self-ai': typeof AdminTheSelfAiRoute
+  '/api/chat': typeof ApiChatRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/clientes/$id': typeof AdminClientesIdRoute
   '/admin/configuracoes/usuarios': typeof AdminConfiguracoesUsuariosRoute
+  '/admin/clientes/': typeof AdminClientesIndexRoute
+  '/admin/profissionais/': typeof AdminProfissionaisIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/eneagrama': typeof EneagramaRoute
   '/entrar': typeof EntrarRoute
   '/admin/$modulo': typeof AdminModuloRoute
+  '/admin/chat': typeof AdminChatRoute
   '/admin/integracoes': typeof AdminIntegracoesRoute
+  '/admin/the-self-ai': typeof AdminTheSelfAiRoute
+  '/api/chat': typeof ApiChatRoute
   '/admin': typeof AdminIndexRoute
+  '/admin/clientes/$id': typeof AdminClientesIdRoute
   '/admin/configuracoes/usuarios': typeof AdminConfiguracoesUsuariosRoute
+  '/admin/clientes': typeof AdminClientesIndexRoute
+  '/admin/profissionais': typeof AdminProfissionaisIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -86,9 +134,15 @@ export interface FileRoutesById {
   '/eneagrama': typeof EneagramaRoute
   '/entrar': typeof EntrarRoute
   '/admin/$modulo': typeof AdminModuloRoute
+  '/admin/chat': typeof AdminChatRoute
   '/admin/integracoes': typeof AdminIntegracoesRoute
+  '/admin/the-self-ai': typeof AdminTheSelfAiRoute
+  '/api/chat': typeof ApiChatRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/clientes/$id': typeof AdminClientesIdRoute
   '/admin/configuracoes/usuarios': typeof AdminConfiguracoesUsuariosRoute
+  '/admin/clientes/': typeof AdminClientesIndexRoute
+  '/admin/profissionais/': typeof AdminProfissionaisIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -98,18 +152,30 @@ export interface FileRouteTypes {
     | '/eneagrama'
     | '/entrar'
     | '/admin/$modulo'
+    | '/admin/chat'
     | '/admin/integracoes'
+    | '/admin/the-self-ai'
+    | '/api/chat'
     | '/admin/'
+    | '/admin/clientes/$id'
     | '/admin/configuracoes/usuarios'
+    | '/admin/clientes/'
+    | '/admin/profissionais/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/eneagrama'
     | '/entrar'
     | '/admin/$modulo'
+    | '/admin/chat'
     | '/admin/integracoes'
+    | '/admin/the-self-ai'
+    | '/api/chat'
     | '/admin'
+    | '/admin/clientes/$id'
     | '/admin/configuracoes/usuarios'
+    | '/admin/clientes'
+    | '/admin/profissionais'
   id:
     | '__root__'
     | '/'
@@ -117,9 +183,15 @@ export interface FileRouteTypes {
     | '/eneagrama'
     | '/entrar'
     | '/admin/$modulo'
+    | '/admin/chat'
     | '/admin/integracoes'
+    | '/admin/the-self-ai'
+    | '/api/chat'
     | '/admin/'
+    | '/admin/clientes/$id'
     | '/admin/configuracoes/usuarios'
+    | '/admin/clientes/'
+    | '/admin/profissionais/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -127,6 +199,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   EneagramaRoute: typeof EneagramaRoute
   EntrarRoute: typeof EntrarRoute
+  ApiChatRoute: typeof ApiChatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -166,11 +239,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/the-self-ai': {
+      id: '/admin/the-self-ai'
+      path: '/the-self-ai'
+      fullPath: '/admin/the-self-ai'
+      preLoaderRoute: typeof AdminTheSelfAiRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/integracoes': {
       id: '/admin/integracoes'
       path: '/integracoes'
       fullPath: '/admin/integracoes'
       preLoaderRoute: typeof AdminIntegracoesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/chat': {
+      id: '/admin/chat'
+      path: '/chat'
+      fullPath: '/admin/chat'
+      preLoaderRoute: typeof AdminChatRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/$modulo': {
@@ -180,6 +274,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminModuloRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/profissionais/': {
+      id: '/admin/profissionais/'
+      path: '/profissionais'
+      fullPath: '/admin/profissionais/'
+      preLoaderRoute: typeof AdminProfissionaisIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/clientes/': {
+      id: '/admin/clientes/'
+      path: '/clientes'
+      fullPath: '/admin/clientes/'
+      preLoaderRoute: typeof AdminClientesIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/configuracoes/usuarios': {
       id: '/admin/configuracoes/usuarios'
       path: '/configuracoes/usuarios'
@@ -187,21 +295,38 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminConfiguracoesUsuariosRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/clientes/$id': {
+      id: '/admin/clientes/$id'
+      path: '/clientes/$id'
+      fullPath: '/admin/clientes/$id'
+      preLoaderRoute: typeof AdminClientesIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
   AdminModuloRoute: typeof AdminModuloRoute
+  AdminChatRoute: typeof AdminChatRoute
   AdminIntegracoesRoute: typeof AdminIntegracoesRoute
+  AdminTheSelfAiRoute: typeof AdminTheSelfAiRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminClientesIdRoute: typeof AdminClientesIdRoute
   AdminConfiguracoesUsuariosRoute: typeof AdminConfiguracoesUsuariosRoute
+  AdminClientesIndexRoute: typeof AdminClientesIndexRoute
+  AdminProfissionaisIndexRoute: typeof AdminProfissionaisIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminModuloRoute: AdminModuloRoute,
+  AdminChatRoute: AdminChatRoute,
   AdminIntegracoesRoute: AdminIntegracoesRoute,
+  AdminTheSelfAiRoute: AdminTheSelfAiRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AdminClientesIdRoute: AdminClientesIdRoute,
   AdminConfiguracoesUsuariosRoute: AdminConfiguracoesUsuariosRoute,
+  AdminClientesIndexRoute: AdminClientesIndexRoute,
+  AdminProfissionaisIndexRoute: AdminProfissionaisIndexRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
@@ -211,6 +336,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   EneagramaRoute: EneagramaRoute,
   EntrarRoute: EntrarRoute,
+  ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

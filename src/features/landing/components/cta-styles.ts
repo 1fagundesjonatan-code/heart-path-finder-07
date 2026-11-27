@@ -1,23 +1,21 @@
 import { cva } from "class-variance-authority";
 
+// Dourado escurecido (oklch 0.55) pra o texto branco passar AA (>= 4.5:1).
 export const ctaVariants = cva(
-  "focus-ring group inline-flex cursor-pointer whitespace-nowrap items-center justify-center gap-2 rounded-full text-[15px] font-medium leading-none tracking-[0.01em] transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.97] motion-reduce:active:scale-100",
+  "focus-ring group inline-flex cursor-pointer whitespace-nowrap items-center justify-center gap-3 rounded-full bg-[oklch(0.55_0.11_80)] text-[15px] font-medium leading-none tracking-[0.01em] text-white shadow-[0_1px_2px_oklch(0.3_0.05_80/30%)] transition-[background-color,box-shadow,transform] duration-200 hover:-translate-y-px hover:bg-[oklch(0.5_0.1_80)] hover:shadow-[0_8px_20px_-6px_oklch(0.4_0.08_80/55%)] active:translate-y-0 active:scale-[0.97] motion-reduce:transform-none motion-reduce:transition-none",
   {
     variants: {
-      variant: {
-        primary: "bg-primary text-primary-foreground hover:bg-gold-light",
-        outline: "border border-current/25 hover:border-current/60",
-        ghost: "hover:bg-foreground/5",
-      },
       size: {
-        sm: "min-h-11 px-3.5 sm:px-4",
-        md: "min-h-12 px-6",
-        lg: "min-h-14 px-8 text-base",
+        sm: "min-h-11 pl-4 pr-1.5",
+        md: "min-h-12 pl-6 pr-2",
+        lg: "min-h-14 pl-8 pr-2.5 text-base",
       },
     },
-    defaultVariants: { variant: "primary", size: "md" },
+    defaultVariants: { size: "md" },
   },
 );
+
+export const ctaIconSizes = { sm: "size-8", md: "size-8", lg: "size-9" } as const;
 
 export const textLinkClass =
   "focus-ring inline-flex min-h-11 items-center rounded-sm text-[15px] font-medium underline decoration-current/30 decoration-1 underline-offset-[6px] transition-[text-decoration-color] duration-150 hover:decoration-current";
